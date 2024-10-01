@@ -1,4 +1,4 @@
-package com.example.testopen;
+package com.example.SAE501;
 
 import androidx.appcompat.app.AppCompatActivity;
 

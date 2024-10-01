@@ -13,5 +13,5 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "TestOpen"
+rootProject.name = "SAE501"
 include ':app'

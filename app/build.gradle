@@ -3,11 +3,11 @@ plugins {
 }
 
 android {
-    namespace 'com.example.testopen'
+    namespace 'com.example.SAE501'
     compileSdk 34
 
     defaultConfig {
-        applicationId "com.example.testopen"
+        applicationId "com.example.SAE501"
         minSdk 34
         targetSdk 34
         versionCode 1
