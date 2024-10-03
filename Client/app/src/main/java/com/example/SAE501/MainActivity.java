@@ -4,11 +4,14 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 
-public class MainActivity extends AppCompatActivity {
+import com.example.SAE501.Controller.ConnexionRepository;
 
+public class MainActivity extends AppCompatActivity {
+    private ConnexionRepository connexionRepository=new ConnexionRepository();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        connexionRepository.getTestConnexion();
     }
 }
