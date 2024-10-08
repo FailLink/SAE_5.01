@@ -1,6 +1,5 @@
 package org.example.sae501serveur.Controller;
 
-import org.example.sae501serveur.Dto.MonstreDTO;
 import org.example.sae501serveur.Entity.Monstre;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -20,8 +19,8 @@ public class MonstreTest {
 
     // Récupérer tous les monstres
     @GetMapping
-    public ResponseEntity<List<MonstreDTO>> getAllMonstres() {
-        List<MonstreDTO> monstres = monstreService.getAllMonstres();
+    public ResponseEntity<List<Monstre>> getAllMonstres() {
+        List<Monstre> monstres = monstreService.getAllMonstres();
         return new ResponseEntity<>(monstres, HttpStatus.OK);
     }
 }

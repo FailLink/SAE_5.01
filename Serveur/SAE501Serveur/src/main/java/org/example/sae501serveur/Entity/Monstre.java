@@ -13,11 +13,8 @@ public class Monstre {
     private int hp;
     private int attack;
     private int def;
+    private String nom;
 
-
-    @ManyToOne // Un monstre est lié à une seule partie
-    @JoinColumn(name = "partie_id") // Clé étrangère vers Partie
-    private Partie partie;
 
     @ManyToMany(mappedBy = "monstres")
     private List<Lieux> lieux;
@@ -71,13 +68,6 @@ public class Monstre {
         this.typeMonstre = typeMonstre;
     }
 
-    public Partie getParties() {
-        return partie;
-    }
-
-    public void setParties(Partie partie) {
-        this.partie = partie;
-    }
 
     public List<Lieux> getLieux() {
         return lieux;
@@ -93,5 +83,13 @@ public class Monstre {
 
     public void setStatut(Statut statut) {
         this.statut = statut;
+    }
+
+    public String getNom() {
+        return nom;
+    }
+
+    public void setNom(String nom) {
+        this.nom = nom;
     }
 }

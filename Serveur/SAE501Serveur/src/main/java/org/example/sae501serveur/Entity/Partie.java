@@ -13,10 +13,11 @@ public class Partie {
     private boolean isFinsin;
     private int nbPoint;
 
-    @ManyToOne
-    private Joueur joueur;
+    @ManyToMany
+    private List<Joueur> joueurs;
 
-    @OneToMany(mappedBy = "partie", cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "partie_id")
     private List<Monstre> monstres;
 
     public Long getId() {
@@ -51,12 +52,12 @@ public class Partie {
         this.nbPoint = nbPoint;
     }
 
-    public Joueur getJoueur() {
-        return joueur;
+    public List<Joueur> getJoueur() {
+        return joueurs;
     }
 
-    public void setJoueur(Joueur joueur) {
-        this.joueur = joueur;
+    public void setJoueur(List<Joueur> joueurs) {
+        this.joueurs = joueurs;
     }
 
     public List<Monstre> getMonstres() {

@@ -8,6 +8,7 @@ public class AttaqueSynchronisee {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    private String nom;
 
     @JsonBackReference
     @ManyToOne
@@ -28,5 +29,13 @@ public class AttaqueSynchronisee {
 
     public void setClasse(Classe classe) {
         this.classe = classe;
+    }
+
+    public String getNom() {
+        return nom;
+    }
+
+    public void setNom(String nom) {
+        this.nom = nom;
     }
 }

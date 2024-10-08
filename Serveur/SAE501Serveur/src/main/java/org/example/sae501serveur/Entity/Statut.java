@@ -14,8 +14,6 @@ public class Statut {
     private int nbTour;
     private boolean isProvocation;
 
-    @OneToOne(mappedBy = "statut")
-    private Monstre monstre;  // Un statut est lié à un seul monstre
 
     @OneToMany(mappedBy = "statut", cascade = CascadeType.ALL)
     private List<Competence> competences;
@@ -61,13 +59,6 @@ public class Statut {
         isProvocation = provocation;
     }
 
-    public Monstre getMonstre() {
-        return monstre;
-    }
-
-    public void setMonstre(Monstre monstre) {
-        this.monstre = monstre;
-    }
 
     public List<Competence> getCompetences() {
         return competences;

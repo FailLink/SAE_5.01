@@ -15,9 +15,6 @@ public class Type {
     private String faiblesse; // Exemple: terre
 
 
-    @OneToMany(mappedBy = "typeMonstre")
-    private List<Monstre> monstres;
-
     @OneToMany(mappedBy = "typeCompetence")
     private List<Competence> competences;
 
@@ -45,13 +42,6 @@ public class Type {
         this.resistance = resistance;
     }
 
-    public List<Monstre> getMonstres() {
-        return monstres;
-    }
-
-    public void setMonstres(List<Monstre> monstres) {
-        this.monstres = monstres;
-    }
 
     public String getFaiblesse() {
         return faiblesse;

@@ -14,8 +14,6 @@ public class Joueur {
     private String adresseMail;
     private String mdp;
 
-    @OneToMany(mappedBy = "joueur")
-    private List<Partie> parties;
 
     @ManyToOne
     @JoinColumn(name = "classe_id")
