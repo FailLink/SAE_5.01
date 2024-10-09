@@ -16,9 +16,6 @@ public class Partie {
     @ManyToMany
     private List<Joueur> joueurs;
 
-    @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "partie_id")
-    private List<Monstre> monstres;
 
     public Long getId() {
         return id;
@@ -60,11 +57,4 @@ public class Partie {
         this.joueurs = joueurs;
     }
 
-    public List<Monstre> getMonstres() {
-        return monstres;
-    }
-
-    public void setMonstres(List<Monstre> monstres) {
-        this.monstres = monstres;
-    }
 }

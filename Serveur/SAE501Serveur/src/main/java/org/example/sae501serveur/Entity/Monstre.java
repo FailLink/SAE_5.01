@@ -10,10 +10,11 @@ public class Monstre {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    private String nom;
     private int hp;
     private int attack;
     private int def;
-    private String nom;
+
 
 
     @ManyToMany(mappedBy = "monstres")
