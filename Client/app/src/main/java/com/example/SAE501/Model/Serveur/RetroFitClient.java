@@ -1,4 +1,4 @@
-package com.example.SAE501.Model;
+package com.example.SAE501.Model.Serveur;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;

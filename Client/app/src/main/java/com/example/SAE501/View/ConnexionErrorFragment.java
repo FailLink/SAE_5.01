@@ -8,15 +8,14 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
-import androidx.fragment.app.Fragment;
-
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 
 import com.example.SAE501.Controller.ConnexionRepository;
-import com.example.SAE501.Model.ConnexionService;
-import com.example.SAE501.R;
+
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.ScheduledThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
+
 //Il est possible de modifier le visuel du dialogfragment en créant un layout personalisé
 // attention voir comment modifier le code dans ce cas
 public class ConnexionErrorFragment extends DialogFragment {

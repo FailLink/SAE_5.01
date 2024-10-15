@@ -1,14 +1,13 @@
 package com.example.SAE501.Controller;
 
-import android.content.Context;
 import android.util.Log;
-import android.widget.Toast;
 
 import androidx.fragment.app.FragmentActivity;
 
 import com.example.SAE501.MainActivity;
-import com.example.SAE501.Model.ConnexionService;
-import com.example.SAE501.Model.RetroFitClient;
+import com.example.SAE501.Model.Connexion.ConnexionService;
+import com.example.SAE501.Model.ScheduleTask.ScheduleConnexion;
+import com.example.SAE501.Model.Serveur.RetroFitClient;
 import com.example.SAE501.View.ConnexionErrorFragment;
 
 import retrofit2.Call;
@@ -18,18 +17,20 @@ import retrofit2.Retrofit;
 
 public class ConnexionRepository {
     private ConnexionService connexionService;
-    //importer les divers éléments nécessaires pour l'affichage dans l'application
-    // afin d'éviter de rédiger les fonctions dans le main
+
     private FragmentActivity fragmentActivity;
+
+    private ScheduleConnexion scheduleConnexion;
 
     /**
      * constructeur de la classe Connexion repository
      * @author Matisse Gallouin
      */
-    public ConnexionRepository(FragmentActivity fragmentActivity) {
+    public ConnexionRepository(FragmentActivity fragmentActivity, ScheduleConnexion scheduleConnexion) {
         Retrofit retroFitClient = RetroFitClient.getRetrofitInstance();
         this.connexionService = retroFitClient.create(ConnexionService.class);
         this.fragmentActivity=fragmentActivity;
+        this.scheduleConnexion=scheduleConnexion;
     }
 
     /**
@@ -43,16 +44,21 @@ public class ConnexionRepository {
             @Override
             public void onResponse(Call<String> call, Response<String> response) {
                 if (response.isSuccessful() && response.body() != null) {
-                    String message = response.body(); // Devrait afficher "Le serveur est joignable"
+                    String message = response.body();
                     Log.d("Connection Success", message);
+                    scheduleConnexion.startVerification();
                 } else {
                     Log.e("Connection Failed", "Connection error : " + response.code());
+                    scheduleConnexion.stopVerification();
+                    ConnexionErrorFragment connexionErrorFragment=new ConnexionErrorFragment(connexionRepository);
+                    connexionErrorFragment.show(fragmentActivity.getSupportFragmentManager(),"ConnexionErrorDialog");
                 }
             }
 
             @Override
             public void onFailure(Call<String> call, Throwable t) {
                 Log.e("Connection failed", "La connexion n'a pas pu être établie", t);
+                scheduleConnexion.stopVerification();
                 ConnexionErrorFragment connexionErrorFragment=new ConnexionErrorFragment(connexionRepository);
                 connexionErrorFragment.show(fragmentActivity.getSupportFragmentManager(),"ConnexionErrorDialog");
             }
