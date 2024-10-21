@@ -16,14 +16,16 @@ public class Lieux {
     private float x;
     private float y;
 
-    @JsonBackReference
-    @ManyToMany
-    @JoinTable(
-            name = "lieux_monstre",
-            joinColumns = @JoinColumn(name = "lieux_id"),
-            inverseJoinColumns = @JoinColumn(name = "monstre_id")
-    )
-    private List<Monstre> monstres;
+    public Lieux() {
+    }
+
+    public Lieux(Long id, String nom, String adresse, float x, float y) {
+        this.id = id;
+        this.nom = nom;
+        this.adresse = adresse;
+        this.x = x;
+        this.y = y;
+    }
 
     public Long getId() {
         return id;
@@ -63,13 +65,5 @@ public class Lieux {
 
     public void setY(float y) {
         this.y = y;
-    }
-
-    public List<Monstre> getMonstres() {
-        return monstres;
-    }
-
-    public void setMonstres(List<Monstre> monstres) {
-        this.monstres = monstres;
     }
 }

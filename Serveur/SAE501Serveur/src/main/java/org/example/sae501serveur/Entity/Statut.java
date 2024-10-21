@@ -15,9 +15,24 @@ public class Statut {
     private boolean isProvocation;
 
 
-    @OneToMany(mappedBy = "statut", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "statut")
     private List<Competence> competences;
+    @OneToMany(mappedBy = "statut")
+    private List<AttaqueSynchronisee> attaqueSynchronisee;
 
+    public Statut() {
+    }
+
+    public Statut(Long id, int def, int attack, int nbTour,
+                  boolean isProvocation, List<Competence> competences, List<AttaqueSynchronisee> attaqueSynchronisee) {
+        this.id = id;
+        this.def = def;
+        this.attack = attack;
+        this.nbTour = nbTour;
+        this.isProvocation = isProvocation;
+        this.competences = competences;
+        this.attaqueSynchronisee = attaqueSynchronisee;
+    }
 
     public Long getId() {
         return id;
@@ -66,5 +81,13 @@ public class Statut {
 
     public void setCompetences(List<Competence> competences) {
         this.competences = competences;
+    }
+
+    public List<AttaqueSynchronisee> getAttaqueSynchronisee() {
+        return attaqueSynchronisee;
+    }
+
+    public void setAttaqueSynchronisee(List<AttaqueSynchronisee> attaqueSynchronisee) {
+        this.attaqueSynchronisee = attaqueSynchronisee;
     }
 }

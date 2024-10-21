@@ -14,17 +14,50 @@ public class Classe {
     private int hp;
     private int attack;
     private int def;
-    private int attackSpe;
 
+    @OneToMany(mappedBy = "classe1")
+    private List<AttaqueSynchronisee> attaquesSynchronisees1;
+
+    @OneToMany(mappedBy = "classe2")
+    private List<AttaqueSynchronisee> attaquesSynchronisees2;
+    @ManyToOne
+    @JoinColumn(name = "type_id")
+    private Type type;
     @OneToMany(mappedBy = "classe")
-    private List<Competence> competences;
+    private List<Joueur> joueurs;
 
-    @OneToMany(mappedBy = "classe", cascade = CascadeType.ALL)
-    private List<AttaqueSynchronisee> attaquesSynchronisees; // Liste des attaques synchronisées
 
-    @OneToMany(mappedBy = "classe", cascade = CascadeType.ALL)
-    private List<Joueur> joueurs;  // Une classe peut avoir plusieurs joueurs
+    public Classe(Long id, String nom, int hp, int attack, int def, List<AttaqueSynchronisee> attaquesSynchronisees1,
+                  List<AttaqueSynchronisee> attaquesSynchronisees2, List<Joueur> joueurs, Type type) {
+        this.id = id;
+        this.nom = nom;
+        this.hp = hp;
+        this.attack = attack;
+        this.def = def;
+        this.attaquesSynchronisees1 = attaquesSynchronisees1;
+        this.attaquesSynchronisees2 = attaquesSynchronisees2;
+        this.joueurs = joueurs;
+        this.type = type;
+    }
 
+    public Classe() {
+    }
+
+    public List<AttaqueSynchronisee> getAttaquesSynchronisees1() {
+        return attaquesSynchronisees1;
+    }
+
+    public void setAttaquesSynchronisees1(List<AttaqueSynchronisee> attaquesSynchronisees1) {
+        this.attaquesSynchronisees1 = attaquesSynchronisees1;
+    }
+
+    public List<AttaqueSynchronisee> getAttaquesSynchronisees2() {
+        return attaquesSynchronisees2;
+    }
+
+    public void setAttaquesSynchronisees2(List<AttaqueSynchronisee> attaquesSynchronisees2) {
+        this.attaquesSynchronisees2 = attaquesSynchronisees2;
+    }
     public Long getId() {
         return id;
     }
@@ -65,35 +98,19 @@ public class Classe {
         this.def = def;
     }
 
-    public int getAttackSpe() {
-        return attackSpe;
-    }
-
-    public void setAttackSpe(int attackSpe) {
-        this.attackSpe = attackSpe;
-    }
-
-    public List<Competence> getCompetences() {
-        return competences;
-    }
-
-    public void setCompetences(List<Competence> competences) {
-        this.competences = competences;
-    }
-
-    public List<AttaqueSynchronisee> getAttaquesSynchronisees() {
-        return attaquesSynchronisees;
-    }
-
-    public void setAttaquesSynchronisees(List<AttaqueSynchronisee> attaquesSynchronisees) {
-        this.attaquesSynchronisees = attaquesSynchronisees;
-    }
-
     public List<Joueur> getJoueurs() {
         return joueurs;
     }
 
     public void setJoueurs(List<Joueur> joueurs) {
         this.joueurs = joueurs;
+    }
+
+    public Type getType() {
+        return type;
+    }
+
+    public void setType(Type type) {
+        this.type = type;
     }
 }

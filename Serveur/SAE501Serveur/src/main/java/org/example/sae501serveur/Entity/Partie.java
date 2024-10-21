@@ -2,6 +2,8 @@ package org.example.sae501serveur.Entity;
 import jakarta.persistence.*;
 
 import java.util.List;
+import java.util.Set;
+
 @Entity
 @Table(name = "partie")
 public class Partie {
@@ -14,8 +16,21 @@ public class Partie {
     private int nbPoint;
 
     @ManyToMany
-    private List<Joueur> joueurs;
+    private Set<Joueur> joueurs;
+    @ManyToMany
+    private Set<MonstreLieux> monstreLieux;
 
+    public Partie() {
+    }
+
+    public Partie(Long id, String temps, boolean isFinsin, int nbPoint, Set<Joueur> joueurs, Set<MonstreLieux> monstreLieux) {
+        this.id = id;
+        this.temps = temps;
+        this.isFinsin = isFinsin;
+        this.nbPoint = nbPoint;
+        this.joueurs = joueurs;
+        this.monstreLieux = monstreLieux;
+    }
 
     public Long getId() {
         return id;
@@ -49,11 +64,11 @@ public class Partie {
         this.nbPoint = nbPoint;
     }
 
-    public List<Joueur> getJoueur() {
+    public Set<Joueur> getJoueur() {
         return joueurs;
     }
 
-    public void setJoueur(List<Joueur> joueurs) {
+    public void setJoueur(Set<Joueur> joueurs) {
         this.joueurs = joueurs;
     }
 

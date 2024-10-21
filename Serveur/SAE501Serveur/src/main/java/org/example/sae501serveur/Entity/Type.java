@@ -11,12 +11,27 @@ public class Type {
     private Long id;
 
     private String nom; // Exemple: eau
-    private String resistance; // Exemple: feu
-    private String faiblesse; // Exemple: terre
+    @OneToOne
+    @JoinColumn(name = "resistance")
+    private Type resistance; // Exemple: feu bah oui mais non
+    @OneToOne
+    @JoinColumn(name = "faiblesse")
+    private Type faiblesse; // Exemple: terre
 
 
     @OneToMany(mappedBy = "typeCompetence")
     private List<Competence> competences;
+
+    public Type(Long id, String nom, Type resistance, Type faiblesse, List<Competence> competences) {
+        this.id = id;
+        this.nom = nom;
+        this.resistance = resistance;
+        this.faiblesse = faiblesse;
+        this.competences = competences;
+    }
+
+    public Type() {
+    }
 
     public Long getId() {
         return id;
@@ -34,20 +49,19 @@ public class Type {
         this.nom = nom;
     }
 
-    public String getResistance() {
+    public Type getResistance() {
         return resistance;
     }
 
-    public void setResistance(String resistance) {
+    public void setResistance(Type resistance) {
         this.resistance = resistance;
     }
 
-
-    public String getFaiblesse() {
+    public Type getFaiblesse() {
         return faiblesse;
     }
 
-    public void setFaiblesse(String faiblesse) {
+    public void setFaiblesse(Type faiblesse) {
         this.faiblesse = faiblesse;
     }
 

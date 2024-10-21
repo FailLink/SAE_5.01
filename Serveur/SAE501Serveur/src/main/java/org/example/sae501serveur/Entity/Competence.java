@@ -1,5 +1,9 @@
 package org.example.sae501serveur.Entity;
 import jakarta.persistence.*;
+
+import java.util.List;
+import java.util.Set;
+
 @Entity
 @Table(name = "competence")
 public class Competence {
@@ -11,16 +15,31 @@ public class Competence {
     private String animation;
     private int attack;
 
-    @ManyToOne
-    private Classe classe;
 
     @ManyToOne
-    @JoinColumn(name = "statut_id")  // Chaque compétence peut affecter un statut
+    @JoinColumn(name = "statut_id")
     private Statut statut;
 
     @ManyToOne
     @JoinColumn(name = "type_id")
     private Type typeCompetence;
+
+    @ManyToMany (mappedBy = "competences")
+    private Set<Joueur> joueurs;
+
+    public Competence() {
+    }
+
+    public Competence(Long id, String nom, String animation, int attack,
+                      Statut statut, Type typeCompetence, Set<Joueur> joueurs) {
+        this.id = id;
+        this.nom = nom;
+        this.animation = animation;
+        this.attack = attack;
+        this.statut = statut;
+        this.typeCompetence = typeCompetence;
+        this.joueurs = joueurs;
+    }
 
     public Long getId() {
         return id;
@@ -54,14 +73,6 @@ public class Competence {
         this.attack = attack;
     }
 
-    public Classe getClasse() {
-        return classe;
-    }
-
-    public void setClasse(Classe classe) {
-        this.classe = classe;
-    }
-
     public Statut getStatut() {
         return statut;
     }
@@ -76,5 +87,13 @@ public class Competence {
 
     public void setTypeCompetence(Type typeCompetence) {
         this.typeCompetence = typeCompetence;
+    }
+
+    public Set<Joueur> getJoueurs() {
+        return joueurs;
+    }
+
+    public void setJoueurs(Set<Joueur> joueurs) {
+        this.joueurs = joueurs;
     }
 }

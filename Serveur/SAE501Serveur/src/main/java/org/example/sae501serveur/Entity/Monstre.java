@@ -15,12 +15,7 @@ public class Monstre {
     private int attack;
     private int def;
 
-
-
-    @ManyToMany(mappedBy = "monstres")
-    private List<Lieux> lieux;
-
-    @OneToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name = "statut_id")  // Clé étrangère vers le statut
     private Statut statut;
 
@@ -28,6 +23,18 @@ public class Monstre {
     @JoinColumn(name = "type_id") // Clé étrangère vers Type
     private Type typeMonstre;
 
+    public Monstre() {
+    }
+
+    public Monstre(Long id, String nom, int hp, int attack, int def, Statut statut, Type typeMonstre) {
+        this.id = id;
+        this.nom = nom;
+        this.hp = hp;
+        this.attack = attack;
+        this.def = def;
+        this.statut = statut;
+        this.typeMonstre = typeMonstre;
+    }
 
     public Long getId() {
         return id;
@@ -69,14 +76,6 @@ public class Monstre {
         this.typeMonstre = typeMonstre;
     }
 
-
-    public List<Lieux> getLieux() {
-        return lieux;
-    }
-
-    public void setLieux(List<Lieux> lieux) {
-        this.lieux = lieux;
-    }
 
     public Statut getStatut() {
         return statut;
