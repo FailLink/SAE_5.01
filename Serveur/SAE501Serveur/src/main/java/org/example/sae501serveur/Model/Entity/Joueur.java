@@ -1,6 +1,7 @@
 package org.example.sae501serveur.Model.Entity;
 import jakarta.persistence.*;
 
+import java.net.http.WebSocket;
 import java.util.Set;
 
 @Entity
@@ -13,6 +14,9 @@ public class Joueur {
     private String pseudo;
     private String adresseMail;
     private String mdp;
+
+    @Transient
+    private WebSocket webSocket;
 
 
     @ManyToOne
@@ -127,5 +131,13 @@ public class Joueur {
 
     public void setParties(Set<Partie> parties) {
         this.parties = parties;
+    }
+
+    public WebSocket getWebSocket() {
+        return webSocket;
+    }
+
+    public void setWebSocket(WebSocket webSocket) {
+        this.webSocket = webSocket;
     }
 }

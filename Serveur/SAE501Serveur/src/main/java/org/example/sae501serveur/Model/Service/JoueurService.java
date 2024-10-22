@@ -19,5 +19,9 @@ public class JoueurService {
     public Joueur saveJoueur(Joueur joueur) {
         return joueurRepository.save(joueur);
     }
+
+    public Joueur getJoueurById(Long id){
+        return joueurRepository.getReferenceById(id);
+    }
 }
 
