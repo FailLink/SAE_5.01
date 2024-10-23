@@ -1,6 +1,7 @@
 package org.example.sae501serveur.Model.Socket.Connexion;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import jakarta.websocket.Session;
 import org.example.sae501serveur.Model.Entity.Competence;
 import org.example.sae501serveur.Model.Entity.Joueur;
 import org.example.sae501serveur.Model.Entity.Partie;
@@ -15,7 +16,10 @@ import org.springframework.web.socket.handler.TextWebSocketHandler;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Queue;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentLinkedQueue;
+
 @Component
 public class ConnexionWebSocketHandler extends TextWebSocketHandler {
     @Autowired
@@ -24,51 +28,43 @@ public class ConnexionWebSocketHandler extends TextWebSocketHandler {
     private JoueurService joueurService;
     private final Map<WebSocketSession, Joueur> joueurs=new ConcurrentHashMap<>();
 
-    private final List<Partie> gameSession=new ArrayList<>();
+    private final Map<Joueur,WebSocketSession> gameSession=new ConcurrentHashMap<>();
 
-    private final List<Joueur> fileAttente=new ArrayList<>();
+    private final Queue<WebSocketSession> fileAttente=new ConcurrentLinkedQueue<>();
 
-    private final Map<Long, Competence> actions=new ConcurrentHashMap<>();
-
-    private final int maxPlayer=4;
-
+    private final List<WebSocketSession> partieDispo=new ArrayList<>();
     @Override
     public void afterConnectionEstablished(WebSocketSession session) throws Exception {
-        if(joueurs.size()==4){
-            session.sendMessage(new TextMessage("la session est pleine"));
-            session.close();
-        }
+        session.sendMessage(new TextMessage("Bienvenue dans la connexion"));
     }
 
     @Override
     public void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
         ObjectMapper objectMapper=new ObjectMapper();
         Map<String,Object> msg=objectMapper.readValue(message.getPayload(),Map.class);
+        Joueur joueur=joueurService.getJoueurById((Long) msg.get("joueurId"));
         switch ((String) msg.get("type")){
             case "creationPartie":
-                Joueur joueur=joueurService.getJoueurById((Long) msg.get("joueurId"));
                 Partie partie=partieService.createPartie();
                 session.sendMessage(new TextMessage(objectMapper.writeValueAsString(partie)));
-                gameSession.add(partie);
-                break;
-            case  "connexion":
 
                 break;
+            case  "connexion":
+                addFileAttente(joueur,session);
+
+                break;
+            case "connexionById":
+                Long idpartie= (Long) msg.get("idpartie");
         }
     }
 
-    public void addFileAttente(Joueur joueur){
-        fileAttente.add(joueur);
-        //relancement lancer la fonction pour vérifier si des servuers sont dispos ou lancement
+    public void addFileAttente(Joueur joueur, WebSocketSession webSocketSession){
+        fileAttente.add(webSocketSession);
+        gameSession.put(joueur,webSocketSession);
+        joueurs.put(webSocketSession,joueur);
+        if(fileAttente.size()==1){
+        }
 
     }
 
-    public void connexionJoeurFileAttente(){
-        //vérifier qu'un serveur
-        //y tenter de connecter le joueur
-        // si réussi supprimer et vérifier si d'autres joueurs attendent
-        //si oui lancer faire la schedule ou relancer
-        //si non stopper
-        //si connexion pas réussi relancer la méthode sans suppression de la personne
-    }
 }

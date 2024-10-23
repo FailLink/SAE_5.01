@@ -11,8 +11,7 @@ import org.springframework.security.web.SecurityFilterChain;
 public class ConfigSecurity {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http
-                .authorizeRequests()
+        http.authorizeRequests()
                 .anyRequest()
                 .permitAll();
 

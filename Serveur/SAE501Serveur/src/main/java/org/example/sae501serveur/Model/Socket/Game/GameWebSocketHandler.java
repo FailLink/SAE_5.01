@@ -16,6 +16,8 @@ import org.springframework.web.socket.WebSocketMessage;
 import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.handler.TextWebSocketHandler;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
@@ -27,6 +29,7 @@ public class GameWebSocketHandler extends TextWebSocketHandler {
     @Autowired
     private JoueurService joueurService;
     private final Map<WebSocketSession, Joueur>joueurs=new ConcurrentHashMap<>();
+    private final Map<Joueur,WebSocketSession> joueurSession=new ConcurrentHashMap<>();
 
     private final Map<Long,Competence> actions=new ConcurrentHashMap<>();
 
@@ -34,7 +37,7 @@ public class GameWebSocketHandler extends TextWebSocketHandler {
 
     @Override
     public void afterConnectionEstablished(WebSocketSession session) throws Exception {
-        if(joueurs.size()==4){
+        if(joueurs.size()>=4){
             session.sendMessage(new TextMessage("la session est pleine"));
             session.close();
         }
@@ -47,18 +50,9 @@ public class GameWebSocketHandler extends TextWebSocketHandler {
         switch ((String) msg.get("type")){
             case "connexion":
                 Joueur joueur=joueurService.getJoueurById((Long) msg.get("joueurId"));
-                if (joueurs.isEmpty()){
-                    Partie partie=partieService.getPartieNotFinishedByIdJoueur(joueur);
-                    if(partie==null) {
-                        joueurs.put(session, joueur);
-                        partie=partieService.createPartie();
-                        session.sendMessage(new TextMessage(objectMapper.writeValueAsString(partie)));
-                    }
-                    else{
-                        session.sendMessage(new TextMessage(objectMapper.writeValueAsString(partie)));
-                    }
-                }else if (joueurs.size()<4){
+                if (joueurs.size()<4){
                     joueurs.put(session,joueur);
+                    joueurSession.put(joueur,session);
                 }else{
                     session.sendMessage(new TextMessage("la session est pleine"));
                     session.close();

@@ -48,7 +48,7 @@ public class ConnexionRepository {
                     Log.d("Connection Success", message);
                     scheduleConnexion.startVerification();
                 } else {
-                    Log.e("Connection Failed", "Connection error : " + response.code());
+                    Log.e("Connection Error", "Connection error : " + response.code());
                     scheduleConnexion.stopVerification();
                     ConnexionErrorFragment connexionErrorFragment=new ConnexionErrorFragment(connexionRepository);
                     connexionErrorFragment.show(fragmentActivity.getSupportFragmentManager(),"ConnexionErrorDialog");
