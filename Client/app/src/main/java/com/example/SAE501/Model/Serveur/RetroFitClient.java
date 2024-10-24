@@ -7,7 +7,7 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class RetroFitClient {
-    private static final String urlSpring="http://10.0.0.2:8080/";
+    private static final String urlSpring="http://10.0.2.2:8080/";
     private static Retrofit retrofit;
 
     /**

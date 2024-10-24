@@ -1,46 +1,17 @@
-package org.example.sae501serveur.Model.Entity;
-import jakarta.persistence.*;
-
-import java.net.http.WebSocket;
+package com.example.SAE501.Model.Entity;
 import java.util.Set;
 
-@Entity
-@Table(name = "Joueur")
+
 public class Joueur {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String pseudo;
     private String adresseMail;
     private String mdp;
-
-
-
-    @ManyToOne
-    @JoinColumn(name = "classe_id")
     private Classe classe;
-
-    @ManyToMany
-    @JoinTable(
-            name = "Competences_Joueur",
-            joinColumns = @JoinColumn(name = "joueur_id"),
-            inverseJoinColumns = @JoinColumn(name = "competence_id")
-    )
     private Set<Competence> competences;
-
-    @ManyToMany
-    @JoinTable(
-            name = "Amis",
-            joinColumns = @JoinColumn(name = "joueur_id"),
-            inverseJoinColumns = @JoinColumn(name = "ami_id")
-    )
     private Set<Joueur> joueurs;
-
-    @ManyToMany(mappedBy = "joueurs")
     private Set<Joueur> amis;
-
-    @ManyToMany(mappedBy = "joueurs")
     private Set<Partie> parties;
 
     public Joueur(Long id, String pseudo, String adresseMail, String mdp,
@@ -130,5 +101,4 @@ public class Joueur {
     public void setParties(Set<Partie> parties) {
         this.parties = parties;
     }
-
 }

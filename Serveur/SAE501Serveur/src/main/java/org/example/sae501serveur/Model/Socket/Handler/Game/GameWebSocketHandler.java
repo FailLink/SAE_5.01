@@ -1,4 +1,4 @@
-package org.example.sae501serveur.Model.Socket.Game;
+package org.example.sae501serveur.Model.Socket.Handler.Game;
 
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -41,6 +41,7 @@ public class GameWebSocketHandler extends TextWebSocketHandler {
             session.sendMessage(new TextMessage("la session est pleine"));
             session.close();
         }
+        session.sendMessage(new TextMessage("bienvenue dans la partie"));
     }
 
     @Override
@@ -53,6 +54,7 @@ public class GameWebSocketHandler extends TextWebSocketHandler {
                 if (joueurs.size()<4){
                     joueurs.put(session,joueur);
                     joueurSession.put(joueur,session);
+
                 }else{
                     session.sendMessage(new TextMessage("la session est pleine"));
                     session.close();
