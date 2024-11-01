@@ -8,7 +8,6 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.*;
 
 import java.util.Collection;
@@ -17,10 +16,6 @@ import java.util.List;
 
 @Service
 public class JoueurService implements UserDetailsService {
-
-    @Autowired
-    private PasswordEncoder passwordEncoder;
-
     @Autowired
     private JoueurRepository joueurRepository;
 
@@ -38,8 +33,6 @@ public class JoueurService implements UserDetailsService {
                 .orElseThrow(() -> new UsernameNotFoundException("User not found"));
 
         Collection<GrantedAuthority> authorities = Collections.singletonList(new SimpleGrantedAuthority("ROLE_" + joueur.getRole().getName())); // Récupère le role de l'utilisateur
-        String motDePasseCrypte = passwordEncoder.encode(joueur.getMdp());
-        System.out.println("Mot de passe crypté : " + motDePasseCrypte);
         System.out.print(joueur.getRole().getName().toString());
 
         return new org.springframework.security.core.userdetails.User(joueur.getPseudo(), joueur.getMdp(), authorities);
