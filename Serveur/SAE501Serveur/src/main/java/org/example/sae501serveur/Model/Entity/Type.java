@@ -1,10 +1,12 @@
 package org.example.sae501serveur.Model.Entity;
+
 import jakarta.persistence.*;
 
 import java.util.List;
 
 @Entity
 @Table(name = "type")
+
 public class Type {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -14,6 +16,7 @@ public class Type {
     @OneToOne
     @JoinColumn(name = "resistance")
     private Type resistance; // Exemple: feu bah oui mais non
+
     @OneToOne
     @JoinColumn(name = "faiblesse")
     private Type faiblesse; // Exemple: terre

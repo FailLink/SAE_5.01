@@ -74,17 +74,8 @@ public class Statut {
         isProvocation = provocation;
     }
 
-
-    public List<Competence> getCompetences() {
-        return competences;
-    }
-
     public void setCompetences(List<Competence> competences) {
         this.competences = competences;
-    }
-
-    public List<AttaqueSynchronisee> getAttaqueSynchronisee() {
-        return attaqueSynchronisee;
     }
 
     public void setAttaqueSynchronisee(List<AttaqueSynchronisee> attaqueSynchronisee) {

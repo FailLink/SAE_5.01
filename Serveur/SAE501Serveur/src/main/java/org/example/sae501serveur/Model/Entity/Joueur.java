@@ -37,7 +37,13 @@ public class Joueur {
             joinColumns = @JoinColumn(name = "joueur_id"),
             inverseJoinColumns = @JoinColumn(name = "ami_id")
     )
+
     private Set<Joueur> joueurs;
+
+    @ManyToOne
+    @JoinColumn(name = "role_id")
+    private Role role;
+
 
     @ManyToMany(mappedBy = "joueurs")
     private Set<Joueur> amis;
@@ -139,5 +145,13 @@ public class Joueur {
 
     public void setWebSocket(WebSocket webSocket) {
         this.webSocket = webSocket;
+    }
+
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
     }
 }

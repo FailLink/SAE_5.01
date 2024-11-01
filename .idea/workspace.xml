@@ -5,9 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="f39976e0-11ba-4372-9c7a-3d08055dd73c" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/Client/.idea/.name" beforeDir="false" afterPath="$PROJECT_DIR$/Client/.idea/.name" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Client/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/Client/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Client/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/Client/.idea/vcs.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -64,6 +63,21 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;BlackMamba971&quot;
+  }
+}</component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/FailLink/SAE_5.01.git&quot;,
+    &quot;accountId&quot;: &quot;029190e3-b175-4e37-87bc-e18469de415c&quot;
+  }
+}</component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 1
+}</component>
   <component name="ProjectId" id="2mmfqaJFpgrueUU8kavzD4GyUal" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
@@ -74,11 +88,13 @@
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.cidr.known.project.marker": "true",
+    "RunOnceActivity.readMode.enableVisualFormatting": "true",
     "android.gradle.sync.needed": "true",
     "cf.first.check.clang-format": "false",
     "cidr.known.project.marker": "true",
-    "git-widget-placeholder": "Mise__En__Place__Projet",
-    "last_opened_file_path": "C:/Users/Utilisateur/Documents/GitHub/matow/SAE_5.01/Client",
+    "git-widget-placeholder": "Sprint-2",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "C:/Users/Nwaarr/Documents/GitHub/SAE_5.01/Client",
     "project.structure.last.edited": "Modules",
     "project.structure.proportion": "0.17",
     "project.structure.side.proportion": "0.2"
@@ -100,7 +116,6 @@
       <option name="MODE" value="default_activity" />
       <option name="CLEAR_LOGCAT" value="false" />
       <option name="SHOW_LOGCAT_AUTOMATICALLY" value="false" />
-      <option name="INSPECTION_WITHOUT_ACTIVITY_RESTART" value="false" />
       <option name="TARGET_SELECTION_MODE" value="DEVICE_AND_SNAPSHOT_COMBO_BOX" />
       <option name="SELECTED_CLOUD_MATRIX_CONFIGURATION_ID" value="-1" />
       <option name="SELECTED_CLOUD_MATRIX_PROJECT_ID" value="" />
