@@ -2,4 +2,11 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="colorPrimary">#FF0000</color> <!-- Rouge -->
+    <color name="colorPrimaryDark">#B22222</color> <!-- Rouge sombre -->
+    <color name="colorAccent">#FF8C00</color> <!-- Orange foncé comme accent (modifiable) -->
+    <color name="backgroundColor">#2C2C2C</color> <!-- Gris foncé pour le fond -->
+    <color name="textColor">#FFFFFF</color> <!-- Blanc pour le texte -->
+    <color name="editTextBackground">#3C3C3C</color> <!-- Gris pour les EditText -->
+
 </resources>

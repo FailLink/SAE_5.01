@@ -22,6 +22,7 @@
         android:text="Jouer"
         tools:ignore="MissingConstraints"
         tools:layout_editor_absoluteX="161dp"
-        tools:layout_editor_absoluteY="399dp" />
+        tools:layout_editor_absoluteY="399dp"
+        android:onClick="onClickJouer"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
