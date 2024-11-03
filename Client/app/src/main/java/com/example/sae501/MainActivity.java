@@ -22,11 +22,10 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Intent intent=new Intent(this, MapsActivity.class);
+        Intent intent=new Intent(this,LoginActivity.class);
         startActivity(intent);
-        ScheduleConnexion scheduleConnexion=new ScheduleConnexion(this);
-        scheduleConnexion.startVerification();
     }
+    /*
     public void onClickJouer(View view){
         System.out.println("bouton cliqué");
         OkHttpClient okHttpClient=new OkHttpClient();
@@ -41,5 +40,6 @@ public class MainActivity extends AppCompatActivity {
         Request request = new Request.Builder().url("ws://10.0.2.2:8080/game/"+partie.getId()).build();
         WebSocket webSocket = okHttpClient.newWebSocket(request, new ConnexionWebSocketListener());
     }
+    */
 
 }

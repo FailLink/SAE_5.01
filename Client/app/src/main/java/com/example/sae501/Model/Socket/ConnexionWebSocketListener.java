@@ -25,7 +25,7 @@ public class ConnexionWebSocketListener extends WebSocketListener {
         Gson gson=new Gson();
         Log.d("WebSocketMessage",text);
         if(text.contains("{")) {
-            MainActivity.connexionPartie(gson.fromJson(text,Partie.class));
+            //MainActivity.connexionPartie(gson.fromJson(text,Partie.class));
         }
         super.onMessage(webSocket, text);
     }

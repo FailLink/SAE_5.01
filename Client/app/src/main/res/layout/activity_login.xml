@@ -7,52 +7,15 @@
     android:padding="16dp"
     android:background="@color/backgroundColor">
 
-    <EditText
-        android:id="@+id/emailEditText"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:hint="Adresse mail"
-        android:inputType="textEmailAddress"
-        android:background="@color/editTextBackground"
-        android:textColor="@color/textColor"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginBottom="12dp" />
-
-    <EditText
-        android:id="@+id/passwordEditText"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:hint="Mot de passe"
-        android:inputType="textPassword"
-        android:background="@color/editTextBackground"
-        android:textColor="@color/textColor"
-        app:layout_constraintTop_toBottomOf="@id/emailEditText"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginBottom="12dp" />
-
-    <Button
-        android:id="@+id/loginButton"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:text="Connexion"
-        android:background="@color/colorPrimary"
-        android:textColor="@color/textColor"
-        app:layout_constraintTop_toBottomOf="@id/passwordEditText"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
-
-    <Button
-        android:id="@+id/backButton"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:text="Retour"
-        android:background="@color/colorPrimary"
-        android:textColor="@color/textColor"
-        app:layout_constraintTop_toBottomOf="@id/loginButton"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/layout">
+        <WebView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/webview">
+        </WebView>
+    </FrameLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

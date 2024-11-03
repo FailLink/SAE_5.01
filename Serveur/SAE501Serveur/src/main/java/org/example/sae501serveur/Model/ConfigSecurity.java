@@ -45,11 +45,14 @@ public class ConfigSecurity  {
         http
                 .csrf().disable()
                 .authorizeHttpRequests((requests) -> requests
-                        .requestMatchers("/public/**").permitAll()  // Autorise l'accès à "/public/**"
+                        .requestMatchers("/public/**").permitAll()// Autorise l'accès à "/public/**"
+                        .requestMatchers("/creationCompte").permitAll()
+                        .requestMatchers("/ajoutUtilisateurBDD").permitAll()
+                        .requestMatchers("/testConnexion").hasAnyRole("JOUEUR","ADMIN")//requête de création de compte
                         .anyRequest().hasRole("ADMIN")  // Exige une authentification pour toutes les autres URL
                 )
                 .formLogin((form) -> form
-                        .loginPage("/login").permitAll()
+                        .loginPage("/login").defaultSuccessUrl("/testConnexion").permitAll()
                 )
                 .logout(LogoutConfigurer::permitAll);
 

@@ -13,6 +13,7 @@ import org.springframework.stereotype.*;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class JoueurService implements UserDetailsService {
@@ -49,5 +50,7 @@ public class JoueurService implements UserDetailsService {
     public Joueur getJoueurById(Long id){
         return joueurRepository.getReferenceById(id);
     }
+    public Optional<Joueur> getJoueurByMail(String mail){return joueurRepository.findByAdresseMail(mail);}
+    public Optional<Joueur> getJoueurByPseudo(String pseudo){return joueurRepository.findByPseudo(pseudo);}
 }
 

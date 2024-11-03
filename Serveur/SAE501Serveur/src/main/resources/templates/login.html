@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>counia</title>
+    <title>login</title>
 </head>
 <body>
 <form method="post" action="/login">
@@ -13,10 +13,9 @@
     <input type="password" id="password" name="password" required />
     <button type="submit">Login</button>
 </form>
-
+<a href="creationCompte">Vous n'aves pas de compte ?</a>
 <div th:if="${param.error}">
-    <p style="color: red;">Pseudo ou mot de passe invalid.</p>
+    <p style="color: red;">Pseudo ou mot de passe invalide.</p>
 </div>
-
 </body>
 </html>

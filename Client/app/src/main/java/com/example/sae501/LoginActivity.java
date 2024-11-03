@@ -2,67 +2,45 @@ package com.example.sae501;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
+import android.webkit.CookieManager;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
 public class LoginActivity extends AppCompatActivity {
 
-    public class ActivityLogin extends AppCompatActivity {
-
-        // Variables locales pour simuler une connexion
-        private final String correctEmail = "test@example.com";
-        private final String correctPassword = "123456";
-
-        private EditText emailEditText, passwordEditText;
-        private Button loginButton, backButton;
-
         @Override
         protected void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
             setContentView(R.layout.activity_login);
+            WebView webView = findViewById(R.id.webview);
+            webView.setWebViewClient(new WebViewClient() {
+                public void onPageFinished(WebView view, String url) {
+                    super.onPageFinished(view, url);
 
-            // Récupérer les champs de saisie et les boutons
-            emailEditText = findViewById(R.id.emailEditText);
-            passwordEditText = findViewById(R.id.passwordEditText);
-            loginButton = findViewById(R.id.loginButton);
-            backButton = findViewById(R.id.backButton);
-
-            // Ajouter un événement au clic sur le bouton de connexion
-            loginButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    // Récupérer les données saisies
-                    String enteredEmail = emailEditText.getText().toString();
-                    String enteredPassword = passwordEditText.getText().toString();
-
-                    // Vérifier si l'email et le mot de passe correspondent aux valeurs prédéfinies
-                    if (enteredEmail.equals(correctEmail) && enteredPassword.equals(correctPassword)) {
-                        // Si les informations sont correctes, afficher un message de réussite
-                        Toast.makeText(ActivityLogin.this, "Connexion réussie", Toast.LENGTH_SHORT).show();
-
-                        // Rediriger l'utilisateur vers la page d'accueil du jeu (HomeActivity)
-                        Intent intent = new Intent(ActivityLogin.this, HomeActivity.class);
-                        startActivity(intent);
-                    } else {
-                        // Si les informations sont incorrectes, afficher un message d'erreur
-                        Toast.makeText(ActivityLogin.this, "Adresse e-mail ou mot de passe incorrect", Toast.LENGTH_SHORT).show();
+                    if (url.equals("http://10.0.2.2:8080/testConnexion")) {
+                        String cookies = CookieManager.getInstance().getCookie(url);
+                        if (cookies != null && cookies.contains("JSESSIONID")) {
+                            // Enregistrez le cookie JSESSIONID pour les requêtes Retrofit
+                            SharedPreferences sharedPreferences = getSharedPreferences("SlayMonstersData", MODE_PRIVATE);
+                            SharedPreferences.Editor editor = sharedPreferences.edit();
+                            editor.putString("session_cookie", cookies);
+                            editor.apply();
+                        }
+                        finish();
                     }
-                }
-            });
 
-            // Bouton de retour vers la MainActivity
-            backButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    // Rediriger vers MainActivity
-                    Intent intent = new Intent(ActivityLogin.this, MainActivity.class);
-                    startActivity(intent);
                 }
             });
+            webView.getSettings().setJavaScriptEnabled(true); // Si nécessaire
+            webView.loadUrl("http://10.0.2.2:8080/login");
+
         }
-    }
 }

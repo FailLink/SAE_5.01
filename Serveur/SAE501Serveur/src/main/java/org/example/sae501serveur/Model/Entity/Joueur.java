@@ -10,13 +10,11 @@ public class Joueur {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
+    @Column(name = "pseudo",unique = true)
     private String pseudo;
+    @Column(name = "adresseMail",unique = true)
     private String adresseMail;
     private String mdp;
-
-    @Transient
-    private WebSocket webSocket;
 
 
     @ManyToOne
@@ -138,15 +136,6 @@ public class Joueur {
     public void setParties(Set<Partie> parties) {
         this.parties = parties;
     }
-
-    public WebSocket getWebSocket() {
-        return webSocket;
-    }
-
-    public void setWebSocket(WebSocket webSocket) {
-        this.webSocket = webSocket;
-    }
-
     public Role getRole() {
         return role;
     }

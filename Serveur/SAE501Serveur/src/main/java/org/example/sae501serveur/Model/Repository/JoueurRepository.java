@@ -7,5 +7,6 @@ import java.util.Optional;
 
 public interface JoueurRepository extends JpaRepository<Joueur, Long> {
     Optional<Joueur> findByPseudo(String pseudo);
+    Optional<Joueur> findByAdresseMail(String adresseMail);
 
 }
