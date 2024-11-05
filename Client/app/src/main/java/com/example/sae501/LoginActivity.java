@@ -3,6 +3,7 @@ package com.example.sae501;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -14,33 +15,48 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.example.sae501.Model.ScheduleTask.ScheduleConnexion;
+
 public class LoginActivity extends AppCompatActivity {
 
         @Override
         protected void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
+            Activity webViewActivity=this;
             setContentView(R.layout.activity_login);
             WebView webView = findViewById(R.id.webview);
             webView.setWebViewClient(new WebViewClient() {
                 public void onPageFinished(WebView view, String url) {
                     super.onPageFinished(view, url);
-
                     if (url.equals("http://10.0.2.2:8080/testConnexion")) {
                         String cookies = CookieManager.getInstance().getCookie(url);
                         if (cookies != null && cookies.contains("JSESSIONID")) {
-                            // Enregistrez le cookie JSESSIONID pour les requêtes Retrofit
-                            SharedPreferences sharedPreferences = getSharedPreferences("SlayMonstersData", MODE_PRIVATE);
-                            SharedPreferences.Editor editor = sharedPreferences.edit();
-                            editor.putString("session_cookie", cookies);
-                            editor.apply();
-                        }
-                        finish();
-                    }
+                            // Trouver uniquement la valeur de JSESSIONID
+                            String[] cookieArray = cookies.split(";");
+                            String jsessionId = null;
+                            for (String cookie : cookieArray) {
+                                if (cookie.trim().startsWith("JSESSIONID")) {
+                                    jsessionId = cookie.split("=")[1].trim();
+                                    break;
+                                }
+                            }
 
+                            if (jsessionId != null) {
+                                // Enregistrez uniquement le JSESSIONID pour les requêtes Retrofit
+                                SharedPreferences sharedPreferences = getSharedPreferences("SlayMonstersData", MODE_PRIVATE);
+                                SharedPreferences.Editor editor = sharedPreferences.edit();
+                                editor.putString("session_cookie", jsessionId);
+                                editor.apply();
+                                MainActivity.sessionID = jsessionId;
+                            }
+                            finish();
+                        }
+                    }
                 }
             });
             webView.getSettings().setJavaScriptEnabled(true); // Si nécessaire
             webView.loadUrl("http://10.0.2.2:8080/login");
+
 
         }
 }

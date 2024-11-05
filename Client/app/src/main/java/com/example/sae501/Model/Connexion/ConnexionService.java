@@ -4,6 +4,6 @@ import retrofit2.Call;
 import retrofit2.http.GET;
 
 public interface ConnexionService {
-    @GET("/login")
+    @GET("/testConnexion")
     Call<String> getTestConnexion();
 }

@@ -3,6 +3,7 @@ package com.example.sae501.Model.Serveur;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
@@ -18,11 +19,15 @@ public class RetroFitClient {
     public static Retrofit getRetrofitInstance() {
 
         if (retrofit == null) {
+            OkHttpClient client = new OkHttpClient.Builder()
+                    .addInterceptor(new SessionIntercepteur())
+                    .build();
             Gson gson = new GsonBuilder()
                     .setLenient()
                     .create();
             retrofit = new Retrofit.Builder()
                     .baseUrl(urlSpring)
+                    .client(client)
                     .addConverterFactory(GsonConverterFactory.create(gson))  // Utilise Gson pour convertir la réponse JSON
                     .build();
         }
