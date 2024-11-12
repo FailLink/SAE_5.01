@@ -1,0 +1,26 @@
+version : "3.8"
+services : 
+  ServeurSpring:
+    image: sae_501_serveur
+    container_name: sae_501_serveur
+    ports:  
+      - "8080:8080"
+    networks:
+      - networkSAE501
+
+
+  BDDSAE501: 
+    image: sae_501_bdd
+    container_name: sae_501_bdd
+    ports: 
+      - "5432:5432"
+    networks:
+      - networkSAE501
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+networks:
+  networkSAE501:
+    driver: bridge
+volumes:
+  postgres_data: 
