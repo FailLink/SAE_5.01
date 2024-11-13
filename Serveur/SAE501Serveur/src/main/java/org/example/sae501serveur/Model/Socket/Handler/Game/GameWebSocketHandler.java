@@ -50,7 +50,7 @@ public class GameWebSocketHandler extends TextWebSocketHandler {
         Map<String,Object> msg=objectMapper.readValue(message.getPayload(),Map.class);
         switch ((String) msg.get("type")){
             case "connexion":
-                Joueur joueur=joueurService.getJoueurById((Long) msg.get("joueurId"));
+                Joueur joueur=joueurService.getJoueurById((Long) msg.get("joueurId")).get();
                 if (joueurs.size()<4){
                     joueurs.put(session,joueur);
                     joueurSession.put(joueur,session);

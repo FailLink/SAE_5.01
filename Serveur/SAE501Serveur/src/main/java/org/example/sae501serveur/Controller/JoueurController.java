@@ -32,11 +32,16 @@ public class JoueurController {
         }
         Optional<Joueur> joueur=joueurService.getJoueurByPseudo(authentication.getName());
 
-        return ResponseEntity.ok(joueur.get()); // Renvoie les informations de l'utilisateur en JSON
+        return ResponseEntity.ok(joueur.get());
     }
     @PostMapping("/joueurId")
     @ResponseBody
     public ResponseEntity<?> getJoueurById(@RequestParam("id")Long id){
-        return ResponseEntity.ok(joueurService.getJoueurById(id));
+        Optional<Joueur> joueur=joueurService.getJoueurById(id);
+        if(joueur.isEmpty()){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Le joueur demandé n'existe pas");
+        }else {
+            return ResponseEntity.ok(joueur.get());
+        }
     }
 }

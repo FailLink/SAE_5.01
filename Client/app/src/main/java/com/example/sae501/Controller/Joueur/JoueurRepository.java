@@ -38,11 +38,6 @@ public class JoueurRepository {
         this.fragmentActivity=fragmentActivity;
     }
 
-    /**
-     * Permet d'entrer en contact avec le serveur afin de savoir si le client et le serveur communique bien renvoie les informations obtenues dans le logcat
-     * @author Matisse Gallouin
-     */
-
     public void getJoueurBySessionId(){
         Call<Joueur> reponseHTTP = joueurService.getJoueurBySessionId();
         reponseHTTP.enqueue(new Callback<Joueur>() {
@@ -67,7 +62,7 @@ public class JoueurRepository {
         responseHTTP.enqueue(new Callback<Joueur>() {
             @Override
             public void onResponse(Call<Joueur> call, Response<Joueur> response) {
-                
+                MainActivity.joueur=response.body();
             }
 
             @Override

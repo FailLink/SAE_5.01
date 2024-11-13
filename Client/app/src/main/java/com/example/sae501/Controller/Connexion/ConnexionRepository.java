@@ -8,6 +8,7 @@ import android.util.Log;
 
 import androidx.fragment.app.FragmentActivity;
 
+import com.example.sae501.HomeActivity;
 import com.example.sae501.LoginActivity;
 import com.example.sae501.MainActivity;
 import com.example.sae501.Model.Connexion.ConnexionService;
@@ -16,8 +17,11 @@ import com.example.sae501.Model.ScheduleTask.ScheduleConnexion;
 import com.example.sae501.Model.Serveur.RetroFitClient;
 import com.example.sae501.View.ConnexionErrorFragment;
 
+import java.io.IOException;
+
 import retrofit2.Call;
 import retrofit2.Callback;
+import retrofit2.HttpException;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 
@@ -63,10 +67,16 @@ public class ConnexionRepository {
 
             @Override
             public void onFailure(Call<String> call, Throwable t) {
-                Log.e("Connection failed", "La connexion n'a pas pu être établie", t);
-                scheduleConnexion.stopVerification();
-                ConnexionErrorFragment connexionErrorFragment=new ConnexionErrorFragment(connexionRepository);
-                connexionErrorFragment.show(fragmentActivity.getSupportFragmentManager(),"ConnexionErrorDialog");
+                if(t instanceof IOException) {
+                    Log.e("Connection failed", "La connexion n'a pas pu être établie", t);
+                    scheduleConnexion.stopVerification();
+                    ConnexionErrorFragment connexionErrorFragment = new ConnexionErrorFragment(connexionRepository);
+                    connexionErrorFragment.show(fragmentActivity.getSupportFragmentManager(), "ConnexionErrorDialog");
+                }
+                else if(t instanceof HttpException){
+                    Intent intent= new Intent(fragmentActivity, LoginActivity.class);
+                    fragmentActivity.startActivity(intent);
+                }
             }
         });
     }
@@ -98,11 +108,15 @@ public class ConnexionRepository {
                 if(!response.isSuccessful()){
                     Intent intent= new Intent(fragmentActivity, LoginActivity.class);
                     fragmentActivity.startActivity(intent);
+                }else{
+                    Intent intent=new Intent(fragmentActivity, HomeActivity.class);
+                    fragmentActivity.startActivity(intent);
                 }
             }
             @Override
             public void onFailure(Call<Joueur> call, Throwable t) {
-                Log.e("Connection failed","osekour",t);
+                Intent intent= new Intent(fragmentActivity, LoginActivity.class);
+                fragmentActivity.startActivity(intent);
             }
         });
     }

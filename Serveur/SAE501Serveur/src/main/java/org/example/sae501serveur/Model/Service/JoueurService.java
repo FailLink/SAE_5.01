@@ -47,8 +47,8 @@ public class JoueurService implements UserDetailsService {
         return joueurRepository.save(joueur);
     }
 
-    public Joueur getJoueurById(Long id){
-        return joueurRepository.getReferenceById(id);
+    public Optional<Joueur> getJoueurById(Long id){
+        return joueurRepository.findById(id);
     }
     public Optional<Joueur> getJoueurByMail(String mail){return joueurRepository.findByAdresseMail(mail);}
     public Optional<Joueur> getJoueurByPseudo(String pseudo){return joueurRepository.findByPseudo(pseudo);}

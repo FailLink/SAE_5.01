@@ -7,6 +7,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 
+import com.example.sae501.Controller.Connexion.ConnexionRepository;
 import com.example.sae501.Model.Entity.Joueur;
 import com.example.sae501.Model.Entity.Partie;
 import com.example.sae501.Model.ScheduleTask.ScheduleConnexion;
@@ -27,17 +28,21 @@ public class MainActivity extends AppCompatActivity {
 
         sessionID=recupSessionID();
 
-
-        Intent intent=new Intent(this, LoginActivity.class);
-        startActivity(intent);
+        ConnexionRepository connexionRepository=new ConnexionRepository(this,new ScheduleConnexion(this));
+        connexionRepository.testSessionId();
     }
     public String recupSessionID(){
         SharedPreferences sharedPreferences=this.getSharedPreferences("SlayMonstersData",MODE_PRIVATE);
         return sharedPreferences.getString("session_cookie",null);
     }
-    public Joueur recupJoueur(){
+    public Long recupIdJoueur(){
         SharedPreferences sharedPreferences=this.getSharedPreferences("SlayMonstersData",MODE_PRIVATE);
-        return sharedPreferences.getString("joueur_id",null);
+        if(sharedPreferences.getString("joueur_id",null)!=null) {
+            return Long.getLong(sharedPreferences.getString("joueur_id", null));
+        }
+        else {
+            return null;
+        }
     }
 
 }
