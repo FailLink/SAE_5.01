@@ -49,7 +49,7 @@ public class ConfigSecurity  {
                         .requestMatchers("/public/**").permitAll()// Autorise l'accès à "/public/**"
                         .requestMatchers("/creationCompte").permitAll()
                         .requestMatchers("/ajoutUtilisateurBDD").permitAll()
-                        .requestMatchers("/testConnexion").hasAnyRole("JOUEUR","ADMIN")//requête de création de compte
+                        .requestMatchers("/testConnexion","/joueurSession").hasAnyRole("JOUEUR","ADMIN")
                         .anyRequest().hasRole("ADMIN")  // Exige une authentification pour toutes les autres URL
                 )
                 .formLogin((form) -> form

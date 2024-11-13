@@ -4,7 +4,7 @@ import android.app.Activity;
 
 import androidx.fragment.app.FragmentActivity;
 
-import com.example.sae501.Controller.ConnexionRepository;
+import com.example.sae501.Controller.Connexion.ConnexionRepository;
 
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;

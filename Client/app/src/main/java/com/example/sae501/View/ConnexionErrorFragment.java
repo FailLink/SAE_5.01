@@ -9,7 +9,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 
-import com.example.sae501.Controller.ConnexionRepository;
+import com.example.sae501.Controller.Connexion.ConnexionRepository;
 
 //Il est possible de modifier le visuel du dialogfragment en créant un layout personalisé
 // attention voir comment modifier le code dans ce cas
