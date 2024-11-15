@@ -1,11 +1,11 @@
 package org.example.sae501serveur.Controller;
 
-import org.example.sae501serveur.Entity.Monstre;
+import org.example.sae501serveur.Model.Entity.Monstre;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.example.sae501serveur.Service.MonstreService;
+import org.example.sae501serveur.Model.Service.MonstreService;
 
 import java.util.List;
 
