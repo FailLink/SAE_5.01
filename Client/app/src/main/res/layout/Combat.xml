@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#333333"
+    android:padding="16dp">
+
+    <!-- Barre de vie du Monstre -->
+    <ProgressBar
+        android:id="@+id/health_bar_cyclope"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:progress="70"
+        android:max="100"
+        android:layout_alignParentTop="true"
+        android:layout_marginBottom="16dp" />
+
+    <!-- Image du monstre -->
+    <ImageView
+        android:id="@+id/cyclope_image"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:src="@drawable/monster_image"
+        android:layout_below="@id/health_bar_cyclope"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="16dp" />
+
+    <!-- Boutons d'actions -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:layout_below="@id/cyclope_image">
+
+        <!-- Ligne 1: Attaque / Défendre -->
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/button_attack"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:text="Attaque"
+                android:background="@drawable/round_button" />
+
+            <Button
+                android:id="@+id/button_defend"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_marginLeft="16dp"
+                android:background="@drawable/round_button"
+                android:text="Défence"
+                android:textSize="13dp"/>
+        </LinearLayout>
+
+        <!-- Ligne 2: Compétence de Classe 1 / Compétence de Classe 2 -->
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="16dp">
+
+            <Button
+                android:id="@+id/button_class_skill_1"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:background="@drawable/round_button"
+                android:text="Compétence"
+                android:textSize="8dp"/>
+
+            <Button
+                android:id="@+id/button_class_skill_2"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:text="Compétence 2"
+                android:layout_marginLeft="16dp"
+                android:background="@drawable/round_button"
+                android:textSize="8dp"/>
+        </LinearLayout>
+    </LinearLayout>
+
+    <!-- Barre de vie des autres personnages (80/80, 60/60, 120/120) -->
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginLeft="1dp"
+        android:layout_marginBottom="92dp"
+        android:orientation="vertical">
+
+        <!-- Joueur 1 -->
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:orientation="horizontal">
+
+            <ProgressBar
+                android:id="@+id/health_bar_1"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:max="80"
+                android:progress="80" />
+
+            <TextView
+                android:id="@+id/health_text_1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:text="80/80"
+                android:textColor="#FF0000" />
+        </LinearLayout>
+
+        <!-- Joueur 2 -->
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:orientation="horizontal">
+
+            <ProgressBar
+                android:id="@+id/health_bar_2"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:progress="60"
+                android:max="60" />
+
+            <TextView
+                android:id="@+id/health_text_2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:text="60/60"
+                android:textColor="#FF0000" />
+        </LinearLayout>
+
+        <!-- Joueur 3 -->
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:orientation="horizontal">
+
+            <ProgressBar
+                android:id="@+id/health_bar_3"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:progress="120"
+                android:max="120" />
+
+            <TextView
+                android:id="@+id/health_text_3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:text="120/120"
+                android:textColor="#FF0000" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <!-- Barre de vie du joueur principal -->
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="A vous de jouer !"
+            android:textColor="#FFFFFF"
+            android:textSize="18sp"
+            android:layout_gravity="center" />
+
+        <ProgressBar
+            android:id="@+id/health_bar_player"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:progress="100"
+            android:max="100" />
+
+        <TextView
+            android:id="@+id/health_text_player"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="100/100"
+            android:textColor="#FF0000"
+            android:layout_gravity="center" />
+    </LinearLayout>
+</RelativeLayout>
