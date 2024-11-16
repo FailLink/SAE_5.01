@@ -33,7 +33,6 @@ public class ConnexionWebSocketHandler extends TextWebSocketHandler {
     public void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
         ObjectMapper objectMapper=new ObjectMapper();
         Map<String,Object> msg=objectMapper.readValue(message.getPayload(),Map.class);
-        //Joueur joueur=joueurService.getJoueurById((Long) msg.get("joueurId"));
         switch ((String) msg.get("type")){
             case "creationPartie":
                 Partie partie=partieService.createPartie();
@@ -41,18 +40,11 @@ public class ConnexionWebSocketHandler extends TextWebSocketHandler {
                 session.close();
                 break;
             case  "connexion":
-                //addFileAttente(joueur,session);
+                Partie partieVoulu=partieService.getPartieById(Integer.toUnsignedLong((Integer) msg.get("partieId")));
+                session.sendMessage(new TextMessage(objectMapper.writeValueAsString(partieVoulu)));
+                session.close();
                 break;
         }
-    }
-
-    public void addFileAttente(Joueur joueur, WebSocketSession webSocketSession){
-        /*fileAttente.add(webSocketSession);
-        gameSession.put(joueur,webSocketSession);
-        joueurs.put(webSocketSession,joueur);
-        if(fileAttente.size()==1){
-        }
-    */
     }
 
 }

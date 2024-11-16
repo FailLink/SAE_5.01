@@ -20,16 +20,12 @@ public class RetroFitClient {
     public static Retrofit getRetrofitInstance() {
 
         if (retrofit == null) {
-            OkHttpClient client = new OkHttpClient.Builder()
-                    .addInterceptor(new SessionIntercepteur())
-                    .addInterceptor(new HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
-                    .build();
             Gson gson = new GsonBuilder()
                     .setLenient()
                     .create();
             retrofit = new Retrofit.Builder()
                     .baseUrl(urlSpring)
-                    .client(client)
+                    .client(OkHttpClientSingleton.getOkHttpClient())
                     .addConverterFactory(GsonConverterFactory.create(gson))  // Utilise Gson pour convertir la réponse JSON
                     .build();
         }

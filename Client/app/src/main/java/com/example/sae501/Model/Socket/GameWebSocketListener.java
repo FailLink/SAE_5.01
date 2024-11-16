@@ -17,7 +17,7 @@ public class GameWebSocketListener extends WebSocketListener {
 
         @Override
         public void onOpen(@NonNull WebSocket webSocket, @NonNull Response response) {
-            String jsonMessage = "{ \"type\": \"connexion\", \"joueurId\": \""+MainActivity.joueur.getId()+"\" }";
+            String jsonMessage = "{ \"type\": \"connexion\", \"joueurId\": "+MainActivity.joueur.getId()+"}";
             webSocket.send(jsonMessage);
         }
 
@@ -26,7 +26,7 @@ public class GameWebSocketListener extends WebSocketListener {
             Gson gson=new Gson();
             Log.d("WebSocketMessage",text);
             if(text.contains("{")) {
-                //MainActivity.connexionPartie(gson.fromJson(text, Partie.class));
+
             }
             super.onMessage(webSocket, text);
         }

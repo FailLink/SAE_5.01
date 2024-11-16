@@ -91,6 +91,8 @@ public class ConnexionRepository {
                 SharedPreferences.Editor editor = sharedPreferences.edit();
                 editor.putString("joueur_id",MainActivity.joueur.getId().toString());
                 editor.apply();
+                Intent intent=new Intent(fragmentActivity, HomeActivity.class);
+                fragmentActivity.startActivity(intent);
             }
 
             @Override
@@ -109,6 +111,7 @@ public class ConnexionRepository {
                     Intent intent= new Intent(fragmentActivity, LoginActivity.class);
                     fragmentActivity.startActivity(intent);
                 }else{
+                    MainActivity.joueur=response.body();
                     Intent intent=new Intent(fragmentActivity, HomeActivity.class);
                     fragmentActivity.startActivity(intent);
                 }
