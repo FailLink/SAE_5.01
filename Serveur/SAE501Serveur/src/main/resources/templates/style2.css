@@ -1,0 +1,81 @@
+/* Corps de la page */
+body.register-page {
+    font-family: 'Arial', sans-serif;
+    background: linear-gradient(to bottom right, #121212, #2c2c2c); /* Noir et gris */
+    color: #fff;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+/* Conteneur principal */
+div.register-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    max-width: 400px;
+}
+
+/* Formulaire */
+form.register-form {
+    background: rgba(255, 255, 255, 0.1); /* Gris clair translucide */
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.6); /* Ombre noire */
+    display: flex;
+    flex-direction: column; /* Empile les champs dans le formulaire */
+    width: 100%;
+    gap: 15px; /* Espace entre les champs du formulaire */
+}
+
+/* Groupes de champs */
+div.form-group {
+    width: 100%;
+}
+
+/* Labels */
+label.form-label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+    text-align: left;
+    color: #ccc; /* Gris clair */
+}
+
+/* Champs de saisie */
+input.form-input {
+    width: 95%;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    background: rgba(255, 255, 255, 0.2); /* Gris translucide */
+    color: #fff; /* Texte blanc */
+    font-size: 16px;
+    outline: none;
+    transition: box-shadow 0.3s ease;
+}
+
+input.form-input:focus {
+    box-shadow: 0 0 5px rgba(255, 0, 0, 0.8); /* Rouge vif */
+}
+
+/* Bouton */
+button.form-button {
+    width: 100%;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    background: #ff0000; /* Rouge vif */
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+button.form-button:hover {
+    background-color: #cc0000; /* Rouge plus sombre */
+}

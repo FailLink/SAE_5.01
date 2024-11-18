@@ -2,46 +2,57 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Creation de compte</title>
+    <title>Création de compte</title>
+    <link rel="stylesheet" type="text/css" href="style2.css">
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 </head>
-<body>
-    <label for="username">Username:</label>
-    <input type="text" id="username" name="username" required />
-    <label for="email">Email:</label>
-    <input type="email" id="email" name="email" required>
-    <label for="password">Password:</label>
-    <input type="password" id="password" name="password" required />
-    <button type="submit" id="login">Login</button>
-<script>
-    document.getElementById("login").onclick=ajoutJoueurBDD
-    function ajoutJoueurBDD(){
-        let username=document.getElementById("username").value
-        let email=document.getElementById("email").value
-        let password=document.getElementById("password").value
-        $.ajax({
-            url:"/ajoutUtilisateurBDD",
-            type:"POST",
-            data:{username:username,email:email,password:password},
-            async:false,
-            success: function(response) {
-                console.log(response)
-                if (response.success) {
-                    window.location.href = "/login";
-                } else {
-                    erreurAjoutBDD(response);
+<body class="register-page">
+    <div class="register-container">
+        <form class="register-form">
+            <div class="form-group">
+                <label for="username" class="form-label">Username:</label>
+                <input type="text" id="username" name="username" class="form-input" required>
+            </div>
+            <div class="form-group">
+                <label for="email" class="form-label">Email:</label>
+                <input type="email" id="email" name="email" class="form-input" required>
+            </div>
+            <div class="form-group">
+                <label for="password" class="form-label">Password:</label>
+                <input type="password" id="password" name="password" class="form-input" required>
+            </div>
+            <button type="submit" id="login" class="form-button">Créer un compte</button>
+        </form>
+    </div>
+    <script>
+        document.getElementById("login").onclick = ajoutJoueurBDD;
+        function ajoutJoueurBDD() {
+            let username = document.getElementById("username").value;
+            let email = document.getElementById("email").value;
+            let password = document.getElementById("password").value;
+            $.ajax({
+                url: "/ajoutUtilisateurBDD",
+                type: "POST",
+                data: { username: username, email: email, password: password },
+                async: false,
+                success: function (response) {
+                    console.log(response);
+                    if (response.success) {
+                        window.location.href = "/login";
+                    } else {
+                        erreurAjoutBDD(response);
+                    }
+                },
+                error: function (error) {
+                    console.log(error);
+                    erreurAjoutBDD(error);
                 }
-            },
-            error: function(error) {
-                console.log(error)
-                erreurAjoutBDD(error);
-            }
-        });
-    }
-    function erreurAjoutBDD(messageErreur){
-        messageErreur=JSON.parse(messageErreur.responseText)
-        alert(messageErreur.message);
-    }
-</script>
+            });
+        }
+        function erreurAjoutBDD(messageErreur) {
+            messageErreur = JSON.parse(messageErreur.responseText);
+            alert(messageErreur.message);
+        }
+    </script>
 </body>
 </html>
