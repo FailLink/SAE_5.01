@@ -3,6 +3,8 @@ package com.example.SAE501.Controller;
 import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
 import com.example.SAE501.R;
+
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -32,7 +34,7 @@ public class Combat extends AppCompatActivity {
 
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.Combat);
+        setContentView(R.layout.combat);
 
         //Récupérer les élèments par leur id :
         //- les bouttons d'actions
@@ -43,5 +45,51 @@ public class Combat extends AppCompatActivity {
 
         //- le texte
         TextTour = findViewById(R.id.turn);
+
+        //- les barres de vie
+        PVJoueur = findViewById(R.id.health_bar_player);
+        PVAlly1 = findViewById(R.id.health_bar_1);
+        PVAlly2 = findViewById(R.id.health_bar_2);
+        PVAlly3 = findViewById(R.id.health_bar_3);
+        PVMonstre = findViewById(R.id.health_bar_cyclope);
+
+        //- l'image du monstre
+        Monstre = findViewById(R.id.cyclope_image);
+
+        //Choix de l'action attaque par le joueur
+        BouttonATK.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Envoie de l'action au serveur
+                // ici
+                // Reduire les point de vie en conséquence en appellant ReduirePV(dégat subie en int, et PVMonstre)
+            }
+        });
+
+        //Choix de l'action compétence 1 par le joueur
+        BouttonCOMP1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Envoie de l'action au serveur
+                // ici
+                // effet de la compétence 1
+            }
+        });
+
+        //Choix de l'action compétence 2 par le joueur
+        BouttonCOMP2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Envoie de l'action au serveur
+                // ici
+                // effet de la compétence 2
+            }
+        });
+    }
+
+    //Fonction pour réduire les points de vie d'un joueur ou d'un monstre il suffit de donnée les dégats puis qui les recoits
+    public void ReduirePV(int degat, ProgressBar barre){
+        int actualPV = barre.getProgress();
+        barre.setProgress(actualPV-degat);
     }
 }
