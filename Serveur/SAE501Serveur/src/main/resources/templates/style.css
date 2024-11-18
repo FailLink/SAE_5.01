@@ -1,7 +1,7 @@
 /* Corps de la page */
 body.login-page {
     font-family: 'Arial', sans-serif;
-    background: linear-gradient(to bottom right, #121212, #2c2c2c); /* Noir et gris */
+    background: linear-gradient(to bottom right, #121212, #2c2c2c); 
     color: #fff;
     margin: 0;
     display: flex;
@@ -13,23 +13,23 @@ body.login-page {
 /* Conteneur principal */
 div.login-container {
     display: flex;
-    flex-direction: column; /* Empile les éléments verticalement */
-    align-items: center; /* Centre les éléments horizontalement */
-    gap: 20px; /* Espace entre le formulaire, le lien et le message */
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
     width: 100%;
     max-width: 400px;
 }
 
 /* Formulaire */
 form.login-form {
-    background: rgba(255, 255, 255, 0.1); /* Gris clair translucide */
+    background: rgba(255, 255, 255, 0.1);
     padding: 30px;
     border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.6); /* Ombre noire */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.6);
     display: flex;
-    flex-direction: column; /* Empile les champs dans le formulaire */
+    flex-direction: column;
     width: 100%;
-    gap: 15px; /* Espace entre les champs du formulaire */
+    gap: 15px; 
 }
 
 /* Groupes de champs */
@@ -43,7 +43,7 @@ label.form-label {
     margin-bottom: 5px;
     font-weight: bold;
     text-align: left;
-    color: #ccc; /* Gris clair */
+    color: #ccc;
 }
 
 /* Champs de saisie */
@@ -52,24 +52,24 @@ input.form-input {
     padding: 10px;
     border: none;
     border-radius: 5px;
-    background: rgba(255, 255, 255, 0.2); /* Gris translucide */
-    color: #fff; /* Texte blanc */
+    background: rgba(255, 255, 255, 0.2);
+    color: #fff; 
     font-size: 16px;
     outline: none;
     transition: box-shadow 0.3s ease;
 }
 
 input.form-input:focus {
-    box-shadow: 0 0 5px rgba(255, 0, 0, 0.8); /* Rouge vif */
+    box-shadow: 0 0 5px rgba(255, 0, 0, 0.8); 
 }
 
 /* Bouton */
 button.form-button {
-    width: 100%; /* Fixe la largeur à 100% du conteneur */
+    width: 100%;
     padding: 10px;
     border: none;
     border-radius: 5px;
-    background: #ff0000; /* Rouge vif */
+    background: #ff0000;
     color: white;
     font-size: 16px;
     font-weight: bold;
@@ -78,12 +78,12 @@ button.form-button {
 }
 
 button.form-button:hover {
-    background-color: #cc0000; /* Rouge plus sombre */
+    background-color: #cc0000; 
 }
 
 /* Lien de création de compte */
 a.create-account-link {
-    color: #ccc; /* Gris clair */
+    color: #ccc; 
     text-decoration: none;
     font-size: 14px;
     text-align: center;
@@ -91,14 +91,14 @@ a.create-account-link {
 }
 
 a.create-account-link:hover {
-    color: #ff0000; /* Rouge vif */
+    color: #ff0000;
 }
 
 /* Message d'erreur */
 div.error-message {
     padding: 10px;
-    background: rgba(255, 0, 0, 0.1); /* Rouge clair translucide */
-    border: 1px solid rgba(255, 0, 0, 0.4); /* Rouge plus foncé */
+    background: rgba(255, 0, 0, 0.1);
+    border: 1px solid rgba(255, 0, 0, 0.4);
     border-radius: 5px;
     text-align: center;
     font-size: 14px;

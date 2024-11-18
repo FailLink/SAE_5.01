@@ -42,7 +42,7 @@ label.form-label {
     margin-bottom: 5px;
     font-weight: bold;
     text-align: left;
-    color: #ccc; /* Gris clair */
+    color: #ccc;
 }
 
 /* Champs de saisie */
@@ -51,15 +51,15 @@ input.form-input {
     padding: 10px;
     border: none;
     border-radius: 5px;
-    background: rgba(255, 255, 255, 0.2); /* Gris translucide */
-    color: #fff; /* Texte blanc */
+    background: rgba(255, 255, 255, 0.2);
+    color: #fff;
     font-size: 16px;
     outline: none;
     transition: box-shadow 0.3s ease;
 }
 
 input.form-input:focus {
-    box-shadow: 0 0 5px rgba(255, 0, 0, 0.8); /* Rouge vif */
+    box-shadow: 0 0 5px rgba(255, 0, 0, 0.8);
 }
 
 /* Bouton */
@@ -68,7 +68,7 @@ button.form-button {
     padding: 10px;
     border: none;
     border-radius: 5px;
-    background: #ff0000; /* Rouge vif */
+    background: #ff0000;
     color: white;
     font-size: 16px;
     font-weight: bold;
@@ -77,5 +77,5 @@ button.form-button {
 }
 
 button.form-button:hover {
-    background-color: #cc0000; /* Rouge plus sombre */
+    background-color: #cc0000;
 }
