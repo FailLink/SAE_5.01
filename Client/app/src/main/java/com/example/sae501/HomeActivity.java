@@ -1,5 +1,6 @@
 package com.example.sae501;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
@@ -20,11 +21,12 @@ public class HomeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
     }
-    public void onClickJouer(View view){
+    public void onClickJouer(View view) {
         System.out.println("bouton cliqué");
-        OkHttpClient okHttpClient= OkHttpClientSingleton.getOkHttpClient();
+        OkHttpClient okHttpClient = OkHttpClientSingleton.getOkHttpClient();
         Request request = new Request.Builder().url("ws://10.0.2.2:8080/connexionPartie").build();
         WebSocket webSocket = okHttpClient.newWebSocket(request, new ConnexionWebSocketListener());
+        Intent intent = new Intent(this, Partie_Activity.class);
+        intent.putExtra("Joueurs", MainActivity.joueursPartie);
     }
-
 }

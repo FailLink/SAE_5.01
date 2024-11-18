@@ -26,7 +26,8 @@ import okhttp3.WebSocket;
 public class MainActivity extends AppCompatActivity {
     public static Partie partie;
     public static Joueur joueur;
-    ArrayList<Joueur> joueursPartie;
+    public static ArrayList<Joueur> joueursPartie;
+    public static WebSocket webSocketPartie;
     public static String sessionID;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,14 +52,12 @@ public class MainActivity extends AppCompatActivity {
             return null;
         }
     }
-    public static void connexionPartie(Partie partieDonnee, Activity activity){
+    public static void connexionPartie(Partie partieDonnee){
         partie=partieDonnee;
         System.out.println("connexionALaPartie");
         OkHttpClient okHttpClient= OkHttpClientSingleton.getOkHttpClient();
         Request request = new Request.Builder().url("ws://10.0.2.2:8080/game/"+partie.getId()).build();
-        WebSocket webSocket = okHttpClient.newWebSocket(request, new GameWebSocketListener());
-        Intent intent=new Intent(activity, Partie_Activity.class);
-        activity.startActivity(intent);
+        MainActivity.webSocketPartie = okHttpClient.newWebSocket(request, new GameWebSocketListener());
     }
 
 }

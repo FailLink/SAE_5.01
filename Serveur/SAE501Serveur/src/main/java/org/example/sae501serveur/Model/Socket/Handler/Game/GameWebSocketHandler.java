@@ -11,7 +11,10 @@ import org.example.sae501serveur.Model.Entity.Partie;
 import org.example.sae501serveur.Model.Service.JoueurService;
 import org.example.sae501serveur.Model.Service.PartieService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketMessage;
 import org.springframework.web.socket.WebSocketSession;
@@ -25,11 +28,12 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
-@Component
+
 public class GameWebSocketHandler extends TextWebSocketHandler {
-    @Autowired
+
     private PartieService partieService;
-    @Autowired
+    private int idpartie;
+
     private JoueurService joueurService;
     private final Map<WebSocketSession, Joueur> sessionJoueurs=new ConcurrentHashMap<>();
     private final Map<Joueur,WebSocketSession> joueurSession=new ConcurrentHashMap<>();
@@ -43,6 +47,15 @@ public class GameWebSocketHandler extends TextWebSocketHandler {
     private final Map<Long,Competence> actions=new ConcurrentHashMap<>();
 
     private final int maxPlayer=4;
+    public static GameWebSocketHandler createWithIdPartie(ApplicationContext applicationContext) {
+        GameWebSocketHandler handler = applicationContext.getBean(GameWebSocketHandler.class);
+        return handler;
+    }
+
+    public GameWebSocketHandler(PartieService partieService, JoueurService joueurService) {
+        this.partieService = partieService;
+        this.joueurService = joueurService;
+    }
 
     @Override
     public void afterConnectionEstablished(WebSocketSession session) throws Exception {
