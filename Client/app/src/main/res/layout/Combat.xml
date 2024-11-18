@@ -70,7 +70,7 @@
                 android:layout_height="100dp"
                 android:background="@drawable/round_button"
                 android:text="Compétence"
-                android:textSize="8dp"/>
+                android:textSize="9dp"/>
 
             <Button
                 android:id="@+id/button_class_skill_2"
@@ -177,6 +177,7 @@
         android:orientation="vertical">
 
         <TextView
+            android:id="@+id/turn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="A vous de jouer !"
