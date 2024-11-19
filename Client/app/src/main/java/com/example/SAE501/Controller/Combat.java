@@ -63,6 +63,9 @@ public class Combat extends AppCompatActivity {
                 // Envoie de l'action au serveur
                 // ici
                 // Reduire les point de vie en conséquence en appellant ReduirePV(dégat subie en int, et PVMonstre)
+
+                //Et enfin vérifier si le Monstre est vaincu
+                MonstreVaincuVerif();
             }
         });
 
@@ -73,6 +76,9 @@ public class Combat extends AppCompatActivity {
                 // Envoie de l'action au serveur
                 // ici
                 // effet de la compétence 1
+
+                //Et enfin vérifier si le Monstre est vaincu
+                MonstreVaincuVerif();
             }
         });
 
@@ -83,6 +89,9 @@ public class Combat extends AppCompatActivity {
                 // Envoie de l'action au serveur
                 // ici
                 // effet de la compétence 2
+
+                //Et enfin vérifier si le Monstre est vaincu
+                MonstreVaincuVerif();
             }
         });
     }
@@ -91,5 +100,20 @@ public class Combat extends AppCompatActivity {
     public void ReduirePV(int degat, ProgressBar barre){
         int actualPV = barre.getProgress();
         barre.setProgress(actualPV-degat);
+    }
+
+    //Fonction pour augmenter les points de vie d'un joueur ou d'un monstre il suffit de donnée les soins puis qui les recoits
+    public void AugmenterPV(int soin, ProgressBar barre){
+        int actualPV = barre.getProgress();
+        barre.setProgress(actualPV+soin);
+    }
+
+    public boolean MonstreVaincuVerif(){
+        int ActualPV = PVMonstre.getProgress();
+        if (ActualPV==0){
+            Monstre.setVisibility(View.INVISIBLE);
+            return true;
+        }
+        return false;
     }
 }
