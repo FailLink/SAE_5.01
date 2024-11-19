@@ -69,6 +69,18 @@ public class Combat extends AppCompatActivity {
             }
         });
 
+        //Choix de l'action Defence par le joueur
+        BouttonDEF.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Envoie de l'action au serveur
+                // ici
+                // Reduire les point de vie en conséquence en appellant ReduirePV(dégat subie en int, et PVMonstre)
+
+                //Et enfin vérifier si le Monstre est vaincu
+            }
+        });
+
         //Choix de l'action compétence 1 par le joueur
         BouttonCOMP1.setOnClickListener(new View.OnClickListener() {
             @Override

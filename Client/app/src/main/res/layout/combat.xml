@@ -26,6 +26,14 @@
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="16dp" />
 
+    <ImageView
+        android:id="@+id/animationGIF"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:layout_below="@id/health_bar_cyclope"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="16dp" />
+
     <!-- Boutons d'actions -->
 
     <!-- Barre de vie des autres personnages (80/80, 60/60, 120/120) -->
