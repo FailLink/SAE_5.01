@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.example.sae501.Controller.Connexion.ConnexionRepository;
+import com.example.sae501.Controller.Joueur.JoueurRepository;
 import com.example.sae501.Model.Entity.Joueur;
 import com.example.sae501.Model.Entity.Partie;
 import com.example.sae501.Model.ScheduleTask.ScheduleConnexion;
@@ -18,6 +19,7 @@ import com.example.sae501.Model.Socket.GameWebSocketListener;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -26,9 +28,10 @@ import okhttp3.WebSocket;
 public class MainActivity extends AppCompatActivity {
     public static Partie partie;
     public static Joueur joueur;
-    public static ArrayList<Joueur> joueursPartie;
+    public static ArrayList<Joueur> joueursPartie=new ArrayList<>();
     public static WebSocket webSocketPartie;
     public static String sessionID;
+    public static Joueur chefDePartie;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -58,6 +61,17 @@ public class MainActivity extends AppCompatActivity {
         OkHttpClient okHttpClient= OkHttpClientSingleton.getOkHttpClient();
         Request request = new Request.Builder().url("ws://10.0.2.2:8080/game/"+partie.getId()).build();
         MainActivity.webSocketPartie = okHttpClient.newWebSocket(request, new GameWebSocketListener());
+    }
+    public static void infoJoueur(List<Long> listJoueurId,Long chefId){
+        JoueurRepository joueurRepository=new JoueurRepository();
+        for(Long id: listJoueurId){
+            joueurRepository.getJoueurPartieById(id);
+        }
+        if(chefId!=null){
+            joueurRepository.getChefPartieById(chefId);
+        }
+        System.out.println(MainActivity.chefDePartie);
+        System.out.println(MainActivity.joueursPartie);
     }
 
 }

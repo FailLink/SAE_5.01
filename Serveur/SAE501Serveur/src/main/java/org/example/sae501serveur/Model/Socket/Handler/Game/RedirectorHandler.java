@@ -27,9 +27,7 @@ public class RedirectorHandler extends TextWebSocketHandler {
 
     @Override
     public void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
-        session.sendMessage(new TextMessage(Arrays.toString(session.getUri().getPath().split("/"))));
         String path=session.getUri().getPath().split("/")[2];
-        session.sendMessage(new TextMessage(path));
         if(partieService.getPartieById(Integer.toUnsignedLong(Integer.parseInt(path)))==null){
             session.sendMessage(new TextMessage("la partie n'existe pas"));
             session.close();

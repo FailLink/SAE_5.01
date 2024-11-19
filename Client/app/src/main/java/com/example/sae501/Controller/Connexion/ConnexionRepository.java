@@ -11,7 +11,7 @@ import androidx.fragment.app.FragmentActivity;
 import com.example.sae501.HomeActivity;
 import com.example.sae501.LoginActivity;
 import com.example.sae501.MainActivity;
-import com.example.sae501.Model.Connexion.ConnexionService;
+import com.example.sae501.Model.Service.ConnexionService;
 import com.example.sae501.Model.Entity.Joueur;
 import com.example.sae501.Model.ScheduleTask.ScheduleConnexion;
 import com.example.sae501.Model.Serveur.RetroFitClient;

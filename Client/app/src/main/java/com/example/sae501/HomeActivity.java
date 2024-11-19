@@ -27,6 +27,6 @@ public class HomeActivity extends AppCompatActivity {
         Request request = new Request.Builder().url("ws://10.0.2.2:8080/connexionPartie").build();
         WebSocket webSocket = okHttpClient.newWebSocket(request, new ConnexionWebSocketListener());
         Intent intent = new Intent(this, Partie_Activity.class);
-        intent.putExtra("Joueurs", MainActivity.joueursPartie);
+        startActivity(intent);
     }
 }

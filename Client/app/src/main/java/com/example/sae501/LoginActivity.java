@@ -32,8 +32,9 @@ public class LoginActivity extends AppCompatActivity {
                             String[] cookieArray = cookies.split(";");
                             String jsessionId = null;
                             for (String cookie : cookieArray) {
-                                if (cookie.trim().startsWith("JSESSIONID")) {
+                                if (cookie.trim().startsWith("JSESSIONID=")) {
                                     jsessionId = cookie.split("=")[1].trim();
+                                    System.out.println(jsessionId);
                                     break;
                                 }
                             }

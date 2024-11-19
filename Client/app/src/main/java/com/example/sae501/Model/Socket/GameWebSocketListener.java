@@ -6,8 +6,14 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.example.sae501.MainActivity;
-import com.example.sae501.Model.Entity.Partie;
+import com.example.sae501.Model.Entity.Joueur;
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
+import java.lang.reflect.Type;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 import okhttp3.Response;
 import okhttp3.WebSocket;
@@ -26,7 +32,25 @@ public class GameWebSocketListener extends WebSocketListener {
             Gson gson=new Gson();
             Log.d("WebSocketMessage",text);
             if(text.contains("{")) {
+                Type mapType = new TypeToken<Map<String, Object>>() {}.getType();
+                Type listType = new TypeToken<List<Map<String, Object>>>() {}.getType();
+                Map<String, Object> msg = gson.fromJson(text, mapType);
+                String msgType=(String) msg.get("type");
 
+                if(msgType.equalsIgnoreCase("joueurPartie")){
+                    List<Map<String, Object>> list = gson.fromJson(msg.get("joueurs").toString(), listType);
+                    ArrayList<Long> idJoueur=new ArrayList<>();
+                    Long idChefDePartie=null;
+                    for(Map<String,Object> map : list ){
+                        if((Boolean) map.get("isChief")){
+                            idChefDePartie=(Long) map.get("joueur");
+                        }
+                        else{
+                            idJoueur.add((Long) map.get("joueur"));
+                        }
+                    }
+                    MainActivity.infoJoueur(idJoueur,idChefDePartie);
+                }
             }
             super.onMessage(webSocket, text);
         }
