@@ -7,7 +7,6 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.LogoutConfigurer;
-import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
@@ -48,6 +47,7 @@ public class ConfigSecurity  {
                 .authorizeHttpRequests((requests) -> requests
                         .requestMatchers("/public/**").permitAll()// Autorise l'accès à "/public/**"
                         .requestMatchers("/creationCompte").permitAll()
+                        .requestMatchers("/css/**", "/js/**", "/images/**").permitAll()
                         .requestMatchers("/ajoutUtilisateurBDD").permitAll()
                         .requestMatchers("/testConnexion","/joueurSession","/joueurId","/connexionPartie","/game/{idPartie}").hasAnyRole("JOUEUR","ADMIN")
                         .anyRequest().hasRole("ADMIN")  // Exige une authentification pour toutes les autres URL
