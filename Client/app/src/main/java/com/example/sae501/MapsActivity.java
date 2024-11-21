@@ -31,8 +31,6 @@ public class MapsActivity extends AppCompatActivity {
     private static final double ARENA1_LONGITUDE = 3.967270851135254;
     private static final double ARENA2_LATITUDE = 50.2708082;
     private static final double ARENA2_LONGITUDE = 3.9892575;
-    private static final double ARENA3_LATITUDE = 50.31313875559269;
-    private static final double ARENA3_LONGITUDE = 4.009256872461906;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,7 +87,6 @@ public class MapsActivity extends AppCompatActivity {
         // Ajouter des marqueurs pour les arènes
         addArenaMarker(ARENA1_LATITUDE, ARENA1_LONGITUDE, "Lycée Pierre Forest");
         addArenaMarker(ARENA2_LATITUDE, ARENA2_LONGITUDE, "Deuxième Arène");
-        addArenaMarker(ARENA3_LATITUDE, ARENA3_LONGITUDE, "Troisième Arène");
 
         // Récupérer le bouton via le binding et gérer l'événement de clic
         binding.recenterButton.setOnClickListener(v -> recentrerCarte());
