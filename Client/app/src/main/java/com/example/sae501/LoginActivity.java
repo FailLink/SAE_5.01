@@ -18,9 +18,10 @@ public class LoginActivity extends AppCompatActivity {
         protected void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
             setContentView(R.layout.activity_login);
+            MainActivity.currentActivity=this;
             WebView webView = findViewById(R.id.webview);
 
-            connexionRepository=new ConnexionRepository(this,new ScheduleConnexion(this));
+            connexionRepository=new ConnexionRepository(new ScheduleConnexion());
             webView.setWebViewClient(new WebViewClient() {
                 public void onPageFinished(WebView view, String url) {
                     super.onPageFinished(view, url);

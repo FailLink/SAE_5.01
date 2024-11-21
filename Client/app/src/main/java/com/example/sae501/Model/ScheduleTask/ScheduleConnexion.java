@@ -15,8 +15,8 @@ public class ScheduleConnexion {
     boolean isRunning=false;
     ConnexionRepository connexionRepository;
 
-    public ScheduleConnexion(Activity activity) {
-        this.connexionRepository=new ConnexionRepository((FragmentActivity) activity,this);
+    public ScheduleConnexion() {
+        this.connexionRepository=new ConnexionRepository(this);
     }
 
     public void startVerification() {

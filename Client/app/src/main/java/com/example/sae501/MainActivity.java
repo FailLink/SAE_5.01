@@ -1,6 +1,7 @@
 package com.example.sae501;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentActivity;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -32,14 +33,16 @@ public class MainActivity extends AppCompatActivity {
     public static WebSocket webSocketPartie;
     public static String sessionID;
     public static Joueur chefDePartie;
+    public static FragmentActivity currentActivity;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
         sessionID=recupSessionID();
+        currentActivity=this;
 
-        ConnexionRepository connexionRepository=new ConnexionRepository(this,new ScheduleConnexion(this));
+        ConnexionRepository connexionRepository=new ConnexionRepository(new ScheduleConnexion());
         connexionRepository.testSessionId();
     }
     public String recupSessionID(){
@@ -64,8 +67,8 @@ public class MainActivity extends AppCompatActivity {
     }
     public static void infoJoueur(List<Long> listJoueurId,Long chefId){
         JoueurRepository joueurRepository=new JoueurRepository();
-        for(Long id: listJoueurId){
-            joueurRepository.getJoueurPartieById(id);
+        for(int i=0;i<listJoueurId.size();i++){
+            joueurRepository.getJoueurPartieById(listJoueurId.get(i),i+2);
         }
         if(chefId!=null){
             joueurRepository.getChefPartieById(chefId);

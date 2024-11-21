@@ -36,10 +36,10 @@ public class ConnexionRepository {
      * constructeur de la classe Connexion repository
      * @author Matisse Gallouin
      */
-    public ConnexionRepository(FragmentActivity fragmentActivity, ScheduleConnexion scheduleConnexion) {
+    public ConnexionRepository(ScheduleConnexion scheduleConnexion) {
         Retrofit retroFitClient = RetroFitClient.getRetrofitInstance();
         this.connexionService = retroFitClient.create(ConnexionService.class);
-        this.fragmentActivity=fragmentActivity;
+        this.fragmentActivity=MainActivity.currentActivity;
         this.scheduleConnexion=scheduleConnexion;
     }
 

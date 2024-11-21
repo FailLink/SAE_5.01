@@ -1,12 +1,18 @@
 package com.example.sae501.Model.Socket;
 
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.fragment.app.FragmentActivity;
 
 import com.example.sae501.MainActivity;
 import com.example.sae501.Model.Entity.Joueur;
+import com.example.sae501.R;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -21,7 +27,10 @@ import okhttp3.WebSocketListener;
 
 public class GameWebSocketListener extends WebSocketListener {
 
-        @Override
+    public GameWebSocketListener() {
+    }
+
+    @Override
         public void onOpen(@NonNull WebSocket webSocket, @NonNull Response response) {
             String jsonMessage = "{ \"type\": \"connexion\", \"joueurId\": "+MainActivity.joueur.getId()+"}";
             webSocket.send(jsonMessage);
@@ -38,18 +47,7 @@ public class GameWebSocketListener extends WebSocketListener {
                 String msgType=(String) msg.get("type");
 
                 if(msgType.equalsIgnoreCase("joueurPartie")){
-                    List<Map<String, Object>> list = gson.fromJson(msg.get("joueurs").toString(), listType);
-                    ArrayList<Long> idJoueur=new ArrayList<>();
-                    Long idChefDePartie=null;
-                    for(Map<String,Object> map : list ){
-                        if((Boolean) map.get("isChief")){
-                            idChefDePartie=(Long) map.get("joueur");
-                        }
-                        else{
-                            idJoueur.add((Long) map.get("joueur"));
-                        }
-                    }
-                    MainActivity.infoJoueur(idJoueur,idChefDePartie);
+                    setJoueurPartie(gson,msg,listType);
                 }
             }
             super.onMessage(webSocket, text);
@@ -64,5 +62,20 @@ public class GameWebSocketListener extends WebSocketListener {
             Log.e("WebSocketListener", "Erreur de connexion : " + t.getMessage());
         }
 
+        public void setJoueurPartie(Gson gson,Map<String,Object> msg,Type listType){
+            List<Map<String, Object>> list = gson.fromJson(msg.get("joueurs").toString(), listType);
+            ArrayList<Long> idJoueur=new ArrayList<>();
+            Long idChefDePartie=null;
+            for(Map<String,Object> map : list ){
+                if((Boolean) map.get("isChief")){
+                    System.out.println("ischief=true");
+                    idChefDePartie=Math.round((Double) map.get("joueur"));
+                }
+                else{
+                    idJoueur.add(Math.round((Double) map.get("joueur")));
+                }
+            }
+            MainActivity.infoJoueur(idJoueur,idChefDePartie);
+        }
 }
 

@@ -72,7 +72,6 @@ public class GameWebSocketHandler extends TextWebSocketHandler {
         Map<String,Object> msg=objectMapper.readValue(message.getPayload(),Map.class);
         switch ((String) msg.get("type")){
             case "connexion":
-                session.sendMessage(new TextMessage("connexion en cours..."));
                 handleConnexionMessage(session,msg,objectMapper);
                 break;
             case  "action":

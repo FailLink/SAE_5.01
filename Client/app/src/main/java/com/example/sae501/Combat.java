@@ -2,7 +2,7 @@ package com.example.sae501;
 
 import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
-import com.example.SAE501.R;
+
 
 import android.view.View;
 import android.widget.Button;
@@ -48,9 +48,9 @@ public class Combat extends AppCompatActivity {
 
         //- les barres de vie
         PVJoueur = findViewById(R.id.health_bar_player);
-        PVAlly1 = findViewById(R.id.health_bar_1);
-        PVAlly2 = findViewById(R.id.health_bar_2);
-        PVAlly3 = findViewById(R.id.health_bar_3);
+        PVAlly1 = findViewById(R.id.health_bar_player_1);
+        PVAlly2 = findViewById(R.id.health_bar_player_2);
+        PVAlly3 = findViewById(R.id.health_bar_player_3);
         PVMonstre = findViewById(R.id.health_bar_cyclope);
 
         //- l'image du monstre

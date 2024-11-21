@@ -31,6 +31,7 @@ public class MapsActivity extends AppCompatActivity implements MapListener {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        MainActivity.currentActivity=this;
         ActivityMapsBinding binding = ActivityMapsBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
