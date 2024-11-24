@@ -58,4 +58,5 @@ public class Connexion {
             joueurService.saveJoueur(joueur);
             return ResponseEntity.ok(Map.of("success", true, "message", "Compte créé avec succès."));
     }
+    //test
 }
