@@ -49,7 +49,7 @@ public class JoueurController {
     @ResponseBody
     public ResponseEntity<?> setJoueurClasse(@RequestParam("id")Long id,@RequestParam("classe") String classe){
         Optional<Joueur> joueur=joueurService.setClasseJoueur(id, classe);
-        if(joueur.isEmpty()){
+        if(joueur==null){
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Le joueur demandé n'existe pas");
         }
         else{

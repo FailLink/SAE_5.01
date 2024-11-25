@@ -8,6 +8,7 @@ import android.util.Log;
 
 import androidx.fragment.app.FragmentActivity;
 
+import com.example.sae501.ChoixClasseActivity;
 import com.example.sae501.HomeActivity;
 import com.example.sae501.LoginActivity;
 import com.example.sae501.MainActivity;
@@ -91,8 +92,14 @@ public class ConnexionRepository {
                 SharedPreferences.Editor editor = sharedPreferences.edit();
                 editor.putString("joueur_id",MainActivity.joueur.getId().toString());
                 editor.apply();
-                Intent intent=new Intent(fragmentActivity, HomeActivity.class);
-                fragmentActivity.startActivity(intent);
+                System.out.println(MainActivity.joueur.getClasse());
+                if(MainActivity.joueur.getClasse()!=null) {
+                    Intent intent = new Intent(fragmentActivity, HomeActivity.class);
+                    fragmentActivity.startActivity(intent);
+                }else{
+                    Intent intent=new Intent(fragmentActivity, ChoixClasseActivity.class);
+                    fragmentActivity.startActivity(intent);
+                }
             }
 
             @Override
@@ -112,8 +119,13 @@ public class ConnexionRepository {
                     fragmentActivity.startActivity(intent);
                 }else{
                     MainActivity.joueur=response.body();
-                    Intent intent=new Intent(fragmentActivity, HomeActivity.class);
-                    fragmentActivity.startActivity(intent);
+                    if(MainActivity.joueur.getClasse()!=null) {
+                        Intent intent = new Intent(fragmentActivity, HomeActivity.class);
+                        fragmentActivity.startActivity(intent);
+                    }else{
+                        Intent intent=new Intent(fragmentActivity, HomeActivity.class);
+                        fragmentActivity.startActivity(intent);
+                    }
                 }
             }
             @Override

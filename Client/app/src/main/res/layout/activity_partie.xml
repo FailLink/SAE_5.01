@@ -4,65 +4,75 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/black"
     tools:context=".Partie_Activity">
 
     <LinearLayout
-        android:layout_width="409dp"
-        android:layout_height="694dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="vertical"
-        tools:layout_editor_absoluteX="1dp"
-        tools:layout_editor_absoluteY="36dp"
-        tools:ignore="MissingConstraints">
+        android:gravity="center"
+        tools:ignore="MissingConstraints"
+        android:padding="32dp">
 
         <TextView
             android:id="@+id/textView2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Salon d'attente"
-            tools:layout_editor_absoluteX="176dp"
-            tools:layout_editor_absoluteY="16dp" />
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:textColor="@color/white"
+            android:gravity="center"/>
 
         <TextView
             android:id="@+id/textView3"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="joueurs : " />
+            android:text="joueurs : "
+            android:gravity="center"
+            android:textColor="@color/white"
+            android:padding="16dp"/>
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="555dp"
-            android:orientation="vertical">
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="149dp"
+                android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
                 <ImageView
                     android:id="@+id/imageClasseJoueur1"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"/>
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:layout_width="0dp"/>
 
                 <TextView
                     android:id="@+id/pseudoJoueur1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="TextView" />
+                    android:textColor="@color/white"
+                    android:text="TextView"
+                    android:paddingLeft="16dp"/>
 
                 <Button
                     android:id="@+id/boutonExclusion1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Button"
-                    android:visibility="invisible"/>
+                    android:text="Exclure"
+                    android:visibility="visible"
+                    />
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="143dp"
+                android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
                 <ImageView
@@ -76,20 +86,22 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="TextView" />
+                    android:text="TextView"
+                    android:textColor="@color/white"
+                    android:paddingLeft="16dp"/>
 
                 <Button
                     android:id="@+id/boutonExclusion2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Button"
-                    android:visibility="invisible"/>
+                    android:text="Exclure"
+                    android:visibility="visible"/>
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="114dp"
+                android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
                 <ImageView
@@ -103,20 +115,22 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="TextView" />
+                    android:text="TextView"
+                    android:textColor="@color/white"
+                    android:paddingLeft="16dp"/>
 
                 <Button
                     android:id="@+id/boutonExclusion3"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Button"
-                    android:visibility="invisible"/>
+                    android:text="Exclure"
+                    android:visibility="visible"/>
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="106dp"
+                android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
                 <ImageView
@@ -130,15 +144,17 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="TextView" />
+                    android:text="TextView"
+                    android:textColor="@color/white"
+                    android:paddingLeft="16dp"/>
 
                 <Button
                     android:id="@+id/boutonExclusion4"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Button"
-                    android:visibility="invisible"/>
+                    android:text="Exclure"
+                    android:visibility="visible"/>
             </LinearLayout>
 
         </LinearLayout>
@@ -146,7 +162,7 @@
         <Button
             android:id="@+id/BoutonPartie"
             android:layout_width="wrap_content"
-            android:layout_height="62dp"
+            android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="Lancer la partie"
             android:clickable="false"

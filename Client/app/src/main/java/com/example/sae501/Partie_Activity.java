@@ -19,7 +19,4 @@ public class Partie_Activity extends AppCompatActivity {
         Intent intent=new Intent(this, MapsActivity.class);
         startActivity(intent);
     }
-    public void chargementJoueur(){
-
-    }
 }

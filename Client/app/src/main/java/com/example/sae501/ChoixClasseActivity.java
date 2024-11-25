@@ -32,12 +32,12 @@ public class ChoixClasseActivity extends AppCompatActivity {
 
         List<PageClasse> pages = new ArrayList<>();
 
-        pages.add(new PageClasse(R.drawable.icone_tank, "Tank", descriptionTank,
-                "Choisir Tank",v->joueurRepository.setJoueurClasse("Tank")));
-        pages.add(new PageClasse(R.drawable.icone_guerrier, "Guerrier", descriptionGuerrier,
-                "Choisir Guerrier",v->joueurRepository.setJoueurClasse("Guerrier")));
-        pages.add(new PageClasse(R.drawable.icone_mage, "Mage", descriptionMage,
-                "Choisir Mage",v->joueurRepository.setJoueurClasse("Mage")));
+        pages.add(new PageClasse(R.drawable.icone_tank, "Musclow", descriptionTank,
+                "Choisir Musclow",v->joueurRepository.setJoueurClasse("Musclow")));
+        pages.add(new PageClasse(R.drawable.icone_guerrier, "Guewier", descriptionGuerrier,
+                "Choisir Guewier",v->joueurRepository.setJoueurClasse("Guewier")));
+        pages.add(new PageClasse(R.drawable.icone_mage, "Mawabou", descriptionMage,
+                "Choisir Mawabou",v->joueurRepository.setJoueurClasse("Mawabou")));
         pages.add(new PageClasse(R.drawable.icone_healer, "Healer", descriptionHealer,
                 "Choisir Healer",v->joueurRepository.setJoueurClasse("Healer")));
 
