@@ -1,6 +1,8 @@
 package org.example.sae501serveur.Model.Service;
 
+import org.example.sae501serveur.Model.Entity.Classe;
 import org.example.sae501serveur.Model.Entity.Joueur;
+import org.example.sae501serveur.Model.Repository.ClasseRepository;
 import org.example.sae501serveur.Model.Repository.JoueurRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
@@ -10,6 +12,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.*;
 
+import javax.swing.text.html.Option;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
@@ -19,6 +22,8 @@ import java.util.Optional;
 public class JoueurService implements UserDetailsService {
     @Autowired
     private JoueurRepository joueurRepository;
+    @Autowired
+    private ClasseRepository classeRepository;
 
     /**
      * Charge un utilisateur par son pseudo.
@@ -52,5 +57,19 @@ public class JoueurService implements UserDetailsService {
     }
     public Optional<Joueur> getJoueurByMail(String mail){return joueurRepository.findByAdresseMail(mail);}
     public Optional<Joueur> getJoueurByPseudo(String pseudo){return joueurRepository.findByPseudo(pseudo);}
+    public Optional<Joueur> setClasseJoueur(Long id,String classeName){
+        Optional<Classe> classe=classeRepository.findByNom(classeName);
+        if(classe.isEmpty()){
+            return null;
+        }
+        else {
+            int nbLignesModif=joueurRepository.setJoueurClasse(id,classe.get());
+            if(nbLignesModif==1){
+                return getJoueurById(id);
+            }else{
+                return null;
+            }
+        }
+    }
 }
 

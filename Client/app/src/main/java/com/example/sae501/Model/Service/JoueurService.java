@@ -13,4 +13,6 @@ public interface JoueurService {
     Call<Joueur> getJoueurBySessionId();
     @POST("/joueurId")
     Call<Joueur> getJoueurById(@Query("id") Long id);
+    @POST("/setJoueurClasse")
+    Call<Joueur> setJoueurClasse(@Query("id") Long id,@Query("classe") String classeName);
 }

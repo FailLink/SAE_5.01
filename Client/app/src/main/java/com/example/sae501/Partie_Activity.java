@@ -16,7 +16,7 @@ public class Partie_Activity extends AppCompatActivity {
         MainActivity.currentActivity=this;
     }
     public void onClickLancerPartie(View view){
-        Intent intent=new Intent(this,MapsActivity.class);
+        Intent intent=new Intent(this, com.example.sae_application.MapsActivity.class);
         startActivity(intent);
     }
     public void chargementJoueur(){

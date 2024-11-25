@@ -1,4 +1,4 @@
-package com.example.sae501.View;
+package com.example.sae501.View.Connexion;
 
 import android.app.AlertDialog;
 import android.app.Dialog;

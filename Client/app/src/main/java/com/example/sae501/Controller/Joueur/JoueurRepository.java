@@ -2,6 +2,7 @@ package com.example.sae501.Controller.Joueur;
 
 import static android.content.Context.MODE_PRIVATE;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Handler;
 import android.os.Looper;
@@ -13,6 +14,7 @@ import android.widget.TextView;
 
 import androidx.fragment.app.FragmentActivity;
 
+import com.example.sae501.HomeActivity;
 import com.example.sae501.MainActivity;
 import com.example.sae501.Model.Entity.Partie;
 import com.example.sae501.Model.Service.JoueurService;
@@ -124,6 +126,25 @@ public class JoueurRepository {
             @Override
             public void onFailure(Call<Joueur> call, Throwable t) {
 
+            }
+        });
+    }
+    public void setJoueurClasse(String classeName){
+        fragmentActivity=MainActivity.currentActivity;
+        Call<Joueur> responseHttp= joueurService.setJoueurClasse(MainActivity.joueur.getId(),classeName);
+        responseHttp.enqueue(new Callback<Joueur>() {
+            @Override
+            public void onResponse(Call<Joueur> call, Response<Joueur> response) {
+                if(response.isSuccessful()){
+                    MainActivity.joueur=response.body();
+                    Intent intent=new Intent(fragmentActivity,HomeActivity.class);
+                    fragmentActivity.startActivity(intent);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Joueur> call, Throwable t) {
+                Log.e("Erreur requête","erreur",t);
             }
         });
     }

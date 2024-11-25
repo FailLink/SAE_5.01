@@ -15,7 +15,7 @@ import com.example.sae501.Model.Service.ConnexionService;
 import com.example.sae501.Model.Entity.Joueur;
 import com.example.sae501.Model.ScheduleTask.ScheduleConnexion;
 import com.example.sae501.Model.Serveur.RetroFitClient;
-import com.example.sae501.View.ConnexionErrorFragment;
+import com.example.sae501.View.Connexion.ConnexionErrorFragment;
 
 import java.io.IOException;
 

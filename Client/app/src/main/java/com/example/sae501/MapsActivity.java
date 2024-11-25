@@ -18,7 +18,10 @@ import org.osmdroid.views.MapView;
 import org.osmdroid.views.overlay.Marker;
 import org.osmdroid.views.overlay.mylocation.MyLocationNewOverlay;
 import org.osmdroid.views.overlay.mylocation.GpsMyLocationProvider;
-import com.example.sae_application.databinding.ActivityMapsBinding;
+
+import com.example.sae501.Combat;
+import com.example.sae501.R;
+import com.example.sae501.databinding.ActivityMapsBinding;
 
 public class MapsActivity extends AppCompatActivity {
 
@@ -125,7 +128,7 @@ public class MapsActivity extends AppCompatActivity {
     private void startCombat() {
         // Logique pour démarrer le combat (exemple avec une nouvelle activité)
         // Vous pouvez remplacer cela par la logique de combat réelle de votre application
-        Intent intent = new Intent(this, CombatActivity.class);
+        Intent intent = new Intent(this, Combat.class);
         startActivity(intent);
     }
 
