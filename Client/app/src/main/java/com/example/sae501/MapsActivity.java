@@ -1,4 +1,4 @@
-package com.example.sae_application;
+package com.example.sae501;
 
 import android.content.Intent;
 import android.os.Bundle;
