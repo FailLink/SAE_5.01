@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.fragment.app.FragmentActivity;
@@ -33,7 +34,7 @@ public class JoueurRepository {
     private FragmentActivity fragmentActivity;
 
     /**
-     * constructeur de la classe Connexion repository
+     * constructeur de la classe JoueurRepository
      * @author Matisse Gallouin
      */
     public JoueurRepository() {
@@ -68,24 +69,27 @@ public class JoueurRepository {
             public void onResponse(Call<Joueur> call, Response<Joueur> response) {
                 Joueur joueur=response.body();
                 MainActivity.joueursPartie.add(joueur);
-                String[] idString={"pseudoJoueur","imageClasseJoueur","boutonExclusion"};
+                fragmentActivity=MainActivity.currentActivity;
+                String[] idString={"pseudoJoueur","imageClasseJoueur","boutonExclusion","linearLayoutJoueur"};
                 for(String s:idString){
                     String idName=s+nbJoueur;
                     int resId = fragmentActivity.getResources().getIdentifier(idName, "id",
                             fragmentActivity.getPackageName());
                     View view =fragmentActivity.findViewById(resId);
-                    System.out.println(view);
                     if(s.equalsIgnoreCase("pseudoJoueur")){
                         TextView textView=(TextView) view;
                         textView.setText(joueur.getPseudo());
                     } else if (s.equalsIgnoreCase("imageClasseJoueur")) {
                         ImageView imageView=(ImageView) view;
-                        /*int drawableId = fragmentActivity.getResources().getIdentifier("icone_"+joueurs.get(i).getClasse().getNom()
+                        /*int drawableId = fragmentActivity.getResources().getIdentifier("icone_"+joueur.getClasse().getNom()
                                 , "drawable", fragmentActivity.getPackageName());
                         imageView.setImageResource(drawableId);*/
                     } else if (s.equalsIgnoreCase("boutonExclusion")) {
                         Button button=(Button) view;
                         button.setVisibility(View.VISIBLE);
+                    }else if (s.equalsIgnoreCase("linearLayoutJoueur")) {
+                        LinearLayout linearLayout = (LinearLayout) view;
+                        linearLayout.setVisibility(View.VISIBLE);
                     }
                 }
             }
@@ -103,7 +107,7 @@ public class JoueurRepository {
             public void onResponse(Call<Joueur> call, Response<Joueur> response) {
                 Joueur joueur=response.body();
                 MainActivity.chefDePartie=joueur;
-                String[] idString={"pseudoJoueur","imageClasseJoueur","boutonExclusion"};
+                String[] idString={"pseudoJoueur","imageClasseJoueur","linearLayoutJoueur"};
                 fragmentActivity=MainActivity.currentActivity;
                 for(String s:idString) {
                     String idName=s+1;
@@ -115,9 +119,12 @@ public class JoueurRepository {
                         textView.setText(joueur.getPseudo());
                     } else if (s.equalsIgnoreCase("imageClasseJoueur")) {
                         ImageView imageView = (ImageView) view;
-                        /*int drawableId = fragmentActivity.getResources().getIdentifier("icone_"+joueurs.get(i).getClasse().getNom()
+                        /*int drawableId = fragmentActivity.getResources().getIdentifier("icone_"+joueur.getClasse().getNom()
                                , "drawable", fragmentActivity.getPackageName());
                         imageView.setImageResource(drawableId);*/
+                    }else if (s.equalsIgnoreCase("linearLayoutJoueur")) {
+                        LinearLayout linearLayout = (LinearLayout) view;
+                        linearLayout.setVisibility(View.VISIBLE);
                     }
                 }
 

@@ -38,12 +38,19 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="16dp">
+            android:padding="16dp"
+            android:layout_marginBottom="32dp">
 
             <LinearLayout
+                android:id="@+id/linearLayoutJoueur1"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:layout_height="40dp"
+                android:orientation="horizontal"
+                android:background="@drawable/joueur_salon_attente"
+                android:weightSum="3"
+                android:gravity="center"
+                android:layout_marginBottom="16dp"
+                android:visibility="invisible">
 
                 <ImageView
                     android:id="@+id/imageClasseJoueur1"
@@ -57,115 +64,138 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:textColor="@color/white"
-                    android:text="TextView"
-                    android:paddingLeft="16dp"/>
-
-                <Button
-                    android:id="@+id/boutonExclusion1"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="Exclure"
-                    android:visibility="visible"
+                    android:textAlignment="center"
                     />
+                <ImageView
+                    android:id="@+id/imageChefDePartie"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:layout_width="0dp"
+                    android:src="@drawable/icone_couronne"/>
+
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/linearLayoutJoueur2"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:layout_height="40dp"
+                android:orientation="horizontal"
+                android:background="@drawable/joueur_salon_attente"
+                android:weightSum="3"
+                android:gravity="center"
+                android:layout_marginBottom="16dp"
+                android:visibility="invisible">
 
                 <ImageView
                     android:id="@+id/imageClasseJoueur2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1" />
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:layout_width="0dp"/>
 
                 <TextView
                     android:id="@+id/pseudoJoueur2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="TextView"
                     android:textColor="@color/white"
-                    android:paddingLeft="16dp"/>
+                    android:textAlignment="center"/>
 
-                <Button
+                <ImageButton
                     android:id="@+id/boutonExclusion2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="5dp"
                     android:layout_weight="1"
-                    android:text="Exclure"
-                    android:visibility="visible"/>
+                    android:background="@null"
+                    android:contentDescription="Croix"
+                    android:src="@drawable/bouton_croix"
+                    android:layout_width="0dp" />
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/linearLayoutJoueur3"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:layout_height="40dp"
+                android:orientation="horizontal"
+                android:background="@drawable/joueur_salon_attente"
+                android:weightSum="3"
+                android:gravity="center"
+                android:layout_marginBottom="16dp"
+                android:visibility="invisible">
 
                 <ImageView
                     android:id="@+id/imageClasseJoueur3"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1" />
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:layout_width="0dp" />
 
                 <TextView
                     android:id="@+id/pseudoJoueur3"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="TextView"
                     android:textColor="@color/white"
-                    android:paddingLeft="16dp"/>
+                    android:textAlignment="center"/>
 
-                <Button
+                <ImageButton
                     android:id="@+id/boutonExclusion3"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="5dp"
                     android:layout_weight="1"
-                    android:text="Exclure"
-                    android:visibility="visible"/>
+                    android:background="@null"
+                    android:contentDescription="Croix"
+                    android:src="@drawable/bouton_croix"
+                    android:layout_width="0dp" />
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/linearLayoutJoueur4"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:layout_height="40dp"
+                android:orientation="horizontal"
+                android:background="@drawable/joueur_salon_attente"
+                android:weightSum="3"
+                android:gravity="center"
+                android:layout_marginBottom="16dp"
+                android:visibility="invisible">
 
                 <ImageView
                     android:id="@+id/imageClasseJoueur4"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1" />
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:layout_width="0dp" />
 
                 <TextView
                     android:id="@+id/pseudoJoueur4"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="TextView"
                     android:textColor="@color/white"
-                    android:paddingLeft="16dp"/>
+                    android:textAlignment="center"/>
 
-                <Button
+                <ImageButton
                     android:id="@+id/boutonExclusion4"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="5dp"
                     android:layout_weight="1"
-                    android:text="Exclure"
-                    android:visibility="visible"/>
+                    android:background="@null"
+                    android:contentDescription="Croix"
+                    android:src="@drawable/bouton_croix"
+                    android:layout_width="0dp" />
             </LinearLayout>
 
         </LinearLayout>
 
         <Button
-            android:id="@+id/BoutonPartie"
+            android:id="@+id/boutonPartie"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="Lancer la partie"
-            android:clickable="false"
-            android:onClick="onClickLancerPartie"/>
+            android:onClick="onClickLancerPartie"
+            android:enabled="false"
+            />
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.DialogFragment;
 
 import com.example.sae501.Model.Serveur.OkHttpClientSingleton;
 import com.example.sae501.Model.Serveur.SessionIntercepteur;
@@ -29,5 +30,8 @@ public class HomeActivity extends AppCompatActivity {
         WebSocket webSocket = okHttpClient.newWebSocket(request, new ConnexionWebSocketListener());
         Intent intent = new Intent(this, Partie_Activity.class);
         startActivity(intent);
+    }
+    public void onClickRejoindrePartie(){
+        DialogFragment dialogFragment=new DialogFragment();
     }
 }
