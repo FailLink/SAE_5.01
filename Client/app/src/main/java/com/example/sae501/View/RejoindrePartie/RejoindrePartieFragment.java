@@ -2,8 +2,6 @@ package com.example.sae501.View.RejoindrePartie;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
-import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,9 +12,9 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 
+import com.example.sae501.MainActivity;
 import com.example.sae501.Model.Serveur.OkHttpClientSingleton;
 import com.example.sae501.Model.Socket.ConnexionWebSocketListener;
-import com.example.sae501.Partie_Activity;
 import com.example.sae501.R;
 
 import okhttp3.OkHttpClient;
@@ -37,7 +35,7 @@ public class RejoindrePartieFragment extends DialogFragment {
         button.setOnClickListener(v->{
             this.dismiss();
             OkHttpClient okHttpClient = OkHttpClientSingleton.getOkHttpClient();
-            Request request = new Request.Builder().url("ws://10.0.2.2:8080/connexionPartie").build();
+            Request request = new Request.Builder().url("ws://"+ MainActivity.globalIP +"/connexionPartie").build();
             WebSocket webSocket = okHttpClient.newWebSocket(request, new ConnexionWebSocketListener());
             String jsonMessage = "{ \"type\": \"connexionPartie\", \"idPartie\" : \""+editText.getText()+"\" }";
             System.out.println("envoieMessage");

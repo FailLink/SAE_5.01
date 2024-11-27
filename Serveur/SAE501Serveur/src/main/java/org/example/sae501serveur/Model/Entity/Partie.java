@@ -14,7 +14,7 @@ public class Partie {
     private boolean isFinsin;
     private int nbPoint;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     private Set<Joueur> joueurs;
     @ManyToMany
     private Set<MonstreLieux> monstreLieux;

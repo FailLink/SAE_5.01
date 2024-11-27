@@ -4,11 +4,10 @@ import static android.content.Context.MODE_PRIVATE;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.os.Handler;
-import android.os.Looper;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -17,11 +16,9 @@ import androidx.fragment.app.FragmentActivity;
 
 import com.example.sae501.HomeActivity;
 import com.example.sae501.MainActivity;
-import com.example.sae501.Model.Entity.Partie;
 import com.example.sae501.Model.Service.JoueurService;
 import com.example.sae501.Model.Entity.Joueur;
 import com.example.sae501.Model.Serveur.RetroFitClient;
-import com.example.sae501.Partie_Activity;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -73,6 +70,7 @@ public class JoueurRepository {
                 String[] idString={"pseudoJoueur","imageClasseJoueur","boutonExclusion","linearLayoutJoueur"};
                 for(String s:idString){
                     String idName=s+nbJoueur;
+                    System.out.println(idName);
                     int resId = fragmentActivity.getResources().getIdentifier(idName, "id",
                             fragmentActivity.getPackageName());
                     View view =fragmentActivity.findViewById(resId);
@@ -85,7 +83,8 @@ public class JoueurRepository {
                                 , "drawable", fragmentActivity.getPackageName());
                         imageView.setImageResource(drawableId);*/
                     } else if (s.equalsIgnoreCase("boutonExclusion")) {
-                        Button button=(Button) view;
+                        System.out.println(view.getClass());
+                        ImageButton button=(ImageButton) view;
                         button.setVisibility(View.VISIBLE);
                     }else if (s.equalsIgnoreCase("linearLayoutJoueur")) {
                         LinearLayout linearLayout = (LinearLayout) view;
@@ -109,6 +108,7 @@ public class JoueurRepository {
                 MainActivity.chefDePartie=joueur;
                 String[] idString={"pseudoJoueur","imageClasseJoueur","linearLayoutJoueur"};
                 fragmentActivity=MainActivity.currentActivity;
+                System.out.println(MainActivity.currentActivity+"repository");
                 for(String s:idString) {
                     String idName=s+1;
                     int resId = fragmentActivity.getResources().getIdentifier(idName, "id",

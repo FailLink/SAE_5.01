@@ -1,5 +1,6 @@
 package com.example.sae501.Model.Socket;
 
+import android.content.Intent;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -13,6 +14,7 @@ import androidx.fragment.app.FragmentActivity;
 import com.example.sae501.MainActivity;
 import com.example.sae501.Model.Entity.Joueur;
 import com.example.sae501.Model.Entity.Partie;
+import com.example.sae501.PartieActivity;
 import com.example.sae501.R;
 import com.example.sae501.View.RejoindrePartie.PartieNonTrouveFragment;
 import com.google.gson.Gson;
@@ -55,6 +57,11 @@ public class GameWebSocketListener extends WebSocketListener {
                     new PartieNonTrouveFragment()
                             .show(MainActivity.currentActivity.getSupportFragmentManager(),"Partie non trouvé");
                 }
+            }
+            else if(text.equalsIgnoreCase("bienvenue dans la partie")){
+                Intent intent = new Intent(MainActivity.currentActivity, PartieActivity.class);
+                MainActivity.currentActivity.startActivity(intent);
+                System.out.println(MainActivity.currentActivity+"listener");
             }
             super.onMessage(webSocket, text);
         }

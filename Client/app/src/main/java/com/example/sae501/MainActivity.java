@@ -34,6 +34,7 @@ public class MainActivity extends AppCompatActivity {
     public static String sessionID;
     public static Joueur chefDePartie;
     public static FragmentActivity currentActivity;
+    public static String globalIP="192.168.1.27:8080";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -61,7 +62,7 @@ public class MainActivity extends AppCompatActivity {
     public static void connexionPartie(Partie partieDonnee){
         partie=partieDonnee;
         OkHttpClient okHttpClient= OkHttpClientSingleton.getOkHttpClient();
-        Request request = new Request.Builder().url("ws://10.0.2.2:8080/game/"+partie.getId()).build();
+        Request request = new Request.Builder().url("ws://"+ MainActivity.globalIP +"/game/"+partie.getId()).build();
         MainActivity.webSocketPartie = okHttpClient.newWebSocket(request, new GameWebSocketListener());
     }
     public static void infoJoueur(List<Long> listJoueurId,Long chefId){

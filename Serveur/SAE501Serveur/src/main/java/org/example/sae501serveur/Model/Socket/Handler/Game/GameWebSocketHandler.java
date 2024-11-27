@@ -62,8 +62,9 @@ public class GameWebSocketHandler extends TextWebSocketHandler {
         if(joueurs.size()>=4){
             session.sendMessage(new TextMessage("la session est pleine"));
             session.close();
+        }else{
+            session.sendMessage(new TextMessage("bienvenue dans la partie"));
         }
-        session.sendMessage(new TextMessage("bienvenue dans la partie"));
     }
 
     @Override
@@ -83,52 +84,53 @@ public class GameWebSocketHandler extends TextWebSocketHandler {
 
     }
     public void handleConnexionMessage(WebSocketSession session,Map<String,Object> msg,ObjectMapper objectMapper) throws IOException {
-        Joueur joueur=joueurService.getJoueurById(Integer.toUnsignedLong((Integer) msg.get("joueurId"))).get();
-        String partageJoueur="{ \"type\": \"joueurPartie\", \"joueurs\" : [";
-        if (joueurs.size()<4){
-            if(joueurs.isEmpty()){
-                chefDePartie=joueur;
-            }
-            for(int i=0;i<webSocketSessions.size();i++){
-                webSocketSessions.get(i).sendMessage(new TextMessage(partageJoueur+
-                        "\"idjoueur\" : "+(joueur.getId())+"]}"));
-            }
-            sessionJoueurs.put(session,joueur);
-            joueurSession.put(joueur,session);
-            joueurs.add(joueur);
-            webSocketSessions.add(session);
-            for(int i=0;i<joueurs.size();i++){
-                if(i>0){
-                    if(joueurs.get(i)==chefDePartie){
-                        Map<String, Object> data = new HashMap<>();
-                        data.put("joueur", joueurs.get(i).getId());
-                        data.put("isChief",true);
-                        partageJoueur=partageJoueur+","+objectMapper.writeValueAsString(data);
-                    }else{
-                        Map<String, Object> data = new HashMap<>();
-                        data.put("joueur", joueurs.get(i).getId());
-                        data.put("isChief", false);
-                        partageJoueur = partageJoueur+"," + objectMapper.writeValueAsString(data);
-                    }
-                }else {
-                    if (joueurs.get(i) == chefDePartie) {
-                        Map<String, Object> data = new HashMap<>();
-                        data.put("joueur", joueurs.get(i).getId());
-                        data.put("isChief", true);
-                        partageJoueur = partageJoueur + objectMapper.writeValueAsString(data);
+        Joueur joueur = joueurService.getJoueurById(Integer.toUnsignedLong((Integer) msg.get("joueurId"))).get();
+        String partageJoueur = "{ \"type\": \"joueurPartie\", \"joueurs\" : [";
+            if (joueurs.size() < 4) {
+                session.sendMessage(new TextMessage("bienvenue dans la partie"));
+                if (joueurs.isEmpty()) {
+                    chefDePartie = joueur;
+                }
+                for (int i = 0; i < webSocketSessions.size(); i++) {
+                    webSocketSessions.get(i).sendMessage(new TextMessage(partageJoueur +
+                            "\"idjoueur\" : " + (joueur.getId()) + "]}"));
+                }
+                sessionJoueurs.put(session, joueur);
+                joueurSession.put(joueur, session);
+                joueurs.add(joueur);
+                webSocketSessions.add(session);
+                for (int i = 0; i < joueurs.size(); i++) {
+                    if (i > 0) {
+                        if (joueurs.get(i) == chefDePartie) {
+                            Map<String, Object> data = new HashMap<>();
+                            data.put("joueur", joueurs.get(i).getId());
+                            data.put("isChief", true);
+                            partageJoueur = partageJoueur + "," + objectMapper.writeValueAsString(data);
+                        } else {
+                            Map<String, Object> data = new HashMap<>();
+                            data.put("joueur", joueurs.get(i).getId());
+                            data.put("isChief", false);
+                            partageJoueur = partageJoueur + "," + objectMapper.writeValueAsString(data);
+                        }
                     } else {
-                        Map<String, Object> data = new HashMap<>();
-                        data.put("joueur", joueurs.get(i).getId());
-                        data.put("isChief", false);
-                        partageJoueur = partageJoueur + objectMapper.writeValueAsString(data);
+                        if (joueurs.get(i) == chefDePartie) {
+                            Map<String, Object> data = new HashMap<>();
+                            data.put("joueur", joueurs.get(i).getId());
+                            data.put("isChief", true);
+                            partageJoueur = partageJoueur + objectMapper.writeValueAsString(data);
+                        } else {
+                            Map<String, Object> data = new HashMap<>();
+                            data.put("joueur", joueurs.get(i).getId());
+                            data.put("isChief", false);
+                            partageJoueur = partageJoueur + objectMapper.writeValueAsString(data);
+                        }
                     }
                 }
+                partageJoueur += "]}";
+                session.sendMessage(new TextMessage(partageJoueur));
+            } else {
+                session.sendMessage(new TextMessage("la session est pleine"));
+                session.close();
             }
-            partageJoueur+="]}";
-            session.sendMessage(new TextMessage(partageJoueur));
-        }else{
-            session.sendMessage(new TextMessage("la session est pleine"));
-            session.close();
-        }
     }
 }

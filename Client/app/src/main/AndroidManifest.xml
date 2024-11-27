@@ -24,7 +24,7 @@
             android:name=".ChoixClasseActivity"
             android:exported="false" />
         <activity
-            android:name=".Partie_Activity"
+            android:name=".PartieActivity"
             android:exported="false" />
         <activity
             android:name=".MapsActivity"

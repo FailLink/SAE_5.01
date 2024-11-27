@@ -25,11 +25,10 @@ public class LoginActivity extends AppCompatActivity {
             webView.setWebViewClient(new WebViewClient() {
                 public void onPageFinished(WebView view, String url) {
                     super.onPageFinished(view, url);
-                    if (url.equals("http://10.0.2.2:8080/testConnexion")) {
+                    if (url.equals("http://"+ MainActivity.globalIP +"/testConnexion")) {
                         String cookies = CookieManager.getInstance().getCookie(url);
                         System.out.println(cookies);
                         if (cookies != null && cookies.contains("JSESSIONID")) {
-                            // Trouver uniquement la valeur de JSESSIONID
                             String[] cookieArray = cookies.split(";");
                             String jsessionId = null;
                             for (String cookie : cookieArray) {

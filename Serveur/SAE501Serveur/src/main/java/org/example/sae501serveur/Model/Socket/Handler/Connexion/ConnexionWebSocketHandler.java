@@ -48,7 +48,7 @@ public class ConnexionWebSocketHandler extends TextWebSocketHandler {
                     session.sendMessage(new TextMessage("{ \"type\": \"partieNonTrouve\"}"));
                 }
                 else{
-                    Partie partie1=partieService.getPartieById((Long) msg.get("idPartie"));
+                    Partie partie1=partieService.getPartieById(Long.parseLong((String) msg.get("idPartie")));
                     session.sendMessage(new TextMessage(objectMapper.writeValueAsString(partie1)));
                     session.close();
                 }
