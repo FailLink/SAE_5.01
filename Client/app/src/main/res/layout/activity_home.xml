@@ -20,5 +20,6 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Rejoindre une partie"/>
+        android:text="Rejoindre une partie"
+        android:onClick="onClickRejoindrePartie"/>
 </LinearLayout>

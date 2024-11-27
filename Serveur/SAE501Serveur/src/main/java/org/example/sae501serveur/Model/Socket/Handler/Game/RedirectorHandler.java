@@ -29,7 +29,7 @@ public class RedirectorHandler extends TextWebSocketHandler {
     public void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
         String path=session.getUri().getPath().split("/")[2];
         if(partieService.getPartieById(Integer.toUnsignedLong(Integer.parseInt(path)))==null){
-            session.sendMessage(new TextMessage("la partie n'existe pas"));
+            session.sendMessage(new TextMessage("{ \"type\": \"partieNonTrouve\"}"));
             session.close();
         }else {
             if (handlerSessionId.get(path) != null) {
@@ -39,5 +39,9 @@ public class RedirectorHandler extends TextWebSocketHandler {
                 handlerSessionId.get(path).handleTextMessage(session, message);
             }
         }
+    }
+
+    public Map<String, GameWebSocketHandler> getHandlerSessionId() {
+        return handlerSessionId;
     }
 }

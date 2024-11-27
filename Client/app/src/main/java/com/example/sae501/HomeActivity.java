@@ -10,6 +10,7 @@ import androidx.fragment.app.DialogFragment;
 import com.example.sae501.Model.Serveur.OkHttpClientSingleton;
 import com.example.sae501.Model.Serveur.SessionIntercepteur;
 import com.example.sae501.Model.Socket.ConnexionWebSocketListener;
+import com.example.sae501.View.RejoindrePartie.RejoindrePartieFragment;
 
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -28,10 +29,12 @@ public class HomeActivity extends AppCompatActivity {
         OkHttpClient okHttpClient = OkHttpClientSingleton.getOkHttpClient();
         Request request = new Request.Builder().url("ws://10.0.2.2:8080/connexionPartie").build();
         WebSocket webSocket = okHttpClient.newWebSocket(request, new ConnexionWebSocketListener());
+        String jsonMessage = "{ \"type\": \"creationPartie\" }";
+        webSocket.send(jsonMessage);
         Intent intent = new Intent(this, Partie_Activity.class);
         startActivity(intent);
     }
-    public void onClickRejoindrePartie(){
-        DialogFragment dialogFragment=new DialogFragment();
+    public void onClickRejoindrePartie(View view){
+        new RejoindrePartieFragment().show(getSupportFragmentManager(),"rejoindrePartie");
     }
 }

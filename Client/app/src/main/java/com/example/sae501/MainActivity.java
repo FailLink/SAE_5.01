@@ -60,7 +60,6 @@ public class MainActivity extends AppCompatActivity {
     }
     public static void connexionPartie(Partie partieDonnee){
         partie=partieDonnee;
-        System.out.println("connexionALaPartie");
         OkHttpClient okHttpClient= OkHttpClientSingleton.getOkHttpClient();
         Request request = new Request.Builder().url("ws://10.0.2.2:8080/game/"+partie.getId()).build();
         MainActivity.webSocketPartie = okHttpClient.newWebSocket(request, new GameWebSocketListener());
