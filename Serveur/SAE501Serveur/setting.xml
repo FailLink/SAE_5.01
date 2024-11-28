@@ -1,4 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <settings xmlns="http://maven.apache.org/SETTINGS/1.0.0">
-
-
+    <servers>
+        <server>
+            <id>sonar</id>
+            <username>kyllian-jean-gilles</username>
+            <password>ee580558-49e0-4cee-a237-d985b14a8c50</password>
+        </server>
+    </servers>
+</settings>
