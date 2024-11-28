@@ -33,6 +33,16 @@ public class RedirectorHandler extends TextWebSocketHandler {
             session.close();
         }else {
             if (handlerSessionId.get(path) != null) {
+                ObjectMapper objectMapper=new ObjectMapper();
+                Map<String,Object> msg=objectMapper.readValue(message.getPayload(),Map.class);
+                if (msg.get("type") == "deconnexion") {
+                    if(handlerSessionId.get(path).getJoueurs().size()==1){
+                        handlerSessionId.remove(path);
+                        session.close();
+                    }else{
+                        handlerSessionId.get(path).handleTextMessage(session, message);
+                    }
+                }
                 handlerSessionId.get(path).handleTextMessage(session, message);
             } else {
                 handlerSessionId.put(path, gameWebSocketHandlerFactory.createHandler());

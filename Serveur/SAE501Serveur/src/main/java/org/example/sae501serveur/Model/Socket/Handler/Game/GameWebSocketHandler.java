@@ -44,6 +44,22 @@ public class GameWebSocketHandler extends TextWebSocketHandler {
 
     private Joueur chefDePartie;
 
+    public Map<WebSocketSession, Joueur> getSessionJoueurs() {
+        return sessionJoueurs;
+    }
+
+    public Map<Joueur, WebSocketSession> getJoueurSession() {
+        return joueurSession;
+    }
+
+    public ArrayList<WebSocketSession> getWebSocketSessions() {
+        return webSocketSessions;
+    }
+
+    public ArrayList<Joueur> getJoueurs() {
+        return joueurs;
+    }
+
     private final Map<Long,Competence> actions=new ConcurrentHashMap<>();
 
     private final int maxPlayer=4;
@@ -59,12 +75,6 @@ public class GameWebSocketHandler extends TextWebSocketHandler {
 
     @Override
     public void afterConnectionEstablished(WebSocketSession session) throws Exception {
-        if(joueurs.size()>=4){
-            session.sendMessage(new TextMessage("la session est pleine"));
-            session.close();
-        }else{
-            session.sendMessage(new TextMessage("bienvenue dans la partie"));
-        }
     }
 
     @Override
@@ -78,6 +88,16 @@ public class GameWebSocketHandler extends TextWebSocketHandler {
             case  "action":
                 handleMoveMessage(session, message);
                 break;
+            case "deconnexion" :
+                session.close();
+                webSocketSessions.remove(session);
+                joueurSession.remove(sessionJoueurs.get(session));
+                joueurs.remove(sessionJoueurs.get(session));
+                if(chefDePartie==sessionJoueurs.get(session)){
+                    chefDePartie=joueurs.get(0);
+                }
+                sessionJoueurs.remove(session);
+                
         }
     }
     public void handleMoveMessage(WebSocketSession session,TextMessage message){

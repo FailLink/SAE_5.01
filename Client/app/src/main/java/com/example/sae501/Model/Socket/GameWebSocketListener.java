@@ -17,6 +17,7 @@ import com.example.sae501.Model.Entity.Partie;
 import com.example.sae501.PartieActivity;
 import com.example.sae501.R;
 import com.example.sae501.View.RejoindrePartie.PartieNonTrouveFragment;
+import com.example.sae501.View.RejoindrePartie.PartiePleineFragment;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -65,6 +66,9 @@ public class GameWebSocketListener extends WebSocketListener {
                 Intent intent = new Intent(MainActivity.currentActivity, PartieActivity.class);
                 MainActivity.currentActivity.startActivity(intent);
                 System.out.println(MainActivity.currentActivity+"listener");
+            }
+            else if(text.equalsIgnoreCase("la session est pleine")){
+                new PartiePleineFragment().show(MainActivity.currentActivity.getSupportFragmentManager(),"Partie pleine");
             }
             super.onMessage(webSocket, text);
         }

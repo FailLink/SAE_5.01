@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.TextView;
 
 public class PartieActivity extends AppCompatActivity {
 
@@ -13,10 +14,18 @@ public class PartieActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_partie);
         MainActivity.currentActivity=this;
-        System.out.println(MainActivity.currentActivity+"activité");
+        TextView textView=this.findViewById(R.id.textIdPartie);
+        textView.setText(textView.getText()+MainActivity.partie.getId().toString());
     }
     public void onClickLancerPartie(View view){
         Intent intent=new Intent(this, MapsActivity.class);
         startActivity(intent);
+    }
+    public void onClickExclusion(View view){
+
+    }
+    public void onClickQuitter(View view){
+        String message="{ \"type\" : \"deconnexion\" , \"joueur\" : "+MainActivity.joueur.getId()+"}";
+        MainActivity.webSocketPartie.send(message);
     }
 }
