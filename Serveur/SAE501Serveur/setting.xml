@@ -1,12 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <settings xmlns="http://maven.apache.org/SETTINGS/1.0.0">
 
-    <!-- Définir les serveurs (pour l'authentification dans les dépôts privés) -->
-    <servers>
-        <server>
-            <id>my-repository</id>
-            <username>my-username</username>
-            <password>my-password</password>
-        </server>
-    </servers>
-</settings>
+
