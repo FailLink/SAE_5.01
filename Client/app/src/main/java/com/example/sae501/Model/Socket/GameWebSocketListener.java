@@ -57,6 +57,9 @@ public class GameWebSocketListener extends WebSocketListener {
                     new PartieNonTrouveFragment()
                             .show(MainActivity.currentActivity.getSupportFragmentManager(),"Partie non trouvé");
                 }
+                if(msgType.equalsIgnoreCase("ajoutJoueur")){
+                    ajoutJoueurPartie(msg);
+                }
             }
             else if(text.equalsIgnoreCase("bienvenue dans la partie")){
                 Intent intent = new Intent(MainActivity.currentActivity, PartieActivity.class);
@@ -89,6 +92,9 @@ public class GameWebSocketListener extends WebSocketListener {
                 }
             }
             MainActivity.infoJoueur(idJoueur,idChefDePartie);
+        }
+        public void ajoutJoueurPartie(Map<String,Object> msg){
+            MainActivity.ajoutJoueur(Math.round((Double) msg.get("idJoueur")));
         }
 }
 

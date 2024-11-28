@@ -69,11 +69,13 @@ public class JoueurRepository {
                 fragmentActivity=MainActivity.currentActivity;
                 String[] idString={"pseudoJoueur","imageClasseJoueur","boutonExclusion","linearLayoutJoueur"};
                 for(String s:idString){
+                    System.out.println(s);
                     String idName=s+nbJoueur;
                     System.out.println(idName);
                     int resId = fragmentActivity.getResources().getIdentifier(idName, "id",
                             fragmentActivity.getPackageName());
                     View view =fragmentActivity.findViewById(resId);
+                    System.out.println(view);
                     if(s.equalsIgnoreCase("pseudoJoueur")){
                         TextView textView=(TextView) view;
                         textView.setText(joueur.getPseudo());
@@ -83,7 +85,6 @@ public class JoueurRepository {
                                 , "drawable", fragmentActivity.getPackageName());
                         imageView.setImageResource(drawableId);*/
                     } else if (s.equalsIgnoreCase("boutonExclusion")) {
-                        System.out.println(view.getClass());
                         ImageButton button=(ImageButton) view;
                         button.setVisibility(View.VISIBLE);
                     }else if (s.equalsIgnoreCase("linearLayoutJoueur")) {
@@ -106,6 +107,7 @@ public class JoueurRepository {
             public void onResponse(Call<Joueur> call, Response<Joueur> response) {
                 Joueur joueur=response.body();
                 MainActivity.chefDePartie=joueur;
+                MainActivity.joueursPartie.add(joueur);
                 String[] idString={"pseudoJoueur","imageClasseJoueur","linearLayoutJoueur"};
                 fragmentActivity=MainActivity.currentActivity;
                 System.out.println(MainActivity.currentActivity+"repository");

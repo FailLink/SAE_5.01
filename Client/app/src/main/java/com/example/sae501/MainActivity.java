@@ -34,7 +34,7 @@ public class MainActivity extends AppCompatActivity {
     public static String sessionID;
     public static Joueur chefDePartie;
     public static FragmentActivity currentActivity;
-    public static String globalIP="192.168.1.27:8080";
+    public static String globalIP="10.6.5.229:8080";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -73,8 +73,11 @@ public class MainActivity extends AppCompatActivity {
         if(chefId!=null){
             joueurRepository.getChefPartieById(chefId);
         }
-        System.out.println(MainActivity.chefDePartie);
-        System.out.println(MainActivity.joueursPartie);
+    }
+    public static void ajoutJoueur(Long joueurId){
+        JoueurRepository joueurRepository=new JoueurRepository();
+        System.out.println("entrée dans fonction 1");
+        joueurRepository.getJoueurPartieById(joueurId,joueursPartie.size()+1);
     }
 
 }

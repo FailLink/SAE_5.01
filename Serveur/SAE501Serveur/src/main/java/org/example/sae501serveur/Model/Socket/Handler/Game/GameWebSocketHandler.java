@@ -85,7 +85,7 @@ public class GameWebSocketHandler extends TextWebSocketHandler {
     }
     public void handleConnexionMessage(WebSocketSession session,Map<String,Object> msg,ObjectMapper objectMapper) throws IOException {
         Joueur joueur = joueurService.getJoueurById(Integer.toUnsignedLong((Integer) msg.get("joueurId"))).get();
-        String partageJoueur = "{ \"type\": \"joueurPartie\", \"joueurs\" : [";
+        String partageJoueur = "{ \"type\": \"ajoutJoueur\", ";
             if (joueurs.size() < 4) {
                 session.sendMessage(new TextMessage("bienvenue dans la partie"));
                 if (joueurs.isEmpty()) {
@@ -93,12 +93,14 @@ public class GameWebSocketHandler extends TextWebSocketHandler {
                 }
                 for (int i = 0; i < webSocketSessions.size(); i++) {
                     webSocketSessions.get(i).sendMessage(new TextMessage(partageJoueur +
-                            "\"idjoueur\" : " + (joueur.getId()) + "]}"));
+                            "\"idJoueur\" : " + (joueur.getId()) + "}"));
                 }
                 sessionJoueurs.put(session, joueur);
                 joueurSession.put(joueur, session);
                 joueurs.add(joueur);
                 webSocketSessions.add(session);
+
+                partageJoueur = "{ \"type\": \"joueurPartie\", \"joueurs\" : [";
                 for (int i = 0; i < joueurs.size(); i++) {
                     if (i > 0) {
                         if (joueurs.get(i) == chefDePartie) {

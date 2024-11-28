@@ -54,7 +54,7 @@ public class LoginActivity extends AppCompatActivity {
                 }
             });
             webView.getSettings().setJavaScriptEnabled(true); // Si nécessaire
-            webView.loadUrl("http://192.168.1.27:8080/login");
+            webView.loadUrl("http://"+MainActivity.globalIP+"/login");
 
         }
 }
