@@ -8,6 +8,22 @@ public class Joueur {
     private String pseudo;
     private String adresseMail;
     private String mdp;
+
+    @Override
+    public String toString() {
+        return "Joueur{" +
+                "id=" + id +
+                ", pseudo='" + pseudo + '\'' +
+                ", adresseMail='" + adresseMail + '\'' +
+                ", mdp='" + mdp + '\'' +
+                ", classe=" + classe +
+                ", competences=" + competences +
+                ", joueurs=" + joueurs +
+                ", amis=" + amis +
+                ", parties=" + parties +
+                '}';
+    }
+
     private Classe classe;
     private Set<Competence> competences;
     private Set<Joueur> joueurs;

@@ -28,23 +28,30 @@ public class RedirectorHandler extends TextWebSocketHandler {
     @Override
     public void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
         String path=session.getUri().getPath().split("/")[2];
+
+        ObjectMapper objectMapper=new ObjectMapper();
+        Map<String,Object> msg=objectMapper.readValue(message.getPayload(),Map.class);
+
         if(partieService.getPartieById(Integer.toUnsignedLong(Integer.parseInt(path)))==null){
             session.sendMessage(new TextMessage("{ \"type\": \"partieNonTrouve\"}"));
             session.close();
-        }else {
-            if (handlerSessionId.get(path) != null) {
-                ObjectMapper objectMapper=new ObjectMapper();
-                Map<String,Object> msg=objectMapper.readValue(message.getPayload(),Map.class);
-                if (msg.get("type") == "deconnexion") {
+        }
+        else {
+            if (handlerSessionId.containsKey(path)) {
+                if (((String) msg.get("type")).equalsIgnoreCase( "deconnexion")) {
                     if(handlerSessionId.get(path).getJoueurs().size()==1){
                         handlerSessionId.remove(path);
                         session.close();
-                    }else{
+                    }
+                    else{
                         handlerSessionId.get(path).handleTextMessage(session, message);
                     }
                 }
-                handlerSessionId.get(path).handleTextMessage(session, message);
-            } else {
+                else{
+                    handlerSessionId.get(path).handleTextMessage(session, message);
+                }
+            }
+            else{
                 handlerSessionId.put(path, gameWebSocketHandlerFactory.createHandler());
                 handlerSessionId.get(path).handleTextMessage(session, message);
             }

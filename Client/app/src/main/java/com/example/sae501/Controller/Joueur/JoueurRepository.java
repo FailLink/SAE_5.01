@@ -19,6 +19,9 @@ import com.example.sae501.MainActivity;
 import com.example.sae501.Model.Service.JoueurService;
 import com.example.sae501.Model.Entity.Joueur;
 import com.example.sae501.Model.Serveur.RetroFitClient;
+import com.example.sae501.PartieActivity;
+
+import java.util.Objects;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -66,16 +69,16 @@ public class JoueurRepository {
             public void onResponse(Call<Joueur> call, Response<Joueur> response) {
                 Joueur joueur=response.body();
                 MainActivity.joueursPartie.add(joueur);
-                fragmentActivity=MainActivity.currentActivity;
+                System.out.println(joueur.getId());
+                while (fragmentActivity.getClass()!= PartieActivity.class) {
+                    fragmentActivity = MainActivity.currentActivity;
+                }
                 String[] idString={"pseudoJoueur","imageClasseJoueur","boutonExclusion","linearLayoutJoueur"};
                 for(String s:idString){
-                    System.out.println(s);
                     String idName=s+nbJoueur;
-                    System.out.println(idName);
                     int resId = fragmentActivity.getResources().getIdentifier(idName, "id",
                             fragmentActivity.getPackageName());
                     View view =fragmentActivity.findViewById(resId);
-                    System.out.println(view);
                     if(s.equalsIgnoreCase("pseudoJoueur")){
                         TextView textView=(TextView) view;
                         textView.setText(joueur.getPseudo());
@@ -84,9 +87,13 @@ public class JoueurRepository {
                         /*int drawableId = fragmentActivity.getResources().getIdentifier("icone_"+joueur.getClasse().getNom()
                                 , "drawable", fragmentActivity.getPackageName());
                         imageView.setImageResource(drawableId);*/
-                    } else if (s.equalsIgnoreCase("boutonExclusion")) {
+                    } else if (s.equalsIgnoreCase("boutonExclusion") && Objects.equals(MainActivity.joueur.getId(), MainActivity.chefDePartie.getId())) {
                         ImageButton button=(ImageButton) view;
                         button.setVisibility(View.VISIBLE);
+                        button.setOnClickListener(v->{
+                            String message="{\"type\":\"exclusion\",\"joueur\":"+joueur.getId()+"}";
+                            MainActivity.webSocketPartie.send(message);
+                        });
                     }else if (s.equalsIgnoreCase("linearLayoutJoueur")) {
                         LinearLayout linearLayout = (LinearLayout) view;
                         linearLayout.setVisibility(View.VISIBLE);
@@ -109,8 +116,10 @@ public class JoueurRepository {
                 MainActivity.chefDePartie=joueur;
                 MainActivity.joueursPartie.add(joueur);
                 String[] idString={"pseudoJoueur","imageClasseJoueur","linearLayoutJoueur"};
-                fragmentActivity=MainActivity.currentActivity;
-                System.out.println(MainActivity.currentActivity+"repository");
+                while (fragmentActivity.getClass()!= PartieActivity.class) {
+                    fragmentActivity = MainActivity.currentActivity;
+                }
+                System.out.println(fragmentActivity);
                 for(String s:idString) {
                     String idName=s+1;
                     int resId = fragmentActivity.getResources().getIdentifier(idName, "id",

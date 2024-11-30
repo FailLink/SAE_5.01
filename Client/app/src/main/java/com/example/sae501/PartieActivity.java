@@ -21,11 +21,11 @@ public class PartieActivity extends AppCompatActivity {
         Intent intent=new Intent(this, MapsActivity.class);
         startActivity(intent);
     }
-    public void onClickExclusion(View view){
-
-    }
-    public void onClickQuitter(View view){
-        String message="{ \"type\" : \"deconnexion\" , \"joueur\" : "+MainActivity.joueur.getId()+"}";
+    public void onClickQuitter(View view) {
+        String message = "{ \"type\" : \"deconnexion\" , \"joueur\" : " + MainActivity.joueur.getId() + "}";
         MainActivity.webSocketPartie.send(message);
+        MainActivity.joueursPartie.clear();
+        Intent intent = new Intent(this, HomeActivity.class);
+        startActivity(intent);
     }
 }

@@ -97,7 +97,23 @@ public class GameWebSocketHandler extends TextWebSocketHandler {
                     chefDePartie=joueurs.get(0);
                 }
                 sessionJoueurs.remove(session);
-                
+                for(WebSocketSession webSocketSession:webSocketSessions){
+                    webSocketSession.sendMessage(new TextMessage("{\"type\":\"joueurDeconnecte\"}"));
+                }
+                renvoiJoueurRafraichi(objectMapper);
+            case "exclusion" :
+                Joueur joueur = joueurService.getJoueurById(Integer.toUnsignedLong((Integer) msg.get("joueur"))).get();
+                session.sendMessage(new TextMessage(String.valueOf(joueurSession.containsKey(joueur))));
+                joueurSession.get(joueur).sendMessage(new TextMessage("{\"type\":\"exclusion\"}"));
+                joueurSession.get(joueur).close();
+                webSocketSessions.remove(joueurSession.get(joueur));
+                joueurs.remove(joueur);
+                sessionJoueurs.remove(joueurSession.get(joueur));
+                joueurSession.remove(joueur);
+                for(WebSocketSession webSocketSession:webSocketSessions){
+                    webSocketSession.sendMessage(new TextMessage("{\"type\":\"joueurExclu\"}"));
+                }
+                renvoiJoueurRafraichi(objectMapper);
         }
     }
     public void handleMoveMessage(WebSocketSession session,TextMessage message){
@@ -115,6 +131,7 @@ public class GameWebSocketHandler extends TextWebSocketHandler {
                     webSocketSessions.get(i).sendMessage(new TextMessage(partageJoueur +
                             "\"idJoueur\" : " + (joueur.getId()) + "}"));
                 }
+
                 sessionJoueurs.put(session, joueur);
                 joueurSession.put(joueur, session);
                 joueurs.add(joueur);
@@ -154,5 +171,39 @@ public class GameWebSocketHandler extends TextWebSocketHandler {
                 session.sendMessage(new TextMessage("la session est pleine"));
                 session.close();
             }
+    }
+    public void renvoiJoueurRafraichi(ObjectMapper objectMapper) throws IOException {
+        for (int i = 0; i < webSocketSessions.size(); i++) {
+            String partageJoueur = "{ \"type\": \"joueurPartie\", \"joueurs\" : [";
+            for (int j = 0; j < joueurs.size(); j++) {
+                if (j > 0) {
+                    if (joueurs.get(i) == chefDePartie) {
+                        Map<String, Object> data = new HashMap<>();
+                        data.put("joueur", joueurs.get(i).getId());
+                        data.put("isChief", true);
+                        partageJoueur = partageJoueur + "," + objectMapper.writeValueAsString(data);
+                    } else {
+                        Map<String, Object> data = new HashMap<>();
+                        data.put("joueur", joueurs.get(i).getId());
+                        data.put("isChief", false);
+                        partageJoueur = partageJoueur + "," + objectMapper.writeValueAsString(data);
+                    }
+                } else {
+                    if (joueurs.get(i) == chefDePartie) {
+                        Map<String, Object> data = new HashMap<>();
+                        data.put("joueur", joueurs.get(i).getId());
+                        data.put("isChief", true);
+                        partageJoueur = partageJoueur + objectMapper.writeValueAsString(data);
+                    } else {
+                        Map<String, Object> data = new HashMap<>();
+                        data.put("joueur", joueurs.get(i).getId());
+                        data.put("isChief", false);
+                        partageJoueur = partageJoueur + objectMapper.writeValueAsString(data);
+                    }
+                }
+            }
+            partageJoueur += "]}";
+            webSocketSessions.get(i).sendMessage(new TextMessage(partageJoueur));
+        }
     }
 }

@@ -14,10 +14,10 @@ import java.util.List;
 import java.util.Map;
 
 public class ChoixClasseActivity extends AppCompatActivity {
-    private final String descriptionTank="";
-    private final String descriptionGuerrier="";
-    private final String descriptionMage="";
-    private final String descriptionHealer="";
+    private final String descriptionTank="Une classe possédant des stats défensives élevée mais possédant une attaque en dessous des autres classes. Son rôle est de protéger ses alliés en prenant les dégâts des monstres.";
+    private final String descriptionGuerrier="Une classe possédant des stats équilibrés. Son rôle est d'aider son équipe soit à tanker soit à infliger des dégâts en fonction des situations.";
+    private final String descriptionMage="Une classe possédant une énorme stat d'attaque mais des stats défensives faibles. Son rôle est d'infliger le maximum de dégâts au boss à l'aide de ses compétences.";
+    private final String descriptionHealer="Une classe possédant un grand nombre d'HP mais une stat d'attaque et de defense assez faible. Le healer a pour rôle de soigner les dégâts pris par ses alliés.";
 
 
     @Override

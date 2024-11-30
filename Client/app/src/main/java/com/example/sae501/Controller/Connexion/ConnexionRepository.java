@@ -123,7 +123,7 @@ public class ConnexionRepository {
                         Intent intent = new Intent(fragmentActivity, HomeActivity.class);
                         fragmentActivity.startActivity(intent);
                     }else{
-                        Intent intent=new Intent(fragmentActivity, HomeActivity.class);
+                        Intent intent=new Intent(fragmentActivity, ChoixClasseActivity.class);
                         fragmentActivity.startActivity(intent);
                     }
                 }

@@ -2,10 +2,13 @@ package com.example.sae501.Model.Socket;
 
 import android.content.Intent;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -16,6 +19,7 @@ import com.example.sae501.Model.Entity.Joueur;
 import com.example.sae501.Model.Entity.Partie;
 import com.example.sae501.PartieActivity;
 import com.example.sae501.R;
+import com.example.sae501.View.Partie.ExclusionFragment;
 import com.example.sae501.View.RejoindrePartie.PartieNonTrouveFragment;
 import com.example.sae501.View.RejoindrePartie.PartiePleineFragment;
 import com.google.gson.Gson;
@@ -61,11 +65,46 @@ public class GameWebSocketListener extends WebSocketListener {
                 if(msgType.equalsIgnoreCase("ajoutJoueur")){
                     ajoutJoueurPartie(msg);
                 }
+                if(msgType.equalsIgnoreCase("exclusion")){
+                    new ExclusionFragment()
+                            .show(MainActivity.currentActivity.getSupportFragmentManager(),"Exclue de la partie");
+                }
+                if(msgType.equalsIgnoreCase("joueurExclu")){
+                    MainActivity.currentActivity.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Toast.makeText(MainActivity.currentActivity, "Un joueur a été exclu", Toast.LENGTH_SHORT).show();
+                            MainActivity.joueursPartie.clear();
+
+                            ViewGroup listeJoueurView=MainActivity.currentActivity.findViewById(R.id.layoutPartie);
+                            listeJoueurView.removeAllViews();
+
+                            LayoutInflater.from(MainActivity.currentActivity).inflate(R.layout.activity_partie, listeJoueurView, true);
+                            TextView textView=MainActivity.currentActivity.findViewById(R.id.textIdPartie);
+                            textView.setText(textView.getText()+MainActivity.partie.getId().toString());
+                        }
+                    });
+                }
+                if(msgType.equalsIgnoreCase("joueurDeconnecte")){
+                    MainActivity.currentActivity.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Toast.makeText(MainActivity.currentActivity, "Un joueur s'est déconnecté", Toast.LENGTH_SHORT).show();
+                            MainActivity.joueursPartie.clear();
+
+                            ViewGroup listeJoueurView=MainActivity.currentActivity.findViewById(R.id.layoutPartie);
+                            listeJoueurView.removeAllViews();
+
+                            LayoutInflater.from(MainActivity.currentActivity).inflate(R.layout.activity_partie, listeJoueurView, true);
+                            TextView textView=MainActivity.currentActivity.findViewById(R.id.textIdPartie);
+                            textView.setText(textView.getText()+MainActivity.partie.getId().toString());
+                        }
+                    });
+                }
             }
             else if(text.equalsIgnoreCase("bienvenue dans la partie")){
                 Intent intent = new Intent(MainActivity.currentActivity, PartieActivity.class);
                 MainActivity.currentActivity.startActivity(intent);
-                System.out.println(MainActivity.currentActivity+"listener");
             }
             else if(text.equalsIgnoreCase("la session est pleine")){
                 new PartiePleineFragment().show(MainActivity.currentActivity.getSupportFragmentManager(),"Partie pleine");
@@ -88,7 +127,6 @@ public class GameWebSocketListener extends WebSocketListener {
             Long idChefDePartie=null;
             for(Map<String,Object> map : list ){
                 if((Boolean) map.get("isChief")){
-                    System.out.println("ischief=true");
                     idChefDePartie=Math.round((Double) map.get("joueur"));
                 }
                 else{
