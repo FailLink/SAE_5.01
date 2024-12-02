@@ -92,7 +92,6 @@ public class ConnexionRepository {
                 SharedPreferences.Editor editor = sharedPreferences.edit();
                 editor.putString("joueur_id",MainActivity.joueur.getId().toString());
                 editor.apply();
-                System.out.println(MainActivity.joueur.getClasse());
                 if(MainActivity.joueur.getClasse()!=null) {
                     Intent intent = new Intent(fragmentActivity, HomeActivity.class);
                     fragmentActivity.startActivity(intent);
@@ -123,7 +122,7 @@ public class ConnexionRepository {
                         Intent intent = new Intent(fragmentActivity, HomeActivity.class);
                         fragmentActivity.startActivity(intent);
                     }else{
-                        Intent intent=new Intent(fragmentActivity, ChoixClasseActivity.class);
+                        Intent intent=new Intent(fragmentActivity, HomeActivity.class);
                         fragmentActivity.startActivity(intent);
                     }
                 }

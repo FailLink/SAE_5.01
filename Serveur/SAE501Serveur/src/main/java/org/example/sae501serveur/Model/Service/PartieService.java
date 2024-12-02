@@ -3,6 +3,8 @@ package org.example.sae501serveur.Model.Service;
 
 import org.example.sae501serveur.Model.Entity.Joueur;
 import org.example.sae501serveur.Model.Entity.Partie;
+import org.example.sae501serveur.Model.Repository.JoueurRepository;
+import org.example.sae501serveur.Model.Repository.MonstreLieuxRepository;
 import org.example.sae501serveur.Model.Repository.PartieRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,6 +15,10 @@ import java.util.List;
 public class PartieService {
     @Autowired
     private PartieRepository partieRepository;
+    @Autowired
+    private MonstreLieuxRepository monstreLieuxRepository;
+    @Autowired
+    private JoueurRepository joueurRepository;
 
     public List<Partie> getAllParties() {
         return partieRepository.findAll();
@@ -25,13 +31,8 @@ public class PartieService {
     public Partie getPartieById(Long id) {
         return partieRepository.findById(id).orElse(null);
     }
-
     public void deletePartie(Long id) {
         partieRepository.deleteById(id);
-    }
-    public Partie createPartie(){
-        Partie partie=new Partie();
-        return partieRepository.save(partie);
     }
     public Partie addJoueurBDD(Joueur joueur,Partie partie){
         partie.getJoueur().add(joueur);
@@ -42,6 +43,12 @@ public class PartieService {
     }
     public List<Partie> getAllPartieNoFinished(){
         return partieRepository.getPartieNotFinished();
+    }
+
+    public Partie createPartie(float longitude,float latitude){
+        Partie partie=new Partie();
+
+        return partieRepository.save(partie);
     }
 }
 

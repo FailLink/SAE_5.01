@@ -20,6 +20,7 @@ public class PartieActivity extends AppCompatActivity {
     public void onClickLancerPartie(View view){
         Intent intent=new Intent(this, MapsActivity.class);
         startActivity(intent);
+        MainActivity.webSocketPartie.send("{\"type\" : \"lancementPartie\"}");
     }
     public void onClickQuitter(View view) {
         String message = "{ \"type\" : \"deconnexion\" , \"joueur\" : " + MainActivity.joueur.getId() + "}";

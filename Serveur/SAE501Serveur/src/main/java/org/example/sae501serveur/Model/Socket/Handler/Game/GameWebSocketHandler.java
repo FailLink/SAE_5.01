@@ -114,6 +114,12 @@ public class GameWebSocketHandler extends TextWebSocketHandler {
                     webSocketSession.sendMessage(new TextMessage("{\"type\":\"joueurExclu\"}"));
                 }
                 renvoiJoueurRafraichi(objectMapper);
+            case "lancementPartie":
+                for (WebSocketSession webSocketSession:webSocketSessions){
+                    if(webSocketSession!=session){
+                        webSocketSession.sendMessage(new TextMessage("{\"type\":\"lancementPartie\"}"));
+                    }
+                }
         }
     }
     public void handleMoveMessage(WebSocketSession session,TextMessage message){

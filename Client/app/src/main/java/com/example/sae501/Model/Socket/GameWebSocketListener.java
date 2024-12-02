@@ -15,6 +15,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.FragmentActivity;
 
 import com.example.sae501.MainActivity;
+import com.example.sae501.MapsActivity;
 import com.example.sae501.Model.Entity.Joueur;
 import com.example.sae501.Model.Entity.Partie;
 import com.example.sae501.PartieActivity;
@@ -100,6 +101,10 @@ public class GameWebSocketListener extends WebSocketListener {
                             textView.setText(textView.getText()+MainActivity.partie.getId().toString());
                         }
                     });
+                }
+                if(msgType.equalsIgnoreCase("lancementPartie")){
+                    Intent intent=new Intent(MainActivity.currentActivity,MapsActivity.class);
+                    MainActivity.currentActivity.startActivity(intent);
                 }
             }
             else if(text.equalsIgnoreCase("bienvenue dans la partie")){

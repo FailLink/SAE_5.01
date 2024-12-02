@@ -15,10 +15,4 @@ import org.springframework.web.bind.annotation.RestController;
 public class PartieController {
     @Autowired
     private PartieService partieService;
-
-    @PostMapping("/creationPartie")
-    public ResponseEntity<?> creerPartie(Joueur joueur){
-        Partie partie=partieService.createPartie();
-        return ResponseEntity.ok("mmmm");
-    }
 }

@@ -20,6 +20,7 @@ import com.example.sae501.Model.Service.JoueurService;
 import com.example.sae501.Model.Entity.Joueur;
 import com.example.sae501.Model.Serveur.RetroFitClient;
 import com.example.sae501.PartieActivity;
+import com.example.sae501.R;
 
 import java.util.Objects;
 
@@ -99,6 +100,9 @@ public class JoueurRepository {
                         linearLayout.setVisibility(View.VISIBLE);
                     }
                 }
+                if(MainActivity.joueursPartie.size()==1 && Objects.equals(MainActivity.joueur.getId(), MainActivity.chefDePartie.getId())){
+                    fragmentActivity.findViewById(R.id.boutonPartie).setEnabled(true);
+                }
             }
 
             @Override
@@ -138,7 +142,9 @@ public class JoueurRepository {
                         linearLayout.setVisibility(View.VISIBLE);
                     }
                 }
-
+                if(MainActivity.joueursPartie.size()==1 && Objects.equals(MainActivity.joueur.getId(), MainActivity.chefDePartie.getId())){
+                    fragmentActivity.findViewById(R.id.boutonPartie).setEnabled(true);
+                }
             }
 
             @Override

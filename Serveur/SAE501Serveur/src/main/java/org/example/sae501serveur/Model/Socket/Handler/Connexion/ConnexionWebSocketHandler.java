@@ -39,7 +39,7 @@ public class ConnexionWebSocketHandler extends TextWebSocketHandler {
         Map<String,Object> msg=objectMapper.readValue(message.getPayload(),Map.class);
         switch ((String) msg.get("type")){
             case "creationPartie":
-                Partie partie=partieService.createPartie();
+                Partie partie=partieService.createPartie((Float) msg.get("longitude"),(Float) msg.get("latitude") );
                 session.sendMessage(new TextMessage(objectMapper.writeValueAsString(partie)));
                 session.close();
                 break;

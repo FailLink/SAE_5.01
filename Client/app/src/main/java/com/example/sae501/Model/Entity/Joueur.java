@@ -1,4 +1,5 @@
 package com.example.sae501.Model.Entity;
+import java.util.Objects;
 import java.util.Set;
 
 
@@ -9,26 +10,13 @@ public class Joueur {
     private String adresseMail;
     private String mdp;
 
-    @Override
-    public String toString() {
-        return "Joueur{" +
-                "id=" + id +
-                ", pseudo='" + pseudo + '\'' +
-                ", adresseMail='" + adresseMail + '\'' +
-                ", mdp='" + mdp + '\'' +
-                ", classe=" + classe +
-                ", competences=" + competences +
-                ", joueurs=" + joueurs +
-                ", amis=" + amis +
-                ", parties=" + parties +
-                '}';
-    }
-
     private Classe classe;
     private Set<Competence> competences;
     private Set<Joueur> joueurs;
     private Set<Joueur> amis;
     private Set<Partie> parties;
+
+    private int hpActuel;
 
     public Joueur(Long id, String pseudo, String adresseMail, String mdp,
                   Classe classe, Set<Competence> competences, Set<Joueur> joueurs, Set<Joueur> amis, Set<Partie> parties) {
@@ -114,7 +102,42 @@ public class Joueur {
         return parties;
     }
 
+    public int getHpActuel() {
+        return hpActuel;
+    }
+
+    public void setHpActuel(int hpActuel) {
+        this.hpActuel = hpActuel;
+    }
+
     public void setParties(Set<Partie> parties) {
         this.parties = parties;
+    }
+    @Override
+    public String toString() {
+        return "Joueur{" +
+                "id=" + id +
+                ", pseudo='" + pseudo + '\'' +
+                ", adresseMail='" + adresseMail + '\'' +
+                ", mdp='" + mdp + '\'' +
+                ", classe=" + classe +
+                ", competences=" + competences +
+                ", joueurs=" + joueurs +
+                ", amis=" + amis +
+                ", parties=" + parties +
+                '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Joueur joueur = (Joueur) o;
+        return Objects.equals(id, joueur.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
     }
 }

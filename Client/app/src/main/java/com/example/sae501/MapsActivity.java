@@ -2,9 +2,9 @@ package com.example.sae501;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.MotionEvent;
-import android.view.View;
-import android.widget.Button;
+import android.widget.ProgressBar;
+import android.widget.TextView;
+
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import org.osmdroid.api.IMapController;
@@ -19,12 +19,10 @@ import org.osmdroid.views.overlay.Marker;
 import org.osmdroid.views.overlay.mylocation.MyLocationNewOverlay;
 import org.osmdroid.views.overlay.mylocation.GpsMyLocationProvider;
 
-import com.example.sae501.Combat;
-import com.example.sae501.R;
+import com.example.sae501.Model.Entity.Joueur;
 import com.example.sae501.databinding.ActivityMapsBinding;
 
 public class MapsActivity extends AppCompatActivity {
-
     private MapView mMap;
     private IMapController controller;
     private MyLocationNewOverlay mMyLocationOverlay;
@@ -47,11 +45,16 @@ public class MapsActivity extends AppCompatActivity {
                 getSharedPreferences(getString(R.string.app_name), MODE_PRIVATE)
         );
 
+
         // Initialisation de la MapView
         mMap = binding.osmMV;
-        mMap.setTileSource(TileSourceFactory.MAPNIK);
+        mMap.setTileSource(TileSourceFactory.DEFAULT_TILE_SOURCE);
         mMap.setMultiTouchControls(false);  // Désactive les gestes pour zoomer
         mMap.setBuiltInZoomControls(false); // Désactive les boutons de zoom intégrés
+
+        Configuration.getInstance().setCacheMapTileCount((short) 9);  // Définit le cache des tuiles en mémoire
+        Configuration.getInstance().setCacheMapTileOvershoot((short) 3);
+        mMap.invalidate();//recharge le cache
 
         // Empêcher l'utilisateur de zoomer ou faire défiler la carte
         mMap.addMapListener(new MapListener() {
@@ -64,10 +67,13 @@ public class MapsActivity extends AppCompatActivity {
             public boolean onZoom(ZoomEvent event) {
                 return false;  // Empêche le zoom via gestes
             }
+
         });
 
         // Initialisation du MyLocationOverlay pour obtenir la position de l'utilisateur
-        mMyLocationOverlay = new MyLocationNewOverlay(new GpsMyLocationProvider(this), mMap);
+        GpsMyLocationProvider gpsMyLocationProvider=new GpsMyLocationProvider(this);
+        gpsMyLocationProvider.setLocationUpdateMinTime(100);
+        mMyLocationOverlay = new MyLocationNewOverlay(gpsMyLocationProvider, mMap);
         mMyLocationOverlay.enableMyLocation();
         mMyLocationOverlay.enableFollowLocation();
         mMyLocationOverlay.setDrawAccuracyEnabled(true);
@@ -82,7 +88,7 @@ public class MapsActivity extends AppCompatActivity {
                 controller.animateTo(new GeoPoint(location.getLatitude(), location.getLongitude()));
 
                 // Applique un zoom fixe
-                double zoomLevel = 21.0;
+                double zoomLevel = 19.0;
                 controller.setZoom(zoomLevel);
             }
         }));
@@ -93,6 +99,33 @@ public class MapsActivity extends AppCompatActivity {
 
         // Récupérer le bouton via le binding et gérer l'événement de clic
         binding.recenterButton.setOnClickListener(v -> recentrerCarte());
+
+        //chargement des infos de la partie dans la maps
+
+        //infos autres joueurs
+        for(Joueur joueur:MainActivity.joueursPartie){
+            if(!joueur.equals(MainActivity.joueur)){
+                String id="player_"+joueur.getId()+"_health_label";
+                TextView textViewPseudo = (TextView) findViewById(getResources().getIdentifier(id,"id",this.getPackageName()));
+                textViewPseudo.setText(joueur.getPseudo());
+
+                id="health_bar_player_"+joueur.getId();
+                ProgressBar progressBar=(ProgressBar) findViewById(getResources().getIdentifier(id,"id",this.getPackageName()));
+                progressBar.setMax(joueur.getClasse().getHp());
+                progressBar.setProgress(joueur.getHpActuel());
+
+                id="health_text_player_"+joueur.getId();
+                TextView textViewHp =(TextView) findViewById(getResources().getIdentifier(id,"id",this.getPackageName()));
+                textViewHp.setText(joueur.getHpActuel()+"/"+joueur.getClasse().getHp());
+            }
+        }
+        //infos joueur
+        /*ProgressBar progressBar=(ProgressBar) findViewById(R.id.health_bar_player);
+        progressBar.setMax(MainActivity.joueur.getClasse().getHp());
+        progressBar.setProgress(MainActivity.joueur.getHpActuel());
+
+        TextView textViewHp =(TextView) findViewById(R.id.health_text_player);
+        textViewHp.setText(MainActivity.joueur.getHpActuel()+"/"+MainActivity.joueur.getClasse().getHp());*/
     }
 
     // Méthode pour ajouter des marqueurs pour les arènes

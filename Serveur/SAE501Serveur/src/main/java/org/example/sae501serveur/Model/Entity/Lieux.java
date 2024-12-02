@@ -1,8 +1,5 @@
 package org.example.sae501serveur.Model.Entity;
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
-
-import java.util.List;
 
 @Entity
 @Table(name = "lieux")
@@ -13,18 +10,18 @@ public class Lieux {
 
     private String nom;
     private String adresse;
-    private float x;
-    private float y;
+    private float longitude;
+    private float latitude;
 
     public Lieux() {
     }
 
-    public Lieux(Long id, String nom, String adresse, float x, float y) {
+    public Lieux(Long id, String nom, String adresse, float longitude, float latitude) {
         this.id = id;
         this.nom = nom;
         this.adresse = adresse;
-        this.x = x;
-        this.y = y;
+        this.longitude = longitude;
+        this.latitude = latitude;
     }
 
     public Long getId() {
@@ -51,19 +48,19 @@ public class Lieux {
         this.adresse = adresse;
     }
 
-    public float getX() {
-        return x;
+    public float getLongitude() {
+        return longitude;
     }
 
-    public void setX(float x) {
-        this.x = x;
+    public void setLongitude(float longitude) {
+        this.longitude = longitude;
     }
 
-    public float getY() {
-        return y;
+    public float getLatitude() {
+        return latitude;
     }
 
-    public void setY(float y) {
-        this.y = y;
+    public void setLatitude(float latitude) {
+        this.latitude = latitude;
     }
 }
