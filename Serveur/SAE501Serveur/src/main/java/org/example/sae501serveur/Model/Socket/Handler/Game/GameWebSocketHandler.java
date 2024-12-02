@@ -32,7 +32,7 @@ import java.util.concurrent.ConcurrentMap;
 public class GameWebSocketHandler extends TextWebSocketHandler {
 
     private PartieService partieService;
-    private int idpartie;
+    private Partie partie;
 
     private JoueurService joueurService;
     private final Map<WebSocketSession, Joueur> sessionJoueurs=new ConcurrentHashMap<>();
@@ -63,14 +63,12 @@ public class GameWebSocketHandler extends TextWebSocketHandler {
     private final Map<Long,Competence> actions=new ConcurrentHashMap<>();
 
     private final int maxPlayer=4;
-    public static GameWebSocketHandler createWithIdPartie(ApplicationContext applicationContext) {
-        GameWebSocketHandler handler = applicationContext.getBean(GameWebSocketHandler.class);
-        return handler;
-    }
 
-    public GameWebSocketHandler(PartieService partieService, JoueurService joueurService) {
+
+    public GameWebSocketHandler(PartieService partieService, JoueurService joueurService,Partie partie) {
         this.partieService = partieService;
         this.joueurService = joueurService;
+        this.partie = partie;
     }
 
     @Override
@@ -115,6 +113,10 @@ public class GameWebSocketHandler extends TextWebSocketHandler {
                 }
                 renvoiJoueurRafraichi(objectMapper);
             case "lancementPartie":
+                for(Joueur joueurBDD:joueurs){
+                    partie.addJoueur(joueurBDD);
+                }
+                partieService.savePartie(partie);
                 for (WebSocketSession webSocketSession:webSocketSessions){
                     if(webSocketSession!=session){
                         webSocketSession.sendMessage(new TextMessage("{\"type\":\"lancementPartie\"}"));

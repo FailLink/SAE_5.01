@@ -1,6 +1,7 @@
 package org.example.sae501serveur.Model.Entity;
 import jakarta.persistence.*;
 
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -71,4 +72,35 @@ public class Partie {
         this.joueurs = joueurs;
     }
 
+    public void addJoueur(Joueur joueur){
+        this.joueurs.add(joueur);
+    }
+
+    public Set<Joueur> getJoueurs() {
+        return joueurs;
+    }
+
+    public void setJoueurs(Set<Joueur> joueurs) {
+        this.joueurs = joueurs;
+    }
+
+    public Set<MonstreLieux> getMonstreLieux() {
+        return monstreLieux;
+    }
+
+    public void setMonstreLieux(Set<MonstreLieux> monstreLieux) {
+        this.monstreLieux = monstreLieux;
+    }
+    public void addMonstreLieux(MonstreLieux monstreLieux) {
+        this.monstreLieux.add(monstreLieux);
+        // Assurez-vous que la relation bidirectionnelle est aussi bien gérée
+        if(monstreLieux.getPartie()!=(null)){
+            if (!monstreLieux.getPartie().contains(this)) {
+                monstreLieux.addPartie(this);
+            }
+        }else{
+          monstreLieux.setPartie(new HashSet<>());
+          monstreLieux.addPartie(this);
+        }
+    }
 }

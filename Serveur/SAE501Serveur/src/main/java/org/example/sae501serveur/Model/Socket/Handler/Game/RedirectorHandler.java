@@ -52,7 +52,8 @@ public class RedirectorHandler extends TextWebSocketHandler {
                 }
             }
             else{
-                handlerSessionId.put(path, gameWebSocketHandlerFactory.createHandler());
+                handlerSessionId.put(path, gameWebSocketHandlerFactory.
+                        createHandler(partieService.getPartieById(Integer.toUnsignedLong(Integer.parseInt(path)))));
                 handlerSessionId.get(path).handleTextMessage(session, message);
             }
         }

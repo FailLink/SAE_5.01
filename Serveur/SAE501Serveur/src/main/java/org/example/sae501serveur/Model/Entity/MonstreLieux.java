@@ -2,6 +2,7 @@ package org.example.sae501serveur.Model.Entity;
 
 import jakarta.persistence.*;
 
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -25,7 +26,7 @@ public class MonstreLieux {
     @JoinColumn(name = "lieux_id", insertable = false, updatable = false)
     private Lieux lieux;
 
-    @ManyToMany(mappedBy = "monstreLieux")
+    @ManyToMany(cascade = CascadeType.PERSIST)
     private Set<Partie> partie;
 
     public MonstreLieux() {
@@ -43,6 +44,14 @@ public class MonstreLieux {
         this.monstreId = monstreId;
         this.lieuxId = lieuxId;
         this.partie = partie;
+    }
+
+    public MonstreLieux(Monstre monstre, Lieux lieux) {
+        this.monstre = monstre;
+        this.lieux = lieux;
+        this.lieuxId=lieux.getId();
+        this.monstreId=monstre.getId();
+        this.partie=new HashSet<>();
     }
 
     public Monstre getMonstre() {
@@ -67,6 +76,17 @@ public class MonstreLieux {
 
     public void setPartie(Set<Partie> partie) {
         this.partie = partie;
+    }
+    public void addPartie(Partie partie){
+        this.partie.add(partie);
+        if(partie.getMonstreLieux()!=null) {
+            if (!partie.getMonstreLieux().contains(this)) {
+                partie.addMonstreLieux(this);
+            }
+        }else{
+            partie.setMonstreLieux(new HashSet<>());
+            partie.addMonstreLieux(this);
+        }
     }
 
     public Long getMonstreId() {
