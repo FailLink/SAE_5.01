@@ -3,7 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/blackLight">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -19,7 +20,8 @@
             android:text="Rentrez l'id de la partie voulue"
             android:textSize="20dp"
             android:textStyle="bold"
-            android:layout_marginBottom="16dp"/>
+            android:layout_marginBottom="16dp"
+            android:textColor="@color/white"/>
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/idPartieRejoindre"
@@ -32,27 +34,31 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:weightSum="4">
 
             <Button
                 android:id="@+id/rejoindrePartie"
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginEnd="80dp"
                 android:layout_weight="1"
-                android:text="Rejoindre" />
+                android:text="Rejoindre"
+                android:textColor="@color/white"
+                android:backgroundTint="@color/red"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"/>
 
             <Button
                 android:id="@+id/quitterRejoindrePartie"
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="right"
-                android:layout_marginStart="80dp"
-                android:layout_marginEnd="16dp"
                 android:layout_weight="1"
                 android:baselineAligned="false"
-                android:text="Annulez" />
+                android:text="Annulez"
+                android:textColor="@color/white"
+                android:backgroundTint="@color/red"/>
         </LinearLayout>
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

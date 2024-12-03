@@ -1,7 +1,7 @@
 package org.example.sae501serveur.Model.Entity;
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import com.fasterxml.jackson.annotation.*;
 import jakarta.persistence.*;
+import org.example.sae501serveur.Model.JsonViewEntity.Views;
 
 import java.util.List;
 
@@ -10,22 +10,35 @@ import java.util.List;
 public class Classe {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @JsonView(Views.ClasseView.class)
     private Long id;
 
+    @JsonView(Views.ClasseView.class)
     private String nom;
+    @JsonView(Views.ClasseView.class)
     private int hp;
+    @JsonView(Views.ClasseView.class)
     private int attack;
+    @JsonView(Views.ClasseView.class)
     private int def;
 
     @OneToMany(mappedBy = "classe1")
+    @JsonView(Views.ClasseView.class)
+    @JsonBackReference
     private List<AttaqueSynchronisee> attaquesSynchronisees1;
 
     @OneToMany(mappedBy = "classe2")
+    @JsonView(Views.ClasseView.class)
+    @JsonBackReference
     private List<AttaqueSynchronisee> attaquesSynchronisees2;
     @ManyToOne
     @JoinColumn(name = "type_id")
+    @JsonView(Views.ClasseView.class)
+    @JsonManagedReference
     private Type type;
     @OneToMany(mappedBy = "classe")
+    @JsonView(Views.ClasseView.class)
+    @JsonBackReference
     private List<Joueur> joueurs;
 
 

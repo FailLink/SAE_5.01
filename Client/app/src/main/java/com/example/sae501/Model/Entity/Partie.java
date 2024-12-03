@@ -62,4 +62,19 @@ public class Partie {
         this.joueurs = joueurs;
     }
 
+    public Set<Joueur> getJoueurs() {
+        return joueurs;
+    }
+
+    public void setJoueurs(Set<Joueur> joueurs) {
+        this.joueurs = joueurs;
+    }
+
+    public Set<MonstreLieux> getMonstreLieux() {
+        return monstreLieux;
+    }
+
+    public void setMonstreLieux(Set<MonstreLieux> monstreLieux) {
+        this.monstreLieux = monstreLieux;
+    }
 }

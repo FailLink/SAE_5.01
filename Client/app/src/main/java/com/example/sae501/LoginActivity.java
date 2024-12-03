@@ -26,6 +26,7 @@ public class LoginActivity extends AppCompatActivity {
                 public void onPageFinished(WebView view, String url) {
                     super.onPageFinished(view, url);
                     if (url.equals("http://"+ MainActivity.globalIP +"/testConnexion")) {
+                        finish();
                         String cookies = CookieManager.getInstance().getCookie(url);
                         System.out.println(cookies);
                         if (cookies != null && cookies.contains("JSESSIONID")) {
@@ -47,7 +48,6 @@ public class LoginActivity extends AppCompatActivity {
                                 editor.apply();
                                 MainActivity.sessionID = jsessionId;
                             }
-                            finish();
                             connexionRepository.getJoueurBySessionId();
                         }
                     }

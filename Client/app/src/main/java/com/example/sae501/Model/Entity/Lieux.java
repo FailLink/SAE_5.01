@@ -1,22 +1,20 @@
 package com.example.sae501.Model.Entity;
 
 
+import java.util.Map;
+
 public class Lieux {
     private Long id;
-    private String nom;
-    private String adresse;
-    private float x;
-    private float y;
+    private float longitude;
+    private float latitude;
 
     public Lieux() {
     }
 
-    public Lieux(Long id, String nom, String adresse, float x, float y) {
+    public Lieux(Long id, float longitude, float latitude) {
         this.id = id;
-        this.nom = nom;
-        this.adresse = adresse;
-        this.x = x;
-        this.y = y;
+        this.longitude = longitude;
+        this.latitude = latitude;
     }
 
     public Long getId() {
@@ -27,35 +25,25 @@ public class Lieux {
         this.id = id;
     }
 
-    public String getNom() {
-        return nom;
+    public float getLongitude() {
+        return longitude;
     }
 
-    public void setNom(String nom) {
-        this.nom = nom;
+    public void setLongitude(float longitude) {
+        this.longitude = longitude;
     }
 
-    public String getAdresse() {
-        return adresse;
+    public float getLatitude() {
+        return latitude;
     }
 
-    public void setAdresse(String adresse) {
-        this.adresse = adresse;
+    public void setLatitude(float latitude) {
+        this.latitude = latitude;
     }
 
-    public float getX() {
-        return x;
-    }
-
-    public void setX(float x) {
-        this.x = x;
-    }
-
-    public float getY() {
-        return y;
-    }
-
-    public void setY(float y) {
-        this.y = y;
+    public double distance(Lieux lieux){
+        return 6378137*Math.acos(Math.sin(Math.toRadians(this.latitude))*
+                Math.sin(Math.toRadians(lieux.latitude))+Math.cos(Math.toRadians(this.latitude))*
+                Math.cos(Math.toRadians(lieux.latitude))*Math.cos(Math.toRadians(this.longitude)-Math.toRadians(lieux.longitude)));
     }
 }

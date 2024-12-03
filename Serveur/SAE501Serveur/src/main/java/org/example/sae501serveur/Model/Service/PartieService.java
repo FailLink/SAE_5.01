@@ -72,6 +72,7 @@ public class PartieService {
         Random random=new Random();
         lieuxPartie.add(new MonstreLieux(monstres.get(random.nextInt(monstres.size())),
                 lieux.get(random.nextInt(lieux.size()))));
+        lieux.remove(lieuxPartie.get(0).getLieux());
 
         for (int i=0;i<6;i++){
             ArrayList<Lieux> lieuxPoids =new ArrayList<>() ;
@@ -79,10 +80,9 @@ public class PartieService {
                 double poids=0;
                 double probabilites;
                 for (MonstreLieux monstreLieux : lieuxPartie) {
-                    poids += 1 / (lieux.get(j).distance(monstreLieux.getLieux()) + 1);
+                    poids += 1 / (lieux.get(j).distance(monstreLieux.getLieux())/100 + 1);
                 }
                 probabilites=Math.round((1-poids/lieuxPartie.size())*100);
-                System.out.println("probabilités : "+probabilites);
                 for(int l=0;l<probabilites;l++){
                     lieuxPoids.add(lieux.get(j));
                 }
@@ -91,6 +91,7 @@ public class PartieService {
             lieuxPartie.add(new MonstreLieux(monstres.get(random.nextInt(monstres.size())),
                     lieuxPoids.get(random.nextInt(lieuxPoids.size()))));
             lieuxPartie.get(i).addPartie(partie);
+            lieux.remove(lieuxPartie.get(i).getLieux());
             partie.addMonstreLieux(lieuxPartie.get(i));
             monstreLieuxRepository.save(lieuxPartie.get(i));
         }

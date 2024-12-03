@@ -1,6 +1,9 @@
 package org.example.sae501serveur.Model.Entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonView;
 import jakarta.persistence.*;
+import org.example.sae501serveur.Model.JsonViewEntity.Views;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -11,22 +14,28 @@ import java.util.Set;
 public class MonstreLieux {
     @Id
     @Column(name = "monstre_id")
+    @JsonView(Views.MonstreLieuxView.class)
     private Long monstreId;
 
     @Id
     @Column(name = "lieux_id")
+    @JsonView(Views.MonstreLieuxView.class)
     private Long lieuxId;
 
 
     @ManyToOne
     @JoinColumn(name = "monstre_id", insertable = false, updatable = false)
+    @JsonView(Views.MonstreLieuxView.class)
     private Monstre monstre;
 
     @ManyToOne
     @JoinColumn(name = "lieux_id", insertable = false, updatable = false)
+    @JsonView(Views.MonstreLieuxView.class)
     private Lieux lieux;
 
     @ManyToMany(cascade = CascadeType.PERSIST)
+    @JsonView(Views.MonstreLieuxView.class)
+    @JsonBackReference
     private Set<Partie> partie;
 
     public MonstreLieux() {

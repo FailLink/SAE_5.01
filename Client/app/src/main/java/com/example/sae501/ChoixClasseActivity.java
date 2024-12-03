@@ -11,7 +11,6 @@ import com.example.sae501.View.Caroussel.PageClasse;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 public class ChoixClasseActivity extends AppCompatActivity {
     private final String descriptionTank="Une classe possédant des stats défensives élevée mais possédant une attaque en dessous des autres classes. Son rôle est de protéger ses alliés en prenant les dégâts des monstres.";
@@ -32,11 +31,11 @@ public class ChoixClasseActivity extends AppCompatActivity {
 
         List<PageClasse> pages = new ArrayList<>();
 
-        pages.add(new PageClasse(R.drawable.icone_tank, "Musclow", descriptionTank,
+        pages.add(new PageClasse(R.drawable.icone_musclow, "Musclow", descriptionTank,
                 "Choisir Musclow",v->joueurRepository.setJoueurClasse("Musclow")));
-        pages.add(new PageClasse(R.drawable.icone_guerrier, "Guewier", descriptionGuerrier,
+        pages.add(new PageClasse(R.drawable.icone_guewier, "Guewier", descriptionGuerrier,
                 "Choisir Guewier",v->joueurRepository.setJoueurClasse("Guewier")));
-        pages.add(new PageClasse(R.drawable.icone_mage, "Mawabou", descriptionMage,
+        pages.add(new PageClasse(R.drawable.icone_mawabou, "Mawabou", descriptionMage,
                 "Choisir Mawabou",v->joueurRepository.setJoueurClasse("Mawabou")));
         pages.add(new PageClasse(R.drawable.icone_healer, "Healer", descriptionHealer,
                 "Choisir Healer",v->joueurRepository.setJoueurClasse("Healer")));

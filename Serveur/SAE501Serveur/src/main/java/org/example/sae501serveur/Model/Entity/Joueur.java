@@ -1,7 +1,7 @@
 package org.example.sae501serveur.Model.Entity;
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.*;
 import jakarta.persistence.*;
+import org.example.sae501serveur.Model.JsonViewEntity.Views;
 
 import java.net.http.WebSocket;
 import java.util.Objects;
@@ -12,16 +12,21 @@ import java.util.Set;
 public class Joueur {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @JsonView(Views.JoueurView.class)
     private Long id;
     @Column(name = "pseudo",unique = true)
+    @JsonView(Views.JoueurView.class)
     private String pseudo;
     @Column(name = "adresseMail",unique = true)
+    @JsonView(Views.JoueurView.class)
     private String adresseMail;
+    @JsonView(Views.JoueurView.class)
     private String mdp;
 
 
     @ManyToOne
     @JoinColumn(name = "classe_id")
+    @JsonView(Views.JoueurView.class)
     private Classe classe;
 
     @ManyToMany
@@ -30,6 +35,7 @@ public class Joueur {
             joinColumns = @JoinColumn(name = "joueur_id"),
             inverseJoinColumns = @JoinColumn(name = "competence_id")
     )
+    @JsonView(Views.JoueurView.class)
     private Set<Competence> competences;
 
     @ManyToMany
@@ -38,18 +44,24 @@ public class Joueur {
             joinColumns = @JoinColumn(name = "joueur_id"),
             inverseJoinColumns = @JoinColumn(name = "ami_id")
     )
-
+    @JsonView(Views.JoueurView.class)
     private Set<Joueur> joueurs;
 
     @ManyToOne
     @JoinColumn(name = "role_id")
+    @JsonView(Views.JoueurView.class)
+    @JsonManagedReference
     private Role role;
 
 
     @ManyToMany(mappedBy = "joueurs")
+    @JsonView(Views.JoueurView.class)
+    @JsonManagedReference
     private Set<Joueur> amis;
 
     @ManyToMany(mappedBy = "joueurs")
+    @JsonView(Views.JoueurView.class)
+    @JsonBackReference
     private Set<Partie> parties;
 
     public Joueur(Long id, String pseudo, String adresseMail, String mdp,

@@ -15,14 +15,19 @@
         tools:context=".PartieActivity"
         tools:ignore="MissingConstraints">
 
-        <Button
+        <ImageButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="quittez"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            android:layout_marginStart="16dp"
-            android:onClick="onClickQuitter" />
+            android:layout_marginTop="5dp"
+            android:layout_marginStart="5dp"
+            android:onClick="onClickQuitter"
+            android:src="@drawable/icone_fleche"
+            android:rotation="180"
+            android:scaleX="2.5"
+            android:scaleY="2.5"
+            android:background="@android:color/transparent"/>
 
         <TextView
             android:id="@+id/textIdPartie"
@@ -227,6 +232,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="Lancer la partie"
+            android:textColor="@color/white"
             android:onClick="onClickLancerPartie"
             android:enabled="false"
             android:backgroundTint="@color/red"

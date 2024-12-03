@@ -29,6 +29,7 @@ public class Joueur {
         this.joueurs = joueurs;
         this.amis = amis;
         this.parties=parties;
+        this.hpActuel=this.classe.getHp();
     }
 
     public Joueur() {

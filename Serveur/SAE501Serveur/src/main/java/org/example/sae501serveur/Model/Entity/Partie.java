@@ -1,5 +1,8 @@
 package org.example.sae501serveur.Model.Entity;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonView;
 import jakarta.persistence.*;
+import org.example.sae501serveur.Model.JsonViewEntity.Views;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -9,15 +12,23 @@ import java.util.Set;
 public class Partie {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @JsonView(Views.PartieView.class)
     private Long id;
 
+    @JsonView(Views.PartieView.class)
     private String temps;
+    @JsonView(Views.PartieView.class)
     private boolean isFinsin;
+    @JsonView(Views.PartieView.class)
     private int nbPoint;
 
     @ManyToMany(fetch = FetchType.EAGER)
+    @JsonView(Views.PartieView.class)
+    @JsonManagedReference
     private Set<Joueur> joueurs;
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JsonView(Views.PartieView.class)
+    @JsonManagedReference
     private Set<MonstreLieux> monstreLieux;
 
     public Partie() {

@@ -1,9 +1,13 @@
 package com.example.sae501;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -13,6 +17,7 @@ import org.osmdroid.events.MapListener;
 import org.osmdroid.events.ScrollEvent;
 import org.osmdroid.events.ZoomEvent;
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
+import org.osmdroid.util.BoundingBox;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.overlay.Marker;
@@ -20,7 +25,12 @@ import org.osmdroid.views.overlay.mylocation.MyLocationNewOverlay;
 import org.osmdroid.views.overlay.mylocation.GpsMyLocationProvider;
 
 import com.example.sae501.Model.Entity.Joueur;
+import com.example.sae501.Model.Entity.Lieux;
+import com.example.sae501.Model.Entity.MonstreLieux;
 import com.example.sae501.databinding.ActivityMapsBinding;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class MapsActivity extends AppCompatActivity {
     private MapView mMap;
@@ -32,6 +42,7 @@ public class MapsActivity extends AppCompatActivity {
     private static final double ARENA1_LONGITUDE = 3.967270851135254;
     private static final double ARENA2_LATITUDE = 50.2708082;
     private static final double ARENA2_LONGITUDE = 3.9892575;
+    private final List<Marker> indicateurRebordArene = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,7 +71,8 @@ public class MapsActivity extends AppCompatActivity {
         mMap.addMapListener(new MapListener() {
             @Override
             public boolean onScroll(ScrollEvent event) {
-                return false;  // Empêche le scroll
+                addRebordIndicatorArene();
+                return true;  // Empêche le scroll
             }
 
             @Override
@@ -102,30 +114,41 @@ public class MapsActivity extends AppCompatActivity {
 
         //chargement des infos de la partie dans la maps
 
-        //infos autres joueurs
-        for(Joueur joueur:MainActivity.joueursPartie){
+        //infos joueurs
+        ArrayList<Joueur> listJoueurSansUser=new ArrayList<>();
+        for(int i=0;i<MainActivity.joueursPartie.size();i++){
+            Joueur joueur=MainActivity.joueursPartie.get(i);
             if(!joueur.equals(MainActivity.joueur)){
-                String id="player_"+joueur.getId()+"_health_label";
-                TextView textViewPseudo = (TextView) findViewById(getResources().getIdentifier(id,"id",this.getPackageName()));
-                textViewPseudo.setText(joueur.getPseudo());
-
-                id="health_bar_player_"+joueur.getId();
-                ProgressBar progressBar=(ProgressBar) findViewById(getResources().getIdentifier(id,"id",this.getPackageName()));
-                progressBar.setMax(joueur.getClasse().getHp());
-                progressBar.setProgress(joueur.getHpActuel());
-
-                id="health_text_player_"+joueur.getId();
-                TextView textViewHp =(TextView) findViewById(getResources().getIdentifier(id,"id",this.getPackageName()));
-                textViewHp.setText(joueur.getHpActuel()+"/"+joueur.getClasse().getHp());
+                listJoueurSansUser.add(joueur);
             }
         }
-        //infos joueur
-        /*ProgressBar progressBar=(ProgressBar) findViewById(R.id.health_bar_player);
+        for (int i=0;i<listJoueurSansUser.size();i++){
+            Joueur joueur=listJoueurSansUser.get(i);
+            String id="player_"+(i+1)+"_health_label";
+            TextView textViewPseudo = (TextView) findViewById(getResources().getIdentifier(id,"id",this.getPackageName()));
+            textViewPseudo.setText(joueur.getPseudo());
+
+            id="health_bar_player_"+(i+1);
+            ProgressBar progressBar=(ProgressBar) findViewById(getResources().getIdentifier(id,"id",this.getPackageName()));
+            progressBar.setMax(joueur.getClasse().getHp());
+            progressBar.setProgress(joueur.getHpActuel());
+
+            id="health_text_player_"+(i+1);
+            TextView textViewHp =(TextView) findViewById(getResources().getIdentifier(id,"id",this.getPackageName()));
+            textViewHp.setText(joueur.getHpActuel()+"/"+joueur.getClasse().getHp());
+        }
+        ProgressBar progressBar=(ProgressBar) findViewById(R.id.health_bar_player);
         progressBar.setMax(MainActivity.joueur.getClasse().getHp());
         progressBar.setProgress(MainActivity.joueur.getHpActuel());
 
         TextView textViewHp =(TextView) findViewById(R.id.health_text_player);
-        textViewHp.setText(MainActivity.joueur.getHpActuel()+"/"+MainActivity.joueur.getClasse().getHp());*/
+        textViewHp.setText(MainActivity.joueur.getHpActuel()+"/"+MainActivity.joueur.getClasse().getHp());
+
+        //info lieux
+        for(MonstreLieux monstreLieux:MainActivity.partie.getMonstreLieux()){
+            Lieux lieux=monstreLieux.getLieux();
+            addArenaMarker(lieux.getLatitude(),lieux.getLongitude(),monstreLieux.getMonstre().getNom());
+        }
     }
 
     // Méthode pour ajouter des marqueurs pour les arènes
@@ -134,11 +157,24 @@ public class MapsActivity extends AppCompatActivity {
         Marker arenaMarker = new Marker(mMap);
         arenaMarker.setPosition(arenaLocation);
         arenaMarker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM);
-        arenaMarker.setTitle(title);  // Définit le titre de l'arène
+        arenaMarker.setTitle(title);
+
+        Drawable icon = getResources().getDrawable(R.drawable.icone_boss);
+        Bitmap bitmap = ((BitmapDrawable) icon).getBitmap();
+        int width = 75;
+        int height = 75;
+        Bitmap iconeRedimensionne = Bitmap.createScaledBitmap(bitmap, width, height, false);
+        arenaMarker.setIcon(new BitmapDrawable(getResources(), iconeRedimensionne));// Définit le titre de l'arène
 
         // Listener pour gérer le clic sur les marqueurs
         arenaMarker.setOnMarkerClickListener((marker, mapView) -> {
-            showBattleConfirmationDialog(title);
+            GeoPoint geoPointJoueur= mMyLocationOverlay.getMyLocation();
+            if(distance(arenaLocation.getLatitude(),arenaLocation.getLongitude()
+                    ,geoPointJoueur.getLatitude(),geoPointJoueur.getLongitude())<=50) {
+                showBattleConfirmationDialog(title);
+            }else{
+                Toast.makeText(this,"vous êtes trop loin",Toast.LENGTH_SHORT).show();
+            }
             return true;  // Empêche la propagation de l'événement
         });
 
@@ -147,11 +183,12 @@ public class MapsActivity extends AppCompatActivity {
 
     // Méthode pour afficher un dialogue de confirmation avant de commencer un combat
     private void showBattleConfirmationDialog(String arenaName) {
+
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Combat dans " + arenaName)
-                .setMessage("Voulez-vous combattre dans cette arène ?")
+        builder.setTitle("Combat contre " + arenaName)
+                .setMessage("Voulez-vous combattre contre "+arenaName+" ?")
                 .setPositiveButton("Oui", (dialog, id) -> {
-                    startCombat(); // Appelle la méthode qui démarre le combat
+                    startCombat();
                 })
                 .setNegativeButton("Non", (dialog, id) -> dialog.dismiss());
         builder.create().show();
@@ -172,4 +209,76 @@ public class MapsActivity extends AppCompatActivity {
             controller.animateTo(location);  // Recentre la carte sur la position actuelle
         }
     }
+    public double distance(double latitudePoint1,double longitudePoint1,double latitudePoint2,double longitudePoint2){
+        return 6378137*Math.acos(Math.sin(Math.toRadians(latitudePoint1))*
+                Math.sin(Math.toRadians(latitudePoint2))+Math.cos(Math.toRadians(latitudePoint1))*
+                Math.cos(Math.toRadians(latitudePoint2))*Math.cos(Math.toRadians(longitudePoint1)-Math.toRadians(longitudePoint2)));
+    }
+
+
+    private void addRebordIndicatorArene() {
+
+        for (Marker marker : indicateurRebordArene) {
+            mMap.getOverlays().remove(marker);
+        }
+        indicateurRebordArene.clear();
+
+        BoundingBox boundingBox = mMap.getBoundingBox();
+        for (MonstreLieux monstreLieux : MainActivity.partie.getMonstreLieux()) {
+            Lieux lieux = monstreLieux.getLieux();
+            GeoPoint arene = new GeoPoint(lieux.getLatitude(), lieux.getLongitude());
+
+            if (!boundingBox.contains(arene)) {
+                GeoPoint borderPoint = calculatePointRebord(boundingBox, arene);
+                Marker borderMarker = addRebordArene(borderPoint, monstreLieux.getMonstre().getNom());
+                indicateurRebordArene.add(borderMarker);
+            }
+        }
+        mMap.invalidate();
+    }
+
+    private GeoPoint calculatePointRebord(BoundingBox boundingBox, GeoPoint arene) {
+        double centerLat = boundingBox.getCenterLatitude();
+        double centerLon = boundingBox.getCenterLongitude();
+        double angle = Math.atan2(arene.getLatitude() - centerLat, arene.getLongitude() - centerLon);
+
+
+        double latitude, longitude;
+        if (Math.abs(Math.sin(angle))>Math.abs(Math.cos(angle))) {
+            if(angle>0){
+                latitude =boundingBox.getLatNorth();
+            }else{
+                latitude =boundingBox.getLatSouth();
+            }
+            longitude = centerLon + (arene.getLongitude() - centerLon) * (latitude - centerLat) / (arene.getLatitude() - centerLat);
+        } else {
+            if(angle>Math.PI/2 || angle<-Math.PI/2){
+                longitude =boundingBox.getLonWest();
+            }else{
+                longitude =boundingBox.getLonEast();
+            }
+            latitude = centerLat + (arene.getLatitude() - centerLat) * (longitude - centerLon) / (arene.getLongitude() - centerLon);
+        }
+        return new GeoPoint(latitude, longitude);
+    }
+
+    // Ajouter un marqueur pour indiquer un lieu hors écran
+    private Marker addRebordArene(GeoPoint location, String title) {
+        Marker areneMarker = new Marker(mMap);
+        areneMarker.setPosition(location);
+        areneMarker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_CENTER);
+        areneMarker.setTitle(title);
+
+        Drawable icon = getResources().getDrawable(R.drawable.icone_boss);
+        Bitmap bitmap = ((BitmapDrawable) icon).getBitmap();
+        int width = 50;
+        int height = 50;
+        Bitmap iconeRedimensionne = Bitmap.createScaledBitmap(bitmap, width, height, false);
+        areneMarker.setIcon(new BitmapDrawable(getResources(), iconeRedimensionne));
+
+        mMap.getOverlays().add(areneMarker);
+        return areneMarker; // Retourne le marqueur ajouté
+    }
+
+
 }

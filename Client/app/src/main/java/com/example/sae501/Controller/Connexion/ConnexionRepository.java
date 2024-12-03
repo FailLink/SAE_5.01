@@ -88,6 +88,7 @@ public class ConnexionRepository {
             @Override
             public void onResponse(Call<Joueur> call, Response<Joueur> response) {
                 MainActivity.joueur=response.body();
+                MainActivity.joueur.setHpActuel(MainActivity.joueur.getClasse().getHp());
                 SharedPreferences sharedPreferences = fragmentActivity.getSharedPreferences("SlayMonstersData", MODE_PRIVATE);
                 SharedPreferences.Editor editor = sharedPreferences.edit();
                 editor.putString("joueur_id",MainActivity.joueur.getId().toString());
@@ -118,11 +119,12 @@ public class ConnexionRepository {
                     fragmentActivity.startActivity(intent);
                 }else{
                     MainActivity.joueur=response.body();
+                    MainActivity.joueur.setHpActuel(MainActivity.joueur.getClasse().getHp());
                     if(MainActivity.joueur.getClasse()!=null) {
                         Intent intent = new Intent(fragmentActivity, HomeActivity.class);
                         fragmentActivity.startActivity(intent);
                     }else{
-                        Intent intent=new Intent(fragmentActivity, HomeActivity.class);
+                        Intent intent=new Intent(fragmentActivity, ChoixClasseActivity.class);
                         fragmentActivity.startActivity(intent);
                     }
                 }

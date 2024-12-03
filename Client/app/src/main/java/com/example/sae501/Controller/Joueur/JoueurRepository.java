@@ -69,6 +69,7 @@ public class JoueurRepository {
             @Override
             public void onResponse(Call<Joueur> call, Response<Joueur> response) {
                 Joueur joueur=response.body();
+                joueur.setHpActuel(joueur.getClasse().getHp());
                 MainActivity.joueursPartie.add(joueur);
                 System.out.println(joueur.getId());
                 while (fragmentActivity.getClass()!= PartieActivity.class) {
@@ -85,9 +86,9 @@ public class JoueurRepository {
                         textView.setText(joueur.getPseudo());
                     } else if (s.equalsIgnoreCase("imageClasseJoueur")) {
                         ImageView imageView=(ImageView) view;
-                        /*int drawableId = fragmentActivity.getResources().getIdentifier("icone_"+joueur.getClasse().getNom()
+                        int drawableId = fragmentActivity.getResources().getIdentifier("icone_"+joueur.getClasse().getNom().toLowerCase()
                                 , "drawable", fragmentActivity.getPackageName());
-                        imageView.setImageResource(drawableId);*/
+                        imageView.setImageResource(drawableId);
                     } else if (s.equalsIgnoreCase("boutonExclusion") && Objects.equals(MainActivity.joueur.getId(), MainActivity.chefDePartie.getId())) {
                         ImageButton button=(ImageButton) view;
                         button.setVisibility(View.VISIBLE);
@@ -117,6 +118,7 @@ public class JoueurRepository {
             @Override
             public void onResponse(Call<Joueur> call, Response<Joueur> response) {
                 Joueur joueur=response.body();
+                joueur.setHpActuel(joueur.getClasse().getHp());
                 MainActivity.chefDePartie=joueur;
                 MainActivity.joueursPartie.add(joueur);
                 String[] idString={"pseudoJoueur","imageClasseJoueur","linearLayoutJoueur"};
@@ -134,9 +136,9 @@ public class JoueurRepository {
                         textView.setText(joueur.getPseudo());
                     } else if (s.equalsIgnoreCase("imageClasseJoueur")) {
                         ImageView imageView = (ImageView) view;
-                        /*int drawableId = fragmentActivity.getResources().getIdentifier("icone_"+joueur.getClasse().getNom()
+                        int drawableId = fragmentActivity.getResources().getIdentifier("icone_"+joueur.getClasse().getNom().toLowerCase()
                                , "drawable", fragmentActivity.getPackageName());
-                        imageView.setImageResource(drawableId);*/
+                        imageView.setImageResource(drawableId);
                     }else if (s.equalsIgnoreCase("linearLayoutJoueur")) {
                         LinearLayout linearLayout = (LinearLayout) view;
                         linearLayout.setVisibility(View.VISIBLE);
