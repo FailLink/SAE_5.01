@@ -1,4 +1,5 @@
 package org.example.sae501serveur.Model.Entity;
+
 import com.fasterxml.jackson.annotation.*;
 import jakarta.persistence.*;
 import org.example.sae501serveur.Model.JsonViewEntity.Views;
@@ -73,6 +74,7 @@ public class Classe {
     public void setAttaquesSynchronisees2(List<AttaqueSynchronisee> attaquesSynchronisees2) {
         this.attaquesSynchronisees2 = attaquesSynchronisees2;
     }
+
     public Long getId() {
         return id;
     }

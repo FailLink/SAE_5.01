@@ -42,7 +42,9 @@ public class JoueurService implements UserDetailsService {
         System.out.print(joueur.getRole().getName().toString());
 
         return new org.springframework.security.core.userdetails.User(joueur.getPseudo(), joueur.getMdp(), authorities);
-    };
+    }
+
+    ;
 
     public List<Joueur> getAllJoueurs() {
         return joueurRepository.findAll();
@@ -52,21 +54,27 @@ public class JoueurService implements UserDetailsService {
         return joueurRepository.save(joueur);
     }
 
-    public Optional<Joueur> getJoueurById(Long id){
+    public Optional<Joueur> getJoueurById(Long id) {
         return joueurRepository.findById(id);
     }
-    public Optional<Joueur> getJoueurByMail(String mail){return joueurRepository.findByAdresseMail(mail);}
-    public Optional<Joueur> getJoueurByPseudo(String pseudo){return joueurRepository.findByPseudo(pseudo);}
-    public Optional<Joueur> setClasseJoueur(Long id,String classeName){
-        Optional<Classe> classe=classeRepository.findByNom(classeName);
-        if(classe.isEmpty()){
+
+    public Optional<Joueur> getJoueurByMail(String mail) {
+        return joueurRepository.findByAdresseMail(mail);
+    }
+
+    public Optional<Joueur> getJoueurByPseudo(String pseudo) {
+        return joueurRepository.findByPseudo(pseudo);
+    }
+
+    public Optional<Joueur> setClasseJoueur(Long id, String classeName) {
+        Optional<Classe> classe = classeRepository.findByNom(classeName);
+        if (classe.isEmpty()) {
             return null;
-        }
-        else {
-            int nbLignesModif=joueurRepository.setJoueurClasse(id,classe.get());
-            if(nbLignesModif==1){
+        } else {
+            int nbLignesModif = joueurRepository.setJoueurClasse(id, classe.get());
+            if (nbLignesModif == 1) {
                 return getJoueurById(id);
-            }else{
+            } else {
                 return null;
             }
         }

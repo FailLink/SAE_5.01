@@ -15,6 +15,6 @@ public class GameWebSocketHandlerFactory {
 
 
     public GameWebSocketHandler createHandler(Partie partie) {
-        return new GameWebSocketHandler(partieService, joueurService,partie);
+        return new GameWebSocketHandler(partieService, joueurService, partie);
     }
 }

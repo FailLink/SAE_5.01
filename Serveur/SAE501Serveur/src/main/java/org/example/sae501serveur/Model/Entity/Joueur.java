@@ -29,7 +29,7 @@ public class Joueur {
     @JsonView(Views.JoueurView.class)
     private Classe classe;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "Competences_Joueur",
             joinColumns = @JoinColumn(name = "joueur_id"),

@@ -13,6 +13,7 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.web.socket.config.annotation.EnableWebSocket;
 import org.springframework.web.socket.config.annotation.WebSocketConfigurer;
 import org.springframework.web.socket.config.annotation.WebSocketHandlerRegistry;
+
 @Configuration
 @EnableWebSocket
 public class WebSocketConfig implements WebSocketConfigurer {
@@ -22,12 +23,18 @@ public class WebSocketConfig implements WebSocketConfigurer {
     @Autowired
     public WebSocketConfig(ConnexionWebSocketHandler connexionWebSocketHandler, RedirectorHandler redirectorHandler) {
         this.connexionWebSocketHandler = connexionWebSocketHandler;
-        this.redirectorHandler=redirectorHandler;
+        this.redirectorHandler = redirectorHandler;
     }
 
+    /**
+     * fonction associant mes endpoints à des handler
+     *
+     * @param registry
+     * @author Matisse Gallouin
+     */
     @Override
     public void registerWebSocketHandlers(WebSocketHandlerRegistry registry) {
-        registry.addHandler(connexionWebSocketHandler,"/connexionPartie").setAllowedOrigins("*");
+        registry.addHandler(connexionWebSocketHandler, "/connexionPartie").setAllowedOrigins("*");
         registry.addHandler(redirectorHandler, "/game/{idPartie}").setAllowedOrigins("*");
     }
 }

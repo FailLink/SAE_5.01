@@ -13,7 +13,15 @@ public class MonstreLieuxService {
     @Autowired
     private MonstreLieuxRepository monstreLieuxRepository;
 
-    public List<MonstreLieux> getAllMonstreLieux(){return monstreLieuxRepository.findAll();}
-    public void saveMonstreLieux(MonstreLieux monstreLieux){monstreLieuxRepository.save(monstreLieux);}
-    public MonstreLieux getMonstreLieuxById(CleCompositeMonstreLieux cleCompositeMonstreLieux){return monstreLieuxRepository.getReferenceById(cleCompositeMonstreLieux);}
+    public List<MonstreLieux> getAllMonstreLieux() {
+        return monstreLieuxRepository.findAll();
+    }
+
+    public void saveMonstreLieux(MonstreLieux monstreLieux) {
+        monstreLieuxRepository.save(monstreLieux);
+    }
+
+    public MonstreLieux getMonstreLieuxById(CleCompositeMonstreLieux cleCompositeMonstreLieux) {
+        return monstreLieuxRepository.getReferenceById(cleCompositeMonstreLieux);
+    }
 }
