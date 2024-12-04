@@ -1,8 +1,13 @@
 package com.example.sae501;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
-import com.example.SAE501.R;
+import com.example.sae501.R;
+
+import android.os.Handler;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.target.DrawableImageViewTarget;
 
 import android.view.View;
 import android.widget.Button;
@@ -32,6 +37,10 @@ public class Combat extends AppCompatActivity {
     //Image du monstre a supprimer a ça mort
     private ImageView Monstre;
 
+    //image pour les animation sur le monstre
+    private ImageView Monster_animate;
+
+    @SuppressLint("MissingInflatedId")
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.combat);
@@ -48,13 +57,16 @@ public class Combat extends AppCompatActivity {
 
         //- les barres de vie
         PVJoueur = findViewById(R.id.health_bar_player);
-        PVAlly1 = findViewById(R.id.health_bar_1);
-        PVAlly2 = findViewById(R.id.health_bar_2);
-        PVAlly3 = findViewById(R.id.health_bar_3);
+        PVAlly1 = findViewById(R.id.health_bar_player_1);
+        PVAlly2 = findViewById(R.id.health_bar_player_2);
+        PVAlly3 = findViewById(R.id.health_bar_player_3);
         PVMonstre = findViewById(R.id.health_bar_cyclope);
 
         //- l'image du monstre
         Monstre = findViewById(R.id.cyclope_image);
+
+        //- l'image view des animation du monstre
+        Monster_animate = findViewById(R.id.monster_animate_image);
 
         //Choix de l'action attaque par le joueur
         BouttonATK.setOnClickListener(new View.OnClickListener() {
@@ -64,6 +76,8 @@ public class Combat extends AppCompatActivity {
                 // ici
                 // Reduire les point de vie en conséquence en appellant ReduirePV(dégat subie en int, et PVMonstre)
 
+                //Lancer l'animation
+                AnimationAttackMonstre();
                 //Et enfin vérifier si le Monstre est vaincu
                 MonstreVaincuVerif();
             }
@@ -111,15 +125,24 @@ public class Combat extends AppCompatActivity {
     //Fonction pour réduire les points de vie d'un joueur ou d'un monstre il suffit de donnée les dégats puis qui les recoits
     public void ReduirePV(int degat, ProgressBar barre){
         int actualPV = barre.getProgress();
-        barre.setProgress(actualPV-degat);
+        if (actualPV-degat <= 0){
+            barre.setProgress(0);
+        }else{
+            barre.setProgress(actualPV-degat);
+        }
     }
 
     //Fonction pour augmenter les points de vie d'un joueur ou d'un monstre il suffit de donnée les soins puis qui les recoits
     public void AugmenterPV(int soin, ProgressBar barre){
         int actualPV = barre.getProgress();
-        barre.setProgress(actualPV+soin);
+        if (actualPV+soin >= barre.getMax()){
+            barre.setProgress(barre.getMax());
+        }else{
+            barre.setProgress(actualPV+soin);
+        }
     }
 
+    //Vérifier que le Monstre soit mort ou non
     public boolean MonstreVaincuVerif(){
         int ActualPV = PVMonstre.getProgress();
         if (ActualPV==0){
@@ -127,5 +150,20 @@ public class Combat extends AppCompatActivity {
             return true;
         }
         return false;
+    }
+
+    public void AnimationAttackMonstre() {
+        // Charge le GIF dans l'ImageView
+        DrawableImageViewTarget imageViewTarget = new DrawableImageViewTarget(Monster_animate);
+        Glide.with(this).load(R.drawable.attack_effect).into(imageViewTarget);
+
+        // Planifie l'arrêt de l'animation après 2 secondes
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                // Supprime l'animation
+                Monster_animate.setImageDrawable(null);
+            }
+        }, 2000); // Délai de 2 secondes
     }
 }
