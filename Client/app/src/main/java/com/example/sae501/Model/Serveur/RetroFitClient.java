@@ -1,5 +1,6 @@
 package com.example.sae501.Model.Serveur;
 
+import com.example.sae501.MainActivity;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -9,7 +10,7 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class RetroFitClient {
-    private static final String urlSpring="http://10.0.2.2:8080/";
+    private static final String urlSpring="http://"+ MainActivity.globalIP +"/";
     private static Retrofit retrofit;
 
     /**

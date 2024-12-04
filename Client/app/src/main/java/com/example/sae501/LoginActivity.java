@@ -18,22 +18,24 @@ public class LoginActivity extends AppCompatActivity {
         protected void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
             setContentView(R.layout.activity_login);
+            MainActivity.currentActivity=this;
             WebView webView = findViewById(R.id.webview);
 
-            connexionRepository=new ConnexionRepository(this,new ScheduleConnexion(this));
+            connexionRepository=new ConnexionRepository(new ScheduleConnexion());
             webView.setWebViewClient(new WebViewClient() {
                 public void onPageFinished(WebView view, String url) {
                     super.onPageFinished(view, url);
-                    if (url.equals("http://10.0.2.2:8080/testConnexion")) {
+                    if (url.equals("http://"+ MainActivity.globalIP +"/testConnexion")) {
+                        finish();
                         String cookies = CookieManager.getInstance().getCookie(url);
                         System.out.println(cookies);
                         if (cookies != null && cookies.contains("JSESSIONID")) {
-                            // Trouver uniquement la valeur de JSESSIONID
                             String[] cookieArray = cookies.split(";");
                             String jsessionId = null;
                             for (String cookie : cookieArray) {
-                                if (cookie.trim().startsWith("JSESSIONID")) {
+                                if (cookie.trim().startsWith("JSESSIONID=")) {
                                     jsessionId = cookie.split("=")[1].trim();
+                                    System.out.println(jsessionId);
                                     break;
                                 }
                             }
@@ -46,14 +48,13 @@ public class LoginActivity extends AppCompatActivity {
                                 editor.apply();
                                 MainActivity.sessionID = jsessionId;
                             }
-                            finish();
                             connexionRepository.getJoueurBySessionId();
                         }
                     }
                 }
             });
             webView.getSettings().setJavaScriptEnabled(true); // Si nécessaire
-            webView.loadUrl("http://10.0.2.2:8080/login");
+            webView.loadUrl("http://"+MainActivity.globalIP+"/login");
 
         }
 }

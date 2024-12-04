@@ -1,0 +1,43 @@
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center"
+    android:padding="16dp"
+    android:background="@color/black">
+
+    <ImageView
+        android:id="@+id/logoImage"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:src="@drawable/ic_launcher_foreground"
+        android:layout_gravity="center"
+        android:contentDescription="Logo de la classe" />
+
+    <TextView
+        android:id="@+id/titleView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="Page Title"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:gravity="center" />
+    <TextView
+        android:id="@+id/descriptionView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="description"
+        android:textSize="14sp"
+        android:gravity="center" />
+
+    <Button
+        android:id="@+id/buttonChoixClasse"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Choisir"
+        android:layout_marginTop="16dp"
+        android:backgroundTint="@color/red"/>
+</LinearLayout>

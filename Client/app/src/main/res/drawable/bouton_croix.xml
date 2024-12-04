@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Première diagonale (\) -->
+    <item>
+        <rotate
+            android:fromDegrees="45"
+            android:pivotX="50%"
+            android:pivotY="50%">
+            <shape android:shape="rectangle">
+                <solid android:color="#000000" /> <!-- Couleur de la diagonale -->
+                <size
+                    android:width="100dp"
+                android:height="5dp" /> <!-- Épaisseur de la diagonale -->
+            </shape>
+        </rotate>
+    </item>
+
+    <!-- Deuxième diagonale (/) -->
+    <item>
+        <rotate
+            android:fromDegrees="-45"
+            android:pivotX="50%"
+            android:pivotY="50%">
+            <shape android:shape="rectangle">
+                <solid android:color="#000000" /> <!-- Couleur de la diagonale -->
+                <size
+                    android:width="100dp"
+                android:height="5dp" /> <!-- Épaisseur de la diagonale -->
+            </shape>
+        </rotate>
+    </item>
+</layer-list>

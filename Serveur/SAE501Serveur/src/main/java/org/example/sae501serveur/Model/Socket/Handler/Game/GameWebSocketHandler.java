@@ -32,7 +32,7 @@ import java.util.concurrent.ConcurrentMap;
 public class GameWebSocketHandler extends TextWebSocketHandler {
 
     private PartieService partieService;
-    private int idpartie;
+    private Partie partie;
 
     private JoueurService joueurService;
     private final Map<WebSocketSession, Joueur> sessionJoueurs=new ConcurrentHashMap<>();
@@ -44,26 +44,35 @@ public class GameWebSocketHandler extends TextWebSocketHandler {
 
     private Joueur chefDePartie;
 
+    public Map<WebSocketSession, Joueur> getSessionJoueurs() {
+        return sessionJoueurs;
+    }
+
+    public Map<Joueur, WebSocketSession> getJoueurSession() {
+        return joueurSession;
+    }
+
+    public ArrayList<WebSocketSession> getWebSocketSessions() {
+        return webSocketSessions;
+    }
+
+    public ArrayList<Joueur> getJoueurs() {
+        return joueurs;
+    }
+
     private final Map<Long,Competence> actions=new ConcurrentHashMap<>();
 
     private final int maxPlayer=4;
-    public static GameWebSocketHandler createWithIdPartie(ApplicationContext applicationContext) {
-        GameWebSocketHandler handler = applicationContext.getBean(GameWebSocketHandler.class);
-        return handler;
-    }
 
-    public GameWebSocketHandler(PartieService partieService, JoueurService joueurService) {
+
+    public GameWebSocketHandler(PartieService partieService, JoueurService joueurService,Partie partie) {
         this.partieService = partieService;
         this.joueurService = joueurService;
+        this.partie = partie;
     }
 
     @Override
     public void afterConnectionEstablished(WebSocketSession session) throws Exception {
-        if(joueurs.size()>=4){
-            session.sendMessage(new TextMessage("la session est pleine"));
-            session.close();
-        }
-        session.sendMessage(new TextMessage("bienvenue dans la partie"));
     }
 
     @Override
@@ -72,46 +81,122 @@ public class GameWebSocketHandler extends TextWebSocketHandler {
         Map<String,Object> msg=objectMapper.readValue(message.getPayload(),Map.class);
         switch ((String) msg.get("type")){
             case "connexion":
-                session.sendMessage(new TextMessage("connexion en cours..."));
                 handleConnexionMessage(session,msg,objectMapper);
                 break;
             case  "action":
                 handleMoveMessage(session, message);
                 break;
+            case "deconnexion" :
+                session.close();
+                webSocketSessions.remove(session);
+                joueurSession.remove(sessionJoueurs.get(session));
+                joueurs.remove(sessionJoueurs.get(session));
+                if(chefDePartie==sessionJoueurs.get(session)){
+                    chefDePartie=joueurs.get(0);
+                }
+                sessionJoueurs.remove(session);
+                for(WebSocketSession webSocketSession:webSocketSessions){
+                    webSocketSession.sendMessage(new TextMessage("{\"type\":\"joueurDeconnecte\"}"));
+                }
+                renvoiJoueurRafraichi(objectMapper);
+            case "exclusion" :
+                Joueur joueur = joueurService.getJoueurById(Integer.toUnsignedLong((Integer) msg.get("joueur"))).get();
+                session.sendMessage(new TextMessage(String.valueOf(joueurSession.containsKey(joueur))));
+                joueurSession.get(joueur).sendMessage(new TextMessage("{\"type\":\"exclusion\"}"));
+                joueurSession.get(joueur).close();
+                webSocketSessions.remove(joueurSession.get(joueur));
+                joueurs.remove(joueur);
+                sessionJoueurs.remove(joueurSession.get(joueur));
+                joueurSession.remove(joueur);
+                for(WebSocketSession webSocketSession:webSocketSessions){
+                    webSocketSession.sendMessage(new TextMessage("{\"type\":\"joueurExclu\"}"));
+                }
+                renvoiJoueurRafraichi(objectMapper);
+            case "lancementPartie":
+                for(Joueur joueurBDD:joueurs){
+                    partie.addJoueur(joueurBDD);
+                }
+                partieService.savePartie(partie);
+                for (WebSocketSession webSocketSession:webSocketSessions){
+                    if(webSocketSession!=session){
+                        webSocketSession.sendMessage(new TextMessage("{\"type\":\"lancementPartie\"}"));
+                    }
+                }
         }
     }
     public void handleMoveMessage(WebSocketSession session,TextMessage message){
 
     }
     public void handleConnexionMessage(WebSocketSession session,Map<String,Object> msg,ObjectMapper objectMapper) throws IOException {
-        Joueur joueur=joueurService.getJoueurById(Integer.toUnsignedLong((Integer) msg.get("joueurId"))).get();
-        String partageJoueur="{ \"type\": \"joueurPartie\", \"joueurs\" : [";
-        if (joueurs.size()<4){
-            if(joueurs.isEmpty()){
-                chefDePartie=joueur;
+        Joueur joueur = joueurService.getJoueurById(Integer.toUnsignedLong((Integer) msg.get("joueurId"))).get();
+        String partageJoueur = "{ \"type\": \"ajoutJoueur\", ";
+            if (joueurs.size() < 4) {
+                session.sendMessage(new TextMessage("bienvenue dans la partie"));
+                if (joueurs.isEmpty()) {
+                    chefDePartie = joueur;
+                }
+                for (int i = 0; i < webSocketSessions.size(); i++) {
+                    webSocketSessions.get(i).sendMessage(new TextMessage(partageJoueur +
+                            "\"idJoueur\" : " + (joueur.getId()) + "}"));
+                }
+
+                sessionJoueurs.put(session, joueur);
+                joueurSession.put(joueur, session);
+                joueurs.add(joueur);
+                webSocketSessions.add(session);
+
+                partageJoueur = "{ \"type\": \"joueurPartie\", \"joueurs\" : [";
+                for (int i = 0; i < joueurs.size(); i++) {
+                    if (i > 0) {
+                        if (joueurs.get(i) == chefDePartie) {
+                            Map<String, Object> data = new HashMap<>();
+                            data.put("joueur", joueurs.get(i).getId());
+                            data.put("isChief", true);
+                            partageJoueur = partageJoueur + "," + objectMapper.writeValueAsString(data);
+                        } else {
+                            Map<String, Object> data = new HashMap<>();
+                            data.put("joueur", joueurs.get(i).getId());
+                            data.put("isChief", false);
+                            partageJoueur = partageJoueur + "," + objectMapper.writeValueAsString(data);
+                        }
+                    } else {
+                        if (joueurs.get(i) == chefDePartie) {
+                            Map<String, Object> data = new HashMap<>();
+                            data.put("joueur", joueurs.get(i).getId());
+                            data.put("isChief", true);
+                            partageJoueur = partageJoueur + objectMapper.writeValueAsString(data);
+                        } else {
+                            Map<String, Object> data = new HashMap<>();
+                            data.put("joueur", joueurs.get(i).getId());
+                            data.put("isChief", false);
+                            partageJoueur = partageJoueur + objectMapper.writeValueAsString(data);
+                        }
+                    }
+                }
+                partageJoueur += "]}";
+                session.sendMessage(new TextMessage(partageJoueur));
+            } else {
+                session.sendMessage(new TextMessage("la session est pleine"));
+                session.close();
             }
-            for(int i=0;i<webSocketSessions.size();i++){
-                webSocketSessions.get(i).sendMessage(new TextMessage(partageJoueur+
-                        "\"idjoueur\" : "+(joueur.getId())+"]}"));
-            }
-            sessionJoueurs.put(session,joueur);
-            joueurSession.put(joueur,session);
-            joueurs.add(joueur);
-            webSocketSessions.add(session);
-            for(int i=0;i<joueurs.size();i++){
-                if(i>0){
-                    if(joueurs.get(i)==chefDePartie){
+    }
+    public void renvoiJoueurRafraichi(ObjectMapper objectMapper) throws IOException {
+        for (int i = 0; i < webSocketSessions.size(); i++) {
+            String partageJoueur = "{ \"type\": \"joueurPartie\", \"joueurs\" : [";
+            for (int j = 0; j < joueurs.size(); j++) {
+                if (j > 0) {
+                    if (joueurs.get(i) == chefDePartie) {
                         Map<String, Object> data = new HashMap<>();
                         data.put("joueur", joueurs.get(i).getId());
-                        data.put("isChief",true);
-                        partageJoueur=partageJoueur+","+objectMapper.writeValueAsString(data);
-                    }else{
+                        data.put("isChief", true);
+                        partageJoueur = partageJoueur + "," + objectMapper.writeValueAsString(data);
+                    } else {
                         Map<String, Object> data = new HashMap<>();
                         data.put("joueur", joueurs.get(i).getId());
                         data.put("isChief", false);
-                        partageJoueur = partageJoueur+"," + objectMapper.writeValueAsString(data);
+                        partageJoueur = partageJoueur + "," + objectMapper.writeValueAsString(data);
                     }
-                }else {
+                } else {
                     if (joueurs.get(i) == chefDePartie) {
                         Map<String, Object> data = new HashMap<>();
                         data.put("joueur", joueurs.get(i).getId());
@@ -125,11 +210,8 @@ public class GameWebSocketHandler extends TextWebSocketHandler {
                     }
                 }
             }
-            partageJoueur+="]}";
-            session.sendMessage(new TextMessage(partageJoueur));
-        }else{
-            session.sendMessage(new TextMessage("la session est pleine"));
-            session.close();
+            partageJoueur += "]}";
+            webSocketSessions.get(i).sendMessage(new TextMessage(partageJoueur));
         }
     }
 }

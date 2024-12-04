@@ -1,5 +1,7 @@
 package com.example.sae501.Model.Serveur;
 
+import java.util.concurrent.TimeUnit;
+
 import okhttp3.logging.HttpLoggingInterceptor;
 
 public class OkHttpClientSingleton {
@@ -16,6 +18,8 @@ public class OkHttpClientSingleton {
             okHttpClient = new okhttp3.OkHttpClient.Builder()
                     .addInterceptor(new SessionIntercepteur())
                     .addInterceptor(new HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
+                    .readTimeout(0, TimeUnit.MILLISECONDS) // Désactive le timeout de lecture
+                    .writeTimeout(0, TimeUnit.MILLISECONDS) // Désactive le timeout d'écriture
                     .build();
         }
         return okHttpClient;

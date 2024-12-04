@@ -27,19 +27,39 @@ public class RedirectorHandler extends TextWebSocketHandler {
 
     @Override
     public void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
-        session.sendMessage(new TextMessage(Arrays.toString(session.getUri().getPath().split("/"))));
         String path=session.getUri().getPath().split("/")[2];
-        session.sendMessage(new TextMessage(path));
+
+        ObjectMapper objectMapper=new ObjectMapper();
+        Map<String,Object> msg=objectMapper.readValue(message.getPayload(),Map.class);
+
         if(partieService.getPartieById(Integer.toUnsignedLong(Integer.parseInt(path)))==null){
-            session.sendMessage(new TextMessage("la partie n'existe pas"));
+            session.sendMessage(new TextMessage("{ \"type\": \"partieNonTrouve\"}"));
             session.close();
-        }else {
-            if (handlerSessionId.get(path) != null) {
-                handlerSessionId.get(path).handleTextMessage(session, message);
-            } else {
-                handlerSessionId.put(path, gameWebSocketHandlerFactory.createHandler());
+        }
+        else {
+            if (handlerSessionId.containsKey(path)) {
+                if (((String) msg.get("type")).equalsIgnoreCase( "deconnexion")) {
+                    if(handlerSessionId.get(path).getJoueurs().size()==1){
+                        handlerSessionId.remove(path);
+                        session.close();
+                    }
+                    else{
+                        handlerSessionId.get(path).handleTextMessage(session, message);
+                    }
+                }
+                else{
+                    handlerSessionId.get(path).handleTextMessage(session, message);
+                }
+            }
+            else{
+                handlerSessionId.put(path, gameWebSocketHandlerFactory.
+                        createHandler(partieService.getPartieById(Integer.toUnsignedLong(Integer.parseInt(path)))));
                 handlerSessionId.get(path).handleTextMessage(session, message);
             }
         }
+    }
+
+    public Map<String, GameWebSocketHandler> getHandlerSessionId() {
+        return handlerSessionId;
     }
 }

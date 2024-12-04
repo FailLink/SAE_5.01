@@ -8,14 +8,15 @@ import android.util.Log;
 
 import androidx.fragment.app.FragmentActivity;
 
+import com.example.sae501.ChoixClasseActivity;
 import com.example.sae501.HomeActivity;
 import com.example.sae501.LoginActivity;
 import com.example.sae501.MainActivity;
-import com.example.sae501.Model.Connexion.ConnexionService;
+import com.example.sae501.Model.Service.ConnexionService;
 import com.example.sae501.Model.Entity.Joueur;
 import com.example.sae501.Model.ScheduleTask.ScheduleConnexion;
 import com.example.sae501.Model.Serveur.RetroFitClient;
-import com.example.sae501.View.ConnexionErrorFragment;
+import com.example.sae501.View.Connexion.ConnexionErrorFragment;
 
 import java.io.IOException;
 
@@ -36,10 +37,10 @@ public class ConnexionRepository {
      * constructeur de la classe Connexion repository
      * @author Matisse Gallouin
      */
-    public ConnexionRepository(FragmentActivity fragmentActivity, ScheduleConnexion scheduleConnexion) {
+    public ConnexionRepository(ScheduleConnexion scheduleConnexion) {
         Retrofit retroFitClient = RetroFitClient.getRetrofitInstance();
         this.connexionService = retroFitClient.create(ConnexionService.class);
-        this.fragmentActivity=fragmentActivity;
+        this.fragmentActivity=MainActivity.currentActivity;
         this.scheduleConnexion=scheduleConnexion;
     }
 
@@ -87,12 +88,18 @@ public class ConnexionRepository {
             @Override
             public void onResponse(Call<Joueur> call, Response<Joueur> response) {
                 MainActivity.joueur=response.body();
+                MainActivity.joueur.setHpActuel(MainActivity.joueur.getClasse().getHp());
                 SharedPreferences sharedPreferences = fragmentActivity.getSharedPreferences("SlayMonstersData", MODE_PRIVATE);
                 SharedPreferences.Editor editor = sharedPreferences.edit();
                 editor.putString("joueur_id",MainActivity.joueur.getId().toString());
                 editor.apply();
-                Intent intent=new Intent(fragmentActivity, HomeActivity.class);
-                fragmentActivity.startActivity(intent);
+                if(MainActivity.joueur.getClasse()!=null) {
+                    Intent intent = new Intent(fragmentActivity, HomeActivity.class);
+                    fragmentActivity.startActivity(intent);
+                }else{
+                    Intent intent=new Intent(fragmentActivity, ChoixClasseActivity.class);
+                    fragmentActivity.startActivity(intent);
+                }
             }
 
             @Override
@@ -112,8 +119,14 @@ public class ConnexionRepository {
                     fragmentActivity.startActivity(intent);
                 }else{
                     MainActivity.joueur=response.body();
-                    Intent intent=new Intent(fragmentActivity, HomeActivity.class);
-                    fragmentActivity.startActivity(intent);
+                    MainActivity.joueur.setHpActuel(MainActivity.joueur.getClasse().getHp());
+                    if(MainActivity.joueur.getClasse()!=null) {
+                        Intent intent = new Intent(fragmentActivity, HomeActivity.class);
+                        fragmentActivity.startActivity(intent);
+                    }else{
+                        Intent intent=new Intent(fragmentActivity, ChoixClasseActivity.class);
+                        fragmentActivity.startActivity(intent);
+                    }
                 }
             }
             @Override
