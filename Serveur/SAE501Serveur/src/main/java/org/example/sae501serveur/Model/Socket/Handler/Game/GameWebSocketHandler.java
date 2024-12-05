@@ -81,9 +81,6 @@ public class GameWebSocketHandler extends TextWebSocketHandler {
             case "connexion":
                 handleConnexionMessage(session, msg, objectMapper);
                 break;
-            case "action":
-                handleMoveMessage(session, message);
-                break;
             case "deconnexion":
                 session.close();
                 webSocketSessions.remove(session);
@@ -136,7 +133,6 @@ public class GameWebSocketHandler extends TextWebSocketHandler {
                         return;
                     }
                 }
-                System.out.println(attaqueRequest.toString());
                 boolean joueurDejaPresent = joueursAction.stream()
                         .anyMatch(joueurP -> joueurP.getJoueurId().equals(attaqueRequest.getJoueurId()));
 
@@ -257,9 +253,6 @@ public class GameWebSocketHandler extends TextWebSocketHandler {
         }
     }
 
-    public void handleMoveMessage(WebSocketSession session,TextMessage message){
-
-    }
     public void handleConnexionMessage(WebSocketSession session,Map<String,Object> msg,ObjectMapper objectMapper) throws IOException {
         Joueur joueur = joueurService.getJoueurById(Integer.toUnsignedLong((Integer) msg.get("joueurId"))).get();
         String partageJoueur = "{ \"type\": \"ajoutJoueur\", ";
