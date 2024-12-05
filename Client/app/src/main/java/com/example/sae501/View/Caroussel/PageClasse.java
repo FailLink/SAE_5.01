@@ -11,6 +11,16 @@ public class PageClasse {
     private final String buttonText;
     private final View.OnClickListener buttonOnClick;
 
+    /**
+     * constructeur permettant de lié le caroussel aux valeurs
+     *
+     * @param image         image voulu
+     * @param title         titre voulu
+     * @param description   description voulu
+     * @param buttonText    text du bouton voulu
+     * @param buttonOnClick comportement du bouton voulu
+     * @author Matisse Gallouin
+     */
     public PageClasse(int image, String title, String description, String buttonText, View.OnClickListener buttonOnClick) {
         this.image = image;
         this.title = title;

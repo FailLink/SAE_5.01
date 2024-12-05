@@ -58,9 +58,9 @@ public class MonstreLieux {
     public MonstreLieux(Monstre monstre, Lieux lieux) {
         this.monstre = monstre;
         this.lieux = lieux;
-        this.lieuxId=lieux.getId();
-        this.monstreId=monstre.getId();
-        this.partie=new HashSet<>();
+        this.lieuxId = lieux.getId();
+        this.monstreId = monstre.getId();
+        this.partie = new HashSet<>();
     }
 
     public Monstre getMonstre() {
@@ -86,13 +86,14 @@ public class MonstreLieux {
     public void setPartie(Set<Partie> partie) {
         this.partie = partie;
     }
-    public void addPartie(Partie partie){
+
+    public void addPartie(Partie partie) {
         this.partie.add(partie);
-        if(partie.getMonstreLieux()!=null) {
+        if (partie.getMonstreLieux() != null) {
             if (!partie.getMonstreLieux().contains(this)) {
                 partie.addMonstreLieux(this);
             }
-        }else{
+        } else {
             partie.setMonstreLieux(new HashSet<>());
             partie.addMonstreLieux(this);
         }

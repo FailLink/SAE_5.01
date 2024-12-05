@@ -45,6 +45,11 @@ public class Lieux {
         this.latitude = latitude;
     }
 
+    /**
+     * permet de calculer la distance entre deux lieux à l'aide de leur coordonnées polaires
+     * @param lieux deuxième lieux avec qui calculer la distance
+     * @return distance entre les deux lieux
+     */
     public double distance(Lieux lieux){
         return 6378137*Math.acos(Math.sin(Math.toRadians(this.latitude))*
                 Math.sin(Math.toRadians(lieux.latitude))+Math.cos(Math.toRadians(this.latitude))*

@@ -11,6 +11,7 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+
 import org.osmdroid.api.IMapController;
 import org.osmdroid.config.Configuration;
 import org.osmdroid.events.MapListener;
@@ -36,12 +37,6 @@ public class MapsActivity extends AppCompatActivity {
     private MapView mMap;
     private IMapController controller;
     private MyLocationNewOverlay mMyLocationOverlay;
-
-    // Coordonnées des arènes
-    private static final double ARENA1_LATITUDE = 50.279056549072266;
-    private static final double ARENA1_LONGITUDE = 3.967270851135254;
-    private static final double ARENA2_LATITUDE = 50.2708082;
-    private static final double ARENA2_LONGITUDE = 3.9892575;
     private final List<Marker> indicateurRebordArene = new ArrayList<>();
 
     @Override
@@ -83,7 +78,7 @@ public class MapsActivity extends AppCompatActivity {
         });
 
         // Initialisation du MyLocationOverlay pour obtenir la position de l'utilisateur
-        GpsMyLocationProvider gpsMyLocationProvider=new GpsMyLocationProvider(this);
+        GpsMyLocationProvider gpsMyLocationProvider = new GpsMyLocationProvider(this);
         gpsMyLocationProvider.setLocationUpdateMinTime(100);
         mMyLocationOverlay = new MyLocationNewOverlay(gpsMyLocationProvider, mMap);
         mMyLocationOverlay.enableMyLocation();
@@ -105,49 +100,45 @@ public class MapsActivity extends AppCompatActivity {
             }
         }));
 
-        // Ajouter des marqueurs pour les arènes
-        addArenaMarker(ARENA1_LATITUDE, ARENA1_LONGITUDE, "Lycée Pierre Forest");
-        addArenaMarker(ARENA2_LATITUDE, ARENA2_LONGITUDE, "Deuxième Arène");
-
         // Récupérer le bouton via le binding et gérer l'événement de clic
         binding.recenterButton.setOnClickListener(v -> recentrerCarte());
 
         //chargement des infos de la partie dans la maps
 
         //infos joueurs
-        ArrayList<Joueur> listJoueurSansUser=new ArrayList<>();
-        for(int i=0;i<MainActivity.joueursPartie.size();i++){
-            Joueur joueur=MainActivity.joueursPartie.get(i);
-            if(!joueur.equals(MainActivity.joueur)){
+        ArrayList<Joueur> listJoueurSansUser = new ArrayList<>();
+        for (int i = 0; i < MainActivity.joueursPartie.size(); i++) {
+            Joueur joueur = MainActivity.joueursPartie.get(i);
+            if (!joueur.equals(MainActivity.joueur)) {
                 listJoueurSansUser.add(joueur);
             }
         }
-        for (int i=0;i<listJoueurSansUser.size();i++){
-            Joueur joueur=listJoueurSansUser.get(i);
-            String id="player_"+(i+1)+"_health_label";
-            TextView textViewPseudo = (TextView) findViewById(getResources().getIdentifier(id,"id",this.getPackageName()));
+        for (int i = 0; i < listJoueurSansUser.size(); i++) {
+            Joueur joueur = listJoueurSansUser.get(i);
+            String id = "player_" + (i + 1) + "_health_label";
+            TextView textViewPseudo = (TextView) findViewById(getResources().getIdentifier(id, "id", this.getPackageName()));
             textViewPseudo.setText(joueur.getPseudo());
 
-            id="health_bar_player_"+(i+1);
-            ProgressBar progressBar=(ProgressBar) findViewById(getResources().getIdentifier(id,"id",this.getPackageName()));
+            id = "health_bar_player_" + (i + 1);
+            ProgressBar progressBar = (ProgressBar) findViewById(getResources().getIdentifier(id, "id", this.getPackageName()));
             progressBar.setMax(joueur.getClasse().getHp());
             progressBar.setProgress(joueur.getHpActuel());
 
-            id="health_text_player_"+(i+1);
-            TextView textViewHp =(TextView) findViewById(getResources().getIdentifier(id,"id",this.getPackageName()));
-            textViewHp.setText(joueur.getHpActuel()+"/"+joueur.getClasse().getHp());
+            id = "health_text_player_" + (i + 1);
+            TextView textViewHp = (TextView) findViewById(getResources().getIdentifier(id, "id", this.getPackageName()));
+            textViewHp.setText(joueur.getHpActuel() + "/" + joueur.getClasse().getHp());
         }
-        ProgressBar progressBar=(ProgressBar) findViewById(R.id.health_bar_player);
+        ProgressBar progressBar = (ProgressBar) findViewById(R.id.health_bar_player);
         progressBar.setMax(MainActivity.joueur.getClasse().getHp());
         progressBar.setProgress(MainActivity.joueur.getHpActuel());
 
-        TextView textViewHp =(TextView) findViewById(R.id.health_text_player);
-        textViewHp.setText(MainActivity.joueur.getHpActuel()+"/"+MainActivity.joueur.getClasse().getHp());
+        TextView textViewHp = (TextView) findViewById(R.id.health_text_player);
+        textViewHp.setText(MainActivity.joueur.getHpActuel() + "/" + MainActivity.joueur.getClasse().getHp());
 
         //info lieux
-        for(MonstreLieux monstreLieux:MainActivity.partie.getMonstreLieux()){
-            Lieux lieux=monstreLieux.getLieux();
-            addArenaMarker(lieux.getLatitude(),lieux.getLongitude(),monstreLieux.getMonstre().getNom());
+        for (MonstreLieux monstreLieux : MainActivity.partie.getMonstreLieux()) {
+            Lieux lieux = monstreLieux.getLieux();
+            addArenaMarker(lieux.getLatitude(), lieux.getLongitude(), monstreLieux.getMonstre().getNom());
         }
     }
 
@@ -168,12 +159,12 @@ public class MapsActivity extends AppCompatActivity {
 
         // Listener pour gérer le clic sur les marqueurs
         arenaMarker.setOnMarkerClickListener((marker, mapView) -> {
-            GeoPoint geoPointJoueur= mMyLocationOverlay.getMyLocation();
-            if(distance(arenaLocation.getLatitude(),arenaLocation.getLongitude()
-                    ,geoPointJoueur.getLatitude(),geoPointJoueur.getLongitude())<=50) {
+            GeoPoint geoPointJoueur = mMyLocationOverlay.getMyLocation();
+            if (distance(arenaLocation.getLatitude(), arenaLocation.getLongitude()
+                    , geoPointJoueur.getLatitude(), geoPointJoueur.getLongitude()) <= 50) {
                 showBattleConfirmationDialog(title);
-            }else{
-                Toast.makeText(this,"vous êtes trop loin",Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(this, "vous êtes trop loin", Toast.LENGTH_SHORT).show();
             }
             return true;  // Empêche la propagation de l'événement
         });
@@ -186,7 +177,7 @@ public class MapsActivity extends AppCompatActivity {
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Combat contre " + arenaName)
-                .setMessage("Voulez-vous combattre contre "+arenaName+" ?")
+                .setMessage("Voulez-vous combattre contre " + arenaName + " ?")
                 .setPositiveButton("Oui", (dialog, id) -> {
                     startCombat();
                 })
@@ -209,13 +200,28 @@ public class MapsActivity extends AppCompatActivity {
             controller.animateTo(location);  // Recentre la carte sur la position actuelle
         }
     }
-    public double distance(double latitudePoint1,double longitudePoint1,double latitudePoint2,double longitudePoint2){
-        return 6378137*Math.acos(Math.sin(Math.toRadians(latitudePoint1))*
-                Math.sin(Math.toRadians(latitudePoint2))+Math.cos(Math.toRadians(latitudePoint1))*
-                Math.cos(Math.toRadians(latitudePoint2))*Math.cos(Math.toRadians(longitudePoint1)-Math.toRadians(longitudePoint2)));
+
+    /**
+     * calcul de la distance à l'aide de coordonnées polaires
+     *
+     * @param latitudePoint1  latitude du premier point
+     * @param longitudePoint1 longitude du premier point
+     * @param latitudePoint2  latitude du deuxième point
+     * @param longitudePoint2 longitude du deuxième point
+     * @return distance
+     * @author Matisse Gallouin
+     */
+    public double distance(double latitudePoint1, double longitudePoint1, double latitudePoint2, double longitudePoint2) {
+        return 6378137 * Math.acos(Math.sin(Math.toRadians(latitudePoint1)) *
+                Math.sin(Math.toRadians(latitudePoint2)) + Math.cos(Math.toRadians(latitudePoint1)) *
+                Math.cos(Math.toRadians(latitudePoint2)) * Math.cos(Math.toRadians(longitudePoint1) - Math.toRadians(longitudePoint2)));
     }
 
-
+    /**
+     * fonction permettant d'afficher sur les bords de l'écran où sont situés les arènes afin d'aider les joueurs à les trouver
+     *
+     * @author Matisse Gallouin
+     */
     private void addRebordIndicatorArene() {
 
         for (Marker marker : indicateurRebordArene) {
@@ -237,6 +243,14 @@ public class MapsActivity extends AppCompatActivity {
         mMap.invalidate();
     }
 
+    /**
+     * calcul de la position d'un point sur le bord de l'écran
+     *
+     * @param boundingBox map affiché actuellement
+     * @param arene       point de l'arène de base
+     * @return le point le représentant sur le bord de l'écran
+     * @author Matisse Gallouin
+     */
     private GeoPoint calculatePointRebord(BoundingBox boundingBox, GeoPoint arene) {
         double centerLat = boundingBox.getCenterLatitude();
         double centerLon = boundingBox.getCenterLongitude();
@@ -244,25 +258,32 @@ public class MapsActivity extends AppCompatActivity {
 
 
         double latitude, longitude;
-        if (Math.abs(Math.sin(angle))>Math.abs(Math.cos(angle))) {
-            if(angle>0){
-                latitude =boundingBox.getLatNorth();
-            }else{
-                latitude =boundingBox.getLatSouth();
+        if (Math.abs(Math.sin(angle)) > Math.abs(Math.cos(angle))) {
+            if (angle > 0) {
+                latitude = boundingBox.getLatNorth();
+            } else {
+                latitude = boundingBox.getLatSouth();
             }
             longitude = centerLon + (arene.getLongitude() - centerLon) * (latitude - centerLat) / (arene.getLatitude() - centerLat);
         } else {
-            if(angle>Math.PI/2 || angle<-Math.PI/2){
-                longitude =boundingBox.getLonWest();
-            }else{
-                longitude =boundingBox.getLonEast();
+            if (angle > Math.PI / 2 || angle < -Math.PI / 2) {
+                longitude = boundingBox.getLonWest();
+            } else {
+                longitude = boundingBox.getLonEast();
             }
             latitude = centerLat + (arene.getLatitude() - centerLat) * (longitude - centerLon) / (arene.getLongitude() - centerLon);
         }
         return new GeoPoint(latitude, longitude);
     }
 
-    // Ajouter un marqueur pour indiquer un lieu hors écran
+    /**
+     * fonction permettant d'afficher le point sur la carte
+     *
+     * @param location point représentant l'arène sur le bord de l'écran
+     * @param title    titre du point
+     * @return le point
+     * @author Matisse Gallouin
+     */
     private Marker addRebordArene(GeoPoint location, String title) {
         Marker areneMarker = new Marker(mMap);
         areneMarker.setPosition(location);
@@ -279,6 +300,4 @@ public class MapsActivity extends AppCompatActivity {
         mMap.getOverlays().add(areneMarker);
         return areneMarker; // Retourne le marqueur ajouté
     }
-
-
 }

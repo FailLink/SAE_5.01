@@ -30,7 +30,7 @@ public class ClasseService {
         classeRepository.deleteById(id);
     }
 
-    public Optional<Classe> getClasseByName(String nom){
+    public Optional<Classe> getClasseByName(String nom) {
         return classeRepository.findByNom(nom);
     }
 

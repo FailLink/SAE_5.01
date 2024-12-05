@@ -27,57 +27,83 @@ import okhttp3.Request;
 import okhttp3.WebSocket;
 
 public class MainActivity extends AppCompatActivity {
+
     public static Partie partie;
+
     public static Joueur joueur;
-    public static ArrayList<Joueur> joueursPartie=new ArrayList<>();
+    public static ArrayList<Joueur> joueursPartie = new ArrayList<>();
     public static WebSocket webSocketPartie;
+    //sessionID de mon joueur nécessaire pour garder l'authentification
     public static String sessionID;
     public static Joueur chefDePartie;
     public static FragmentActivity currentActivity;
-    public static String globalIP="192.168.1.27:8080";
+    //ip du serveur
+    public static String globalIP = "192.168.1.27:8080";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        sessionID=recupSessionID();
-        currentActivity=this;
+        //test du session présent dans les fichiers
+        sessionID = recupSessionID();
+        currentActivity = this;
 
-        ConnexionRepository connexionRepository=new ConnexionRepository(new ScheduleConnexion());
+        ConnexionRepository connexionRepository = new ConnexionRepository(new ScheduleConnexion());
         connexionRepository.testSessionId();
     }
-    public String recupSessionID(){
-        SharedPreferences sharedPreferences=this.getSharedPreferences("SlayMonstersData",MODE_PRIVATE);
-        return sharedPreferences.getString("session_cookie",null);
+
+    /**
+     * fonction permettant de récupérer dans les fichiers le jsessionid enregistrés
+     *
+     * @return le jsessionid enregistré
+     * @author Matisse Gallouin
+     */
+    public String recupSessionID() {
+        SharedPreferences sharedPreferences = this.getSharedPreferences("SlayMonstersData", MODE_PRIVATE);
+        return sharedPreferences.getString("session_cookie", null);
     }
-    public Long recupIdJoueur(){
-        SharedPreferences sharedPreferences=this.getSharedPreferences("SlayMonstersData",MODE_PRIVATE);
-        if(sharedPreferences.getString("joueur_id",null)!=null) {
-            return Long.getLong(sharedPreferences.getString("joueur_id", null));
-        }
-        else {
-            return null;
-        }
-    }
-    public static void connexionPartie(Partie partieDonnee){
-        partie=partieDonnee;
-        OkHttpClient okHttpClient= OkHttpClientSingleton.getOkHttpClient();
-        Request request = new Request.Builder().url("ws://"+ MainActivity.globalIP +"/game/"+partie.getId()).build();
+
+    /**
+     * fonction permettant de se connecter au websocket lié à la partie
+     *
+     * @param partieDonnee partie renvoyé par le serveur lors de la création d'une partie
+     * @author Matisse Gallouin
+     */
+    public static void connexionPartie(Partie partieDonnee) {
+        partie = partieDonnee;
+        OkHttpClient okHttpClient = OkHttpClientSingleton.getOkHttpClient();
+        Request request = new Request.Builder().url("ws://" + MainActivity.globalIP + "/game/" + partie.getId()).build();
         MainActivity.webSocketPartie = okHttpClient.newWebSocket(request, new GameWebSocketListener());
     }
-    public static void infoJoueur(List<Long> listJoueurId,Long chefId){
-        JoueurRepository joueurRepository=new JoueurRepository();
-        if(chefId!=null){
+
+    /**
+     * fonction servant à l'ajout des informations des joueurs donnés
+     *
+     * @param listJoueurId liste des id des joueurs hors chef de la partie
+     * @param chefId       id du chef de la partie
+     * @author Matisse Gallouin
+     */
+    public static void infoJoueur(List<Long> listJoueurId, Long chefId) {
+        JoueurRepository joueurRepository = new JoueurRepository();
+        if (chefId != null) {
             joueurRepository.getChefPartieById(chefId);
         }
-        for(int i=0;i<listJoueurId.size();i++){
-            joueurRepository.getJoueurPartieById(listJoueurId.get(i),i+2);
+        for (int i = 0; i < listJoueurId.size(); i++) {
+            joueurRepository.getJoueurPartieById(listJoueurId.get(i), i + 2);
         }
     }
-    public static void ajoutJoueur(Long joueurId){
-        JoueurRepository joueurRepository=new JoueurRepository();
+
+    /**
+     * fonction servant à l'ajout des informations d'un' joueurs donné
+     *
+     * @param joueurId id du joueur a ajouté
+     * @author Matisse Gallouin
+     */
+    public static void ajoutJoueur(Long joueurId) {
+        JoueurRepository joueurRepository = new JoueurRepository();
         System.out.println("entrée dans fonction 1");
-        joueurRepository.getJoueurPartieById(joueurId,joueursPartie.size()+1);
+        joueurRepository.getJoueurPartieById(joueurId, joueursPartie.size() + 1);
     }
 
 }

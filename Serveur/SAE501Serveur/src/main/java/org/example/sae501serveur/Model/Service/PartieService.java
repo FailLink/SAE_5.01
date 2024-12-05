@@ -32,21 +32,26 @@ public class PartieService {
     public Partie getPartieById(Long id) {
         return partieRepository.findById(id).orElse(null);
     }
+
     public void deletePartie(Long id) {
         partieRepository.deleteById(id);
     }
-    public Partie addJoueurBDD(Joueur joueur,Partie partie){
+
+    public Partie addJoueurBDD(Joueur joueur, Partie partie) {
         partie.getJoueur().add(joueur);
         return partieRepository.save(partie);
     }
-    public Partie getPartieNotFinishedByIdJoueur(Joueur joueur){
+
+    public Partie getPartieNotFinishedByIdJoueur(Joueur joueur) {
         return partieRepository.getPartieNotFinishedByIdJoueur(joueur.getId());
     }
-    public List<Partie> getAllPartieNoFinished(){
+
+    public List<Partie> getAllPartieNoFinished() {
         return partieRepository.getPartieNotFinished();
     }
 
     /**
+     * fonction créant une partie de manière semi-aléatoire<br>
      * Choix des lieux de manière aléatoires mais avec une utilisation de poids
      * afin de ne pas avoir une distance entre chaque lieux trop déséquilibré<br>
      * Pour choisir les lieux on utilise leur distance entre eux
@@ -60,34 +65,36 @@ public class PartieService {
      * d=1,414
      * poids=1/1,414=0,70
      * probalité=1-0,7=0,3
+     *
      * @param longitude
      * @param latitude
-     * @return
+     * @return la partie créé
+     * @author Matisse Gallouin
      */
-    public Partie createPartie(double longitude,double latitude){
-        Partie partie=new Partie();
-        List<Lieux> lieux=lieuxRepository.getLieuxByPlayerPosition(latitude,longitude);
-        List<Monstre> monstres=monstreRepository.findAll();
-        List<MonstreLieux> lieuxPartie=new ArrayList<>();
-        Random random=new Random();
+    public Partie createPartie(double longitude, double latitude) {
+        Partie partie = new Partie();
+        List<Lieux> lieux = lieuxRepository.getLieuxByPlayerPosition(latitude, longitude);
+        List<Monstre> monstres = monstreRepository.findAll();
+        List<MonstreLieux> lieuxPartie = new ArrayList<>();
+        Random random = new Random();
         lieuxPartie.add(new MonstreLieux(monstres.get(random.nextInt(monstres.size())),
                 lieux.get(random.nextInt(lieux.size()))));
         lieux.remove(lieuxPartie.get(0).getLieux());
 
-        for (int i=0;i<6;i++){
-            ArrayList<Lieux> lieuxPoids =new ArrayList<>() ;
-            for(int j=0;j<lieux.size();j++){
-                double poids=0;
+        for (int i = 0; i < 6; i++) {
+            ArrayList<Lieux> lieuxPoids = new ArrayList<>();
+            for (int j = 0; j < lieux.size(); j++) {
+                double poids = 0;
                 double probabilites;
                 for (MonstreLieux monstreLieux : lieuxPartie) {
-                    poids += 1 / (lieux.get(j).distance(monstreLieux.getLieux())/100 + 1);
+                    poids += 1 / (lieux.get(j).distance(monstreLieux.getLieux()) / 100 + 1);
                 }
-                probabilites=Math.round((1-poids/lieuxPartie.size())*100);
-                for(int l=0;l<probabilites;l++){
+                probabilites = Math.round((1 - poids / lieuxPartie.size()) * 100);
+                for (int l = 0; l < probabilites; l++) {
                     lieuxPoids.add(lieux.get(j));
                 }
             }
-            random=new Random();
+            random = new Random();
             lieuxPartie.add(new MonstreLieux(monstres.get(random.nextInt(monstres.size())),
                     lieuxPoids.get(random.nextInt(lieuxPoids.size()))));
             lieuxPartie.get(i).addPartie(partie);
