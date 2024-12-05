@@ -34,7 +34,7 @@ public class Classe {
     @ManyToOne
     @JoinColumn(name = "type_id")
     @JsonView(Views.ClasseView.class)
-    @JsonManagedReference
+    @JsonBackReference
     private Type type;
     @OneToMany(mappedBy = "classe")
     @JsonView(Views.ClasseView.class)

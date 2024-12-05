@@ -5,6 +5,7 @@ import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.widget.FrameLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -26,6 +27,7 @@ import org.osmdroid.views.overlay.mylocation.GpsMyLocationProvider;
 
 import com.example.sae501.Model.Entity.Joueur;
 import com.example.sae501.Model.Entity.Lieux;
+import com.example.sae501.Model.Entity.Monstre;
 import com.example.sae501.Model.Entity.MonstreLieux;
 import com.example.sae501.databinding.ActivityMapsBinding;
 
@@ -43,6 +45,10 @@ public class MapsActivity extends AppCompatActivity {
     private static final double ARENA2_LATITUDE = 50.2708082;
     private static final double ARENA2_LONGITUDE = 3.9892575;
     private final List<Marker> indicateurRebordArene = new ArrayList<>();
+    public static List<Marker> markers = new ArrayList<>();
+
+    public static Marker clickedMarker ;
+    public static MapView carte ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -100,14 +106,10 @@ public class MapsActivity extends AppCompatActivity {
                 controller.animateTo(new GeoPoint(location.getLatitude(), location.getLongitude()));
 
                 // Applique un zoom fixe
-                double zoomLevel = 19.0;
+                double zoomLevel = 2.0;
                 controller.setZoom(zoomLevel);
             }
         }));
-
-        // Ajouter des marqueurs pour les arènes
-        addArenaMarker(ARENA1_LATITUDE, ARENA1_LONGITUDE, "Lycée Pierre Forest");
-        addArenaMarker(ARENA2_LATITUDE, ARENA2_LONGITUDE, "Deuxième Arène");
 
         // Récupérer le bouton via le binding et gérer l'événement de clic
         binding.recenterButton.setOnClickListener(v -> recentrerCarte());
@@ -147,12 +149,16 @@ public class MapsActivity extends AppCompatActivity {
         //info lieux
         for(MonstreLieux monstreLieux:MainActivity.partie.getMonstreLieux()){
             Lieux lieux=monstreLieux.getLieux();
-            addArenaMarker(lieux.getLatitude(),lieux.getLongitude(),monstreLieux.getMonstre().getNom());
+            addArenaMarker(lieux.getLatitude(),lieux.getLongitude(),monstreLieux.getMonstre().getNom(), monstreLieux.getMonstre());
+        }
+        if (markers.size() == 1){
+            Intent intent = new Intent(this, MainActivity.class);
+            startActivity(intent);
         }
     }
 
     // Méthode pour ajouter des marqueurs pour les arènes
-    private void addArenaMarker(double latitude, double longitude, String title) {
+    private void addArenaMarker(double latitude, double longitude, String title, Monstre monstre) {
         GeoPoint arenaLocation = new GeoPoint(latitude, longitude);
         Marker arenaMarker = new Marker(mMap);
         arenaMarker.setPosition(arenaLocation);
@@ -168,10 +174,13 @@ public class MapsActivity extends AppCompatActivity {
 
         // Listener pour gérer le clic sur les marqueurs
         arenaMarker.setOnMarkerClickListener((marker, mapView) -> {
+            clickedMarker = marker;
+            carte = mapView ;
+
             GeoPoint geoPointJoueur= mMyLocationOverlay.getMyLocation();
             if(distance(arenaLocation.getLatitude(),arenaLocation.getLongitude()
                     ,geoPointJoueur.getLatitude(),geoPointJoueur.getLongitude())<=50) {
-                showBattleConfirmationDialog(title);
+                showBattleConfirmationDialog(title,monstre);
             }else{
                 Toast.makeText(this,"vous êtes trop loin",Toast.LENGTH_SHORT).show();
             }
@@ -179,27 +188,37 @@ public class MapsActivity extends AppCompatActivity {
         });
 
         mMap.getOverlays().add(arenaMarker);
+        markers.add(arenaMarker);
     }
 
     // Méthode pour afficher un dialogue de confirmation avant de commencer un combat
-    private void showBattleConfirmationDialog(String arenaName) {
+    private void showBattleConfirmationDialog(String arenaName, Monstre monstre) {
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Combat contre " + arenaName)
                 .setMessage("Voulez-vous combattre contre "+arenaName+" ?")
                 .setPositiveButton("Oui", (dialog, id) -> {
-                    startCombat();
+                    startCombat(monstre);
                 })
                 .setNegativeButton("Non", (dialog, id) -> dialog.dismiss());
         builder.create().show();
     }
 
     // Méthode pour démarrer le combat (exemple, peut être personnalisé selon votre logique)
-    private void startCombat() {
+    private void startCombat(Monstre monstre) {
         // Logique pour démarrer le combat (exemple avec une nouvelle activité)
         // Vous pouvez remplacer cela par la logique de combat réelle de votre application
+
+        MainActivity.joueur.setHpActuel(MainActivity.joueur.getClasse().getHp());
         Intent intent = new Intent(this, Combat.class);
+        intent.putExtra("monstreAttaque", monstre.getAttack());
+        intent.putExtra("monstreNom", monstre.getNom());
+        intent.putExtra("monstreHp", monstre.getHp());
+        intent.putExtra("monstreDef", monstre.getDef());
+        intent.putExtra("monstreResistance", monstre.getTypeMonstre().getResistance());
+        intent.putExtra("monstreFaiblesse", monstre.getTypeMonstre().getFaiblesse());
         startActivity(intent);
+
     }
 
     // Méthode pour recentrer la carte sur la position actuelle de l'utilisateur

@@ -82,7 +82,7 @@ public class PartieService {
                 for (MonstreLieux monstreLieux : lieuxPartie) {
                     poids += 1 / (lieux.get(j).distance(monstreLieux.getLieux())/100 + 1);
                 }
-                probabilites=Math.round((1-poids/lieuxPartie.size())*100);
+                probabilites=Math.round((1-poids/lieuxPartie.size())*100000000);
                 for(int l=0;l<probabilites;l++){
                     lieuxPoids.add(lieux.get(j));
                 }

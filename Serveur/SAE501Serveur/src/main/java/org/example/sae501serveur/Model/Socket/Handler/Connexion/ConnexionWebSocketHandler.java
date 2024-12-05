@@ -8,6 +8,7 @@ import org.example.sae501serveur.Model.JsonViewEntity.Views;
 import org.example.sae501serveur.Model.Service.JoueurService;
 import org.example.sae501serveur.Model.Service.PartieService;
 import org.example.sae501serveur.Model.Socket.Handler.Game.RedirectorHandler;
+import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.socket.TextMessage;
