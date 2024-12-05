@@ -6,9 +6,11 @@
     android:layout_height="match_parent"
     tools:context="com.example.sae501.MapsActivity">
 
+    <!-- Carte OpenStreetMap -->
     <org.osmdroid.views.MapView
         android:id="@+id/osmMV"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:clickable="true" />
+        android:clickable="true"
+        android:focusable="true" />
 </RelativeLayout>

@@ -1,7 +1,11 @@
 package org.example.sae501serveur.Model.Entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonView;
 import jakarta.persistence.*;
+import org.example.sae501serveur.Model.JsonViewEntity.Views;
 
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -10,22 +14,28 @@ import java.util.Set;
 public class MonstreLieux {
     @Id
     @Column(name = "monstre_id")
+    @JsonView(Views.MonstreLieuxView.class)
     private Long monstreId;
 
     @Id
     @Column(name = "lieux_id")
+    @JsonView(Views.MonstreLieuxView.class)
     private Long lieuxId;
 
 
     @ManyToOne
     @JoinColumn(name = "monstre_id", insertable = false, updatable = false)
+    @JsonView(Views.MonstreLieuxView.class)
     private Monstre monstre;
 
     @ManyToOne
     @JoinColumn(name = "lieux_id", insertable = false, updatable = false)
+    @JsonView(Views.MonstreLieuxView.class)
     private Lieux lieux;
 
-    @ManyToMany(mappedBy = "monstreLieux")
+    @ManyToMany(cascade = CascadeType.PERSIST)
+    @JsonView(Views.MonstreLieuxView.class)
+    @JsonBackReference
     private Set<Partie> partie;
 
     public MonstreLieux() {
@@ -43,6 +53,14 @@ public class MonstreLieux {
         this.monstreId = monstreId;
         this.lieuxId = lieuxId;
         this.partie = partie;
+    }
+
+    public MonstreLieux(Monstre monstre, Lieux lieux) {
+        this.monstre = monstre;
+        this.lieux = lieux;
+        this.lieuxId = lieux.getId();
+        this.monstreId = monstre.getId();
+        this.partie = new HashSet<>();
     }
 
     public Monstre getMonstre() {
@@ -67,6 +85,18 @@ public class MonstreLieux {
 
     public void setPartie(Set<Partie> partie) {
         this.partie = partie;
+    }
+
+    public void addPartie(Partie partie) {
+        this.partie.add(partie);
+        if (partie.getMonstreLieux() != null) {
+            if (!partie.getMonstreLieux().contains(this)) {
+                partie.addMonstreLieux(this);
+            }
+        } else {
+            partie.setMonstreLieux(new HashSet<>());
+            partie.addMonstreLieux(this);
+        }
     }
 
     public Long getMonstreId() {

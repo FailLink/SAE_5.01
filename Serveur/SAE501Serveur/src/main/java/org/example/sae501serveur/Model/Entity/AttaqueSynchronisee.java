@@ -1,4 +1,5 @@
 package org.example.sae501serveur.Model.Entity;
+
 import jakarta.persistence.*;
 
 @Entity
@@ -21,13 +22,13 @@ public class AttaqueSynchronisee {
     @JoinColumn(name = "statut")
     private Statut statut;
 
-    public AttaqueSynchronisee(Long id, String nom, Classe classe1, Classe classe2,int attack,Statut statut) {
+    public AttaqueSynchronisee(Long id, String nom, Classe classe1, Classe classe2, int attack, Statut statut) {
         this.id = id;
         this.nom = nom;
         this.classe1 = classe1;
         this.classe2 = classe2;
-        this.attack=attack;
-        this.statut=statut;
+        this.attack = attack;
+        this.statut = statut;
     }
 
     public AttaqueSynchronisee() {

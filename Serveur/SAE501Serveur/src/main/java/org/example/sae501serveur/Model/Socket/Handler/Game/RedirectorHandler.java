@@ -14,32 +14,55 @@ import java.util.Map;
 
 @Component
 public class RedirectorHandler extends TextWebSocketHandler {
-
-    private final Map<String,GameWebSocketHandler> handlerSessionId=new HashMap<>();
+    //map permettant de stocker les différents gamewebsockethandler
+    // afin de correctement séparer les variables selon les parties
+    private final Map<String, GameWebSocketHandler> handlerSessionId = new HashMap<>();
 
     @Autowired
     private GameWebSocketHandlerFactory gameWebSocketHandlerFactory;
     @Autowired
     private PartieService partieService;
+
     @Override
     public void afterConnectionEstablished(WebSocketSession session) throws Exception {
     }
 
     @Override
     public void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
-        session.sendMessage(new TextMessage(Arrays.toString(session.getUri().getPath().split("/"))));
-        String path=session.getUri().getPath().split("/")[2];
-        session.sendMessage(new TextMessage(path));
-        if(partieService.getPartieById(Integer.toUnsignedLong(Integer.parseInt(path)))==null){
-            session.sendMessage(new TextMessage("la partie n'existe pas"));
+        //récupération de l'id de la partie contenue dans le lien du websocket
+        String path = session.getUri().getPath().split("/")[2];
+
+        //transformation du json en dictionnaire
+        ObjectMapper objectMapper = new ObjectMapper();
+        Map<String, Object> msg = objectMapper.readValue(message.getPayload(), Map.class);
+
+        //recherche de la partie pour voir si elle existe dans la bdd
+        if (partieService.getPartieById(Integer.toUnsignedLong(Integer.parseInt(path))) == null) {
+            session.sendMessage(new TextMessage("{ \"type\": \"partieNonTrouve\"}"));
             session.close();
-        }else {
-            if (handlerSessionId.get(path) != null) {
-                handlerSessionId.get(path).handleTextMessage(session, message);
+        } else {
+            //recherche du handler correspondant
+            if (handlerSessionId.containsKey(path)) {
+                //gestion de la déconnexion dans le cas le joueur est seule afin de supprimer la partie
+                if (((String) msg.get("type")).equalsIgnoreCase("deconnexion")) {
+                    if (handlerSessionId.get(path).getJoueurs().size() == 1) {
+                        handlerSessionId.remove(path);
+                        session.close();
+                    } else {
+                        handlerSessionId.get(path).handleTextMessage(session, message);
+                    }
+                } else {
+                    handlerSessionId.get(path).handleTextMessage(session, message);
+                }
             } else {
-                handlerSessionId.put(path, gameWebSocketHandlerFactory.createHandler());
+                handlerSessionId.put(path, gameWebSocketHandlerFactory.
+                        createHandler(partieService.getPartieById(Integer.toUnsignedLong(Integer.parseInt(path)))));
                 handlerSessionId.get(path).handleTextMessage(session, message);
             }
         }
+    }
+
+    public Map<String, GameWebSocketHandler> getHandlerSessionId() {
+        return handlerSessionId;
     }
 }

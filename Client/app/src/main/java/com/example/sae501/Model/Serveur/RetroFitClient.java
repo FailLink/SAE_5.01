@@ -1,5 +1,6 @@
 package com.example.sae501.Model.Serveur;
 
+import com.example.sae501.MainActivity;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -9,24 +10,27 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class RetroFitClient {
-    private static final String urlSpring="http://10.0.2.2:8080/";
+    //lien vers le serveur
+    private static final String urlSpring = "http://" + MainActivity.globalIP + "/";
+    //singleton
     private static Retrofit retrofit;
 
     /**
      * permet de récupérer l'objet retrofit du singleton
-     * @author Matisse Gallouin
+     *
      * @return retourne l'objet singleton retrofit de la classe
+     * @author Matisse Gallouin
      */
     public static Retrofit getRetrofitInstance() {
 
         if (retrofit == null) {
             Gson gson = new GsonBuilder()
-                    .setLenient()
+                    .setLenient() // permet d'envoyer d'autre message que des jsons présent pour testConnexion et les websockets
                     .create();
             retrofit = new Retrofit.Builder()
-                    .baseUrl(urlSpring)
-                    .client(OkHttpClientSingleton.getOkHttpClient())
-                    .addConverterFactory(GsonConverterFactory.create(gson))  // Utilise Gson pour convertir la réponse JSON
+                    .baseUrl(urlSpring) // set l'url de retrofit
+                    .client(OkHttpClientSingleton.getOkHttpClient()) // ajout du client okhttp pour les logs et l'intercepteur
+                    .addConverterFactory(GsonConverterFactory.create(gson))  // ajout de gson pour convertir les jsons en objets
                     .build();
         }
         return retrofit;

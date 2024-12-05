@@ -1,4 +1,5 @@
 package com.example.sae501.Model.Entity;
+import java.util.Objects;
 import java.util.Set;
 
 
@@ -8,11 +9,14 @@ public class Joueur {
     private String pseudo;
     private String adresseMail;
     private String mdp;
+
     private Classe classe;
     private Set<Competence> competences;
     private Set<Joueur> joueurs;
     private Set<Joueur> amis;
     private Set<Partie> parties;
+
+    private int hpActuel;
 
     public Joueur(Long id, String pseudo, String adresseMail, String mdp,
                   Classe classe, Set<Competence> competences, Set<Joueur> joueurs, Set<Joueur> amis, Set<Partie> parties) {
@@ -25,6 +29,7 @@ public class Joueur {
         this.joueurs = joueurs;
         this.amis = amis;
         this.parties=parties;
+        this.hpActuel=this.classe.getHp();
     }
 
     public Joueur() {
@@ -98,7 +103,28 @@ public class Joueur {
         return parties;
     }
 
+    public int getHpActuel() {
+        return hpActuel;
+    }
+
+    public void setHpActuel(int hpActuel) {
+        this.hpActuel = hpActuel;
+    }
+
     public void setParties(Set<Partie> parties) {
         this.parties = parties;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Joueur joueur = (Joueur) o;
+        return Objects.equals(id, joueur.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
     }
 }

@@ -23,24 +23,42 @@ public class JoueurController {
     @Autowired
     JoueurService joueurService;
 
+    /**
+     * fonction permettant à l'aide du jsessionID de récupérer le joueur lié
+     *
+     * @return le joueur lié au session id
+     * @author Matisse Gallouin
+     */
     @GetMapping("/joueurSession")
     @ResponseBody
-    public ResponseEntity<?> getJoueurBySessionId(){
+    public ResponseEntity<?> getJoueurBySessionId() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication == null || !authentication.isAuthenticated()) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Utilisateur non connecté");
         }
-        Optional<Joueur> joueur=joueurService.getJoueurByPseudo(authentication.getName());
+        Optional<Joueur> joueur = joueurService.getJoueurByPseudo(authentication.getName());
 
         return ResponseEntity.ok(joueur.get());
     }
+
     @PostMapping("/joueurId")
     @ResponseBody
-    public ResponseEntity<?> getJoueurById(@RequestParam("id")Long id){
-        Optional<Joueur> joueur=joueurService.getJoueurById(id);
-        if(joueur.isEmpty()){
+    public ResponseEntity<?> getJoueurById(@RequestParam("id") Long id) {
+        Optional<Joueur> joueur = joueurService.getJoueurById(id);
+        if (joueur.isEmpty()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Le joueur demandé n'existe pas");
-        }else {
+        } else {
+            return ResponseEntity.ok(joueur.get());
+        }
+    }
+
+    @PostMapping("/setJoueurClasse")
+    @ResponseBody
+    public ResponseEntity<?> setJoueurClasse(@RequestParam("id") Long id, @RequestParam("classe") String classe) {
+        Optional<Joueur> joueur = joueurService.setClasseJoueur(id, classe);
+        if (joueur == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Le joueur demandé n'existe pas");
+        } else {
             return ResponseEntity.ok(joueur.get());
         }
     }

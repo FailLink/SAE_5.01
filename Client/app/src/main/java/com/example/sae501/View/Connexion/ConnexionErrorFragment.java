@@ -1,4 +1,4 @@
-package com.example.sae501.View;
+package com.example.sae501.View.Connexion;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -14,18 +14,25 @@ import com.example.sae501.Controller.Connexion.ConnexionRepository;
 //Il est possible de modifier le visuel du dialogfragment en créant un layout personalisé
 // attention voir comment modifier le code dans ce cas
 public class ConnexionErrorFragment extends DialogFragment {
-    private ConnexionRepository connexionRepository ;
+    private ConnexionRepository connexionRepository;
 
+    /**
+     * constructeur de la classe
+     *
+     * @param connexionRepository connexion repository permettant de retester la connexion dans le fragment
+     * @author Matisse Gallouin
+     */
     public ConnexionErrorFragment(ConnexionRepository connexionRepository) {
         this.connexionRepository = connexionRepository;
     }
 
     /**
-     *Création d'une popup en cas d'erreur de connexion permettant de tenter de se reconnecter ou de quitter l'application
-     * @author Matisse Gallouin
+     * Création d'une popup en cas d'erreur de connexion permettant de tenter de se reconnecter ou de quitter l'application
+     *
      * @param savedInstanceState The last saved instance state of the Fragment,
-     * or null if this is a freshly created Fragment.
+     *                           or null if this is a freshly created Fragment.
      * @return retourne le dialog créé
+     * @author Matisse Gallouin
      */
     @NonNull
     @Override
@@ -39,7 +46,7 @@ public class ConnexionErrorFragment extends DialogFragment {
                         dialog.dismiss();
                         connexionRepository.getTestConnexion();
                     }
-                }).setNegativeButton("Quitter",new DialogInterface.OnClickListener(){
+                }).setNegativeButton("Quitter", new DialogInterface.OnClickListener() {
 
                     @Override
                     public void onClick(DialogInterface dialog, int which) {

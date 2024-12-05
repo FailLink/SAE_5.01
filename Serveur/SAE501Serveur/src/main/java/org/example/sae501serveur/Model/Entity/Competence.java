@@ -1,5 +1,10 @@
 package org.example.sae501serveur.Model.Entity;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonView;
 import jakarta.persistence.*;
+import org.example.sae501serveur.Model.JsonViewEntity.Views;
 
 import java.util.Set;
 
@@ -8,22 +13,31 @@ import java.util.Set;
 public class Competence {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @JsonView(Views.CompetencesView.class)
     private Long id;
-
+    @JsonView(Views.CompetencesView.class)
     private String nom;
+    @JsonView(Views.CompetencesView.class)
     private String animation;
+    @JsonView(Views.CompetencesView.class)
     private int attack;
 
 
     @ManyToOne
     @JoinColumn(name = "statut_id")
+    @JsonView(Views.CompetencesView.class)
+    @JsonManagedReference
     private Statut statut;
 
     @ManyToOne
     @JoinColumn(name = "type_id")
+    @JsonView(Views.CompetencesView.class)
+    @JsonManagedReference
     private Type typeCompetence;
 
-    @ManyToMany (mappedBy = "competences")
+    @ManyToMany(mappedBy = "competences")
+    @JsonView(Views.CompetencesView.class)
+    @JsonBackReference
     private Set<Joueur> joueurs;
 
     public Competence() {

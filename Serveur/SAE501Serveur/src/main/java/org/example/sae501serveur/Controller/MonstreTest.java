@@ -1,5 +1,6 @@
 package org.example.sae501serveur.Controller;
 
+    import org.example.sae501serveur.Model.Entity.Monstre;
     import org.example.sae501serveur.Model.Repository.MonstreRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -22,7 +23,7 @@ public class MonstreTest {
 
     // Récupérer tous les monstres
     @GetMapping
-    public ResponseEntity<List<Object>> getAllMonstres() {
-        return new ResponseEntity<>( monstreRepository.findAllMonstreHP(), HttpStatus.OK);
+    public ResponseEntity<List<Monstre>> getAllMonstres() {
+        return new ResponseEntity<>( monstreRepository.findAll(), HttpStatus.OK);
     }
 }
