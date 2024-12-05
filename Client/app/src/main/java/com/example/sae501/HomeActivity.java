@@ -16,11 +16,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
-import com.example.sae501.MainActivity;
-import com.example.sae501.Model.Entity.Competence;
 import com.example.sae501.Model.Serveur.OkHttpClientSingleton;
 import com.example.sae501.Model.Socket.ConnexionWebSocketListener;
-import com.example.sae501.R;
 import com.example.sae501.View.RejoindrePartie.RejoindrePartieFragment;
 import com.example.sae501.databinding.ActivityMapsBinding;
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -53,7 +50,6 @@ public class HomeActivity extends AppCompatActivity {
                     new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
                     1001);
         }else{
-
             envoieMessage();
         }
     }
@@ -88,7 +84,6 @@ public class HomeActivity extends AppCompatActivity {
                 String jsonMessage = "{ \"type\": \"creationPartie\"," +
                         "\"positionLongitude\":" + location.getLongitude() + "," +
                         "\"positionLatitude\":"+location.getLatitude()+"}";
-
                 webSocket.send(jsonMessage);
             }
         });

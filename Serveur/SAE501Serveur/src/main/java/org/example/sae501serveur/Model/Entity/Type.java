@@ -1,11 +1,6 @@
 package org.example.sae501serveur.Model.Entity;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonView;
 import jakarta.persistence.*;
-import org.example.sae501serveur.Model.JsonViewEntity.Views;
 
 import java.util.List;
 
@@ -18,18 +13,19 @@ public class Type {
     private Long id;
 
     private String nom; // Exemple: eau
-
+    @OneToOne
     @JoinColumn(name = "resistance")
-    private String resistance; // Exemple: feu bah oui mais non
+    private Type resistance; // Exemple: feu bah oui mais non
 
+    @OneToOne
     @JoinColumn(name = "faiblesse")
-    private String faiblesse; // Exemple: terre
+    private Type faiblesse; // Exemple: terre
 
-    @JsonBackReference
+
     @OneToMany(mappedBy = "typeCompetence")
     private List<Competence> competences;
 
-    public Type(Long id, String nom, String resistance, String faiblesse, List<Competence> competences) {
+    public Type(Long id, String nom, Type resistance, Type faiblesse, List<Competence> competences) {
         this.id = id;
         this.nom = nom;
         this.resistance = resistance;
@@ -56,19 +52,19 @@ public class Type {
         this.nom = nom;
     }
 
-    public String getResistance() {
+    public Type getResistance() {
         return resistance;
     }
 
-    public void setResistance(String resistance) {
+    public void setResistance(Type resistance) {
         this.resistance = resistance;
     }
 
-    public String getFaiblesse() {
+    public Type getFaiblesse() {
         return faiblesse;
     }
 
-    public void setFaiblesse(String faiblesse) {
+    public void setFaiblesse(Type faiblesse) {
         this.faiblesse = faiblesse;
     }
 

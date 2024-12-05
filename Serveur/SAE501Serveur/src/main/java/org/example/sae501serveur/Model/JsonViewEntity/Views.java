@@ -6,8 +6,5 @@ public class Views {
     public static class MonstreLieuxView{}
     public static class CompetencesView{}
     public static class ClasseView{}
-    public static class TypeView{}
-    public static class MonstreView{}
-
 
 }

@@ -39,7 +39,6 @@ public class Joueur {
     private Set<Competence> competences;
 
     @ManyToMany
-    @JsonBackReference
     @JoinTable(
             name = "Amis",
             joinColumns = @JoinColumn(name = "joueur_id"),

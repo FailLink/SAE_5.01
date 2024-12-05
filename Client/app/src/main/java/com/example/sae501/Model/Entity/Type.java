@@ -5,11 +5,11 @@ import java.util.List;
 public class Type {
     private Long id;
     private String nom;
-    private String resistance;
-    private String faiblesse;
+    private Type resistance;
+    private Type faiblesse;
     private List<Competence> competences;
 
-    public Type(Long id, String nom, String resistance, String faiblesse, List<Competence> competences) {
+    public Type(Long id, String nom, Type resistance, Type faiblesse, List<Competence> competences) {
         this.id = id;
         this.nom = nom;
         this.resistance = resistance;
@@ -36,19 +36,19 @@ public class Type {
         this.nom = nom;
     }
 
-    public String getResistance() {
+    public Type getResistance() {
         return resistance;
     }
 
-    public void setResistance(String resistance) {
+    public void setResistance(Type resistance) {
         this.resistance = resistance;
     }
 
-    public String getFaiblesse() {
+    public Type getFaiblesse() {
         return faiblesse;
     }
 
-    public void setFaiblesse(String faiblesse) {
+    public void setFaiblesse(Type faiblesse) {
         this.faiblesse = faiblesse;
     }
 
