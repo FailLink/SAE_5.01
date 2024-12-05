@@ -151,7 +151,7 @@ public class MapsActivity extends AppCompatActivity {
             Lieux lieux=monstreLieux.getLieux();
             addArenaMarker(lieux.getLatitude(),lieux.getLongitude(),monstreLieux.getMonstre().getNom(), monstreLieux.getMonstre());
         }
-        if (markers.size() == 1){
+        if (markers.size() > 2){
             Intent intent = new Intent(this, MainActivity.class);
             startActivity(intent);
         }
