@@ -25,6 +25,19 @@ public class Monstre {
         this.typeMonstre = typeMonstre;
     }
 
+    public Monstre(String nom, int hp, int attack, int def, String monstreResistance, String monstreFaiblesse) {
+        this.nom = nom;
+        this.hp = hp;
+        this.attack = attack;
+        this.def = def;
+
+        this.typeMonstre = new Type();
+
+        this.typeMonstre.setResistance(monstreResistance);
+        this.typeMonstre.setFaiblesse(monstreFaiblesse);
+
+    }
+
     public Long getId() {
         return id;
     }

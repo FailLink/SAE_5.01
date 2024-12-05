@@ -10,6 +10,8 @@ import org.springframework.security.config.annotation.web.configurers.LogoutConf
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.firewall.HttpFirewall;
+import org.springframework.security.web.firewall.StrictHttpFirewall;
 
 @Configuration
 @EnableWebSecurity
@@ -49,6 +51,7 @@ public class ConfigSecurity  {
                         .requestMatchers("/creationCompte").permitAll()
                         .requestMatchers("/css/**", "/js/**", "/images/**").permitAll()
                         .requestMatchers("/ajoutUtilisateurBDD").permitAll()
+                        .requestMatchers("/attaqueDef/attaque").permitAll()
                         .requestMatchers("/testConnexion","/joueurSession","/joueurId","/connexionPartie"
                                 ,"/game/{idPartie}","/setJoueurClasse").hasAnyRole("JOUEUR","ADMIN")
                         .anyRequest().hasRole("ADMIN")  // Exige une authentification pour toutes les autres URL
@@ -60,5 +63,10 @@ public class ConfigSecurity  {
 
         return http.build();
     }
-
+    @Bean
+    public HttpFirewall allowSemicolonFirewall() {
+        StrictHttpFirewall firewall = new StrictHttpFirewall();
+        firewall.setAllowSemicolon(true);  // Autorise le caractère ';' dans les URLs
+        return firewall;
+    }
 }
