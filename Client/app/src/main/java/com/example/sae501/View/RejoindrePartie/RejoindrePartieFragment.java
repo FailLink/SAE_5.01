@@ -22,26 +22,36 @@ import okhttp3.Request;
 import okhttp3.WebSocket;
 
 public class RejoindrePartieFragment extends DialogFragment {
+    /**
+     * Création d'une popup permettant au joueur de rentrer l'id de la partie qu'il veut rejoindre
+     *
+     * @param saveInstance The last saved instance state of the Fragment,
+     *                     or null if this is a freshly created Fragment.
+     * @return le dialog
+     * @author Matisse Gallouin
+     */
     @NonNull
     @Override
-    public Dialog onCreateDialog(@Nullable Bundle saveInstance){
-        LayoutInflater layoutInflater=getActivity().getLayoutInflater();
-        View view=layoutInflater.inflate(R.layout.rejoindre_partie_dialog,null);
+    public Dialog onCreateDialog(@Nullable Bundle saveInstance) {
+        LayoutInflater layoutInflater = getActivity().getLayoutInflater();
+        View view = layoutInflater.inflate(R.layout.rejoindre_partie_dialog, null);
 
-        EditText editText=view.findViewById(R.id.idPartieRejoindre);
-        Button button=view.findViewById(R.id.rejoindrePartie);
-        Button buttonExit=view.findViewById(R.id.quitterRejoindrePartie);
+        EditText editText = view.findViewById(R.id.idPartieRejoindre);
+        Button button = view.findViewById(R.id.rejoindrePartie);
+        Button buttonExit = view.findViewById(R.id.quitterRejoindrePartie);
 
-        button.setOnClickListener(v->{
+        button.setOnClickListener(v -> {
             this.dismiss();
             OkHttpClient okHttpClient = OkHttpClientSingleton.getOkHttpClient();
-            Request request = new Request.Builder().url("ws://"+ MainActivity.globalIP +"/connexionPartie").build();
+            Request request = new Request.Builder().url("ws://" + MainActivity.globalIP + "/connexionPartie").build();
             WebSocket webSocket = okHttpClient.newWebSocket(request, new ConnexionWebSocketListener());
-            String jsonMessage = "{ \"type\": \"connexionPartie\", \"idPartie\" : \""+editText.getText()+"\" }";
+            String jsonMessage = "{ \"type\": \"connexionPartie\", \"idPartie\" : \"" + editText.getText() + "\" }";
             System.out.println("envoieMessage");
             webSocket.send(jsonMessage);
         });
-        buttonExit.setOnClickListener(v->{this.dismiss();});
+        buttonExit.setOnClickListener(v -> {
+            this.dismiss();
+        });
         return new AlertDialog.Builder(getActivity()).setView(view).create();
     }
 }

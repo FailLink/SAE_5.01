@@ -13,15 +13,29 @@ public class PartieActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_partie);
-        MainActivity.currentActivity=this;
-        TextView textView=this.findViewById(R.id.textIdPartie);
-        textView.setText(textView.getText()+MainActivity.partie.getId().toString());
+        MainActivity.currentActivity = this;
+        TextView textView = this.findViewById(R.id.textIdPartie);
+        textView.setText(textView.getText() + MainActivity.partie.getId().toString());
     }
-    public void onClickLancerPartie(View view){
-        Intent intent=new Intent(this, MapsActivity.class);
+
+    /**
+     * fonction définissant le comportement du bouton lancer partie au clique
+     *
+     * @param view
+     * @author Matisse Gallouin
+     */
+    public void onClickLancerPartie(View view) {
+        Intent intent = new Intent(this, MapsActivity.class);
         startActivity(intent);
         MainActivity.webSocketPartie.send("{\"type\" : \"lancementPartie\"}");
     }
+    
+    /**
+     * fonction définissant le comportement du quitter lancer partie au clique
+     *
+     * @param view
+     * @author Matisse Gallouin
+     */
     public void onClickQuitter(View view) {
         String message = "{ \"type\" : \"deconnexion\" , \"joueur\" : " + MainActivity.joueur.getId() + "}";
         MainActivity.webSocketPartie.send(message);

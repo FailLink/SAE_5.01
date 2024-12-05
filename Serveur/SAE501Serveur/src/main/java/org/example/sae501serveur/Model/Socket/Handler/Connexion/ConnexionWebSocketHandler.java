@@ -38,20 +38,23 @@ public class ConnexionWebSocketHandler extends TextWebSocketHandler {
 
     @Override
     public void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
-        ObjectMapper objectMapper=new ObjectMapper();
-        Map<String,Object> msg=objectMapper.readValue(message.getPayload(),Map.class);
-        switch ((String) msg.get("type")){
+        //transformation du json en dictionnaire
+        ObjectMapper objectMapper = new ObjectMapper();
+        Map<String, Object> msg = objectMapper.readValue(message.getPayload(), Map.class);
+
+        //change le code selon le type de message
+        switch ((String) msg.get("type")) {
             case "creationPartie":
-                Partie partie=partieService.createPartie((Double) msg.get("positionLongitude"),(Double) msg.get("positionLatitude") );
+                Partie partie = partieService.createPartie((Double) msg.get("positionLongitude"), (Double) msg.get("positionLatitude"));
                 session.sendMessage(new TextMessage(objectMapper.writeValueAsString(partie)));
                 session.close();
                 break;
             case "connexionPartie":
-                if(!redirectorHandler.getHandlerSessionId().containsKey(msg.get("idPartie"))){
+                //recherche de la partie et action en conséquence
+                if (!redirectorHandler.getHandlerSessionId().containsKey(msg.get("idPartie"))) {
                     session.sendMessage(new TextMessage("{ \"type\": \"partieNonTrouve\"}"));
-                }
-                else{
-                    Partie partie1=partieService.getPartieById(Long.parseLong((String) msg.get("idPartie")));
+                } else {
+                    Partie partie1 = partieService.getPartieById(Long.parseLong((String) msg.get("idPartie")));
                     session.sendMessage(new TextMessage(objectMapper.writeValueAsString(partie1)));
                     session.close();
                 }

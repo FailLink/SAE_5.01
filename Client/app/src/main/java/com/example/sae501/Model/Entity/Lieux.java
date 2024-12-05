@@ -40,10 +40,4 @@ public class Lieux {
     public void setLatitude(float latitude) {
         this.latitude = latitude;
     }
-
-    public double distance(Lieux lieux){
-        return 6378137*Math.acos(Math.sin(Math.toRadians(this.latitude))*
-                Math.sin(Math.toRadians(lieux.latitude))+Math.cos(Math.toRadians(this.latitude))*
-                Math.cos(Math.toRadians(lieux.latitude))*Math.cos(Math.toRadians(this.longitude)-Math.toRadians(lieux.longitude)));
-    }
 }

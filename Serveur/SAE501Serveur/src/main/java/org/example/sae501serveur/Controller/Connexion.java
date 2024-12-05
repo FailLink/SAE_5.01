@@ -27,22 +27,37 @@ public class Connexion {
     JoueurService joueurService;
     @Autowired
     RoleService roleService;
+
     @GetMapping("/testConnexion")
-    public ResponseEntity<?> testConnexion(){
+    public ResponseEntity<?> testConnexion() {
         return ResponseEntity.ok("Leserveurestjoignable");
     }
+
     @GetMapping("/login")
     public String login() {
         return "login";
     }
+
     @GetMapping("/creationCompte")
-    public String creationCompte(){return "creationCompte";}
+    public String creationCompte() {
+        return "creationCompte";
+    }
+
+    /**
+     * fonction permettant l'ajout d'un joueur dans la bdd
+     *
+     * @param username pseudo voulu par l'utilisateur
+     * @param email    mail voulu par l'utilisateur
+     * @param password mot de passe voulu par l'utilisateur
+     * @return une réponse pour l'appel
+     * @author Matisse Gallouin
+     */
     @PostMapping("/ajoutUtilisateurBDD")
     @ResponseBody
     public ResponseEntity<?> ajoutJoueur(@RequestParam("username") String username,
-                              @RequestParam("email") String email,
-                              @RequestParam("password") String password){
-        if(joueurService.getJoueurByMail(email).isPresent()){
+                                         @RequestParam("email") String email,
+                                         @RequestParam("password") String password) {
+        if (joueurService.getJoueurByMail(email).isPresent()) {
             return ResponseEntity.status(HttpStatus.CONFLICT)
                     .body(Map.of("success", false, "message", "Email déjà utilisé."));
         }
@@ -50,12 +65,12 @@ public class Connexion {
             return ResponseEntity.status(HttpStatus.CONFLICT)
                     .body(Map.of("success", false, "message", "Pseudo déjà utilisé."));
         }
-            Joueur joueur = new Joueur();
-            joueur.setMdp(passwordEncoder.encode(password));
-            joueur.setPseudo(username);
-            joueur.setAdresseMail(email);
-            joueur.setRole(roleService.getStatutById(1L));
-            joueurService.saveJoueur(joueur);
-            return ResponseEntity.ok(Map.of("success", true, "message", "Compte créé avec succès."));
+        Joueur joueur = new Joueur();
+        joueur.setMdp(passwordEncoder.encode(password));
+        joueur.setPseudo(username);
+        joueur.setAdresseMail(email);
+        joueur.setRole(roleService.getStatutById(1L));
+        joueurService.saveJoueur(joueur);
+        return ResponseEntity.ok(Map.of("success", true, "message", "Compte créé avec succès."));
     }
 }

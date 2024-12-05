@@ -1,4 +1,5 @@
 package org.example.sae501serveur.Model.Entity;
+
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonView;
@@ -34,7 +35,7 @@ public class Competence {
     @JsonManagedReference
     private Type typeCompetence;
 
-    @ManyToMany (mappedBy = "competences")
+    @ManyToMany(mappedBy = "competences")
     @JsonView(Views.CompetencesView.class)
     @JsonBackReference
     private Set<Joueur> joueurs;

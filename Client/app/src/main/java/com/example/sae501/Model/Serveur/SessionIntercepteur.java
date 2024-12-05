@@ -11,16 +11,24 @@ import okhttp3.Request;
 import okhttp3.Response;
 
 public class SessionIntercepteur implements Interceptor {
+    /**
+     * permet d'ajouter le jsessionid dans toutes mes requêtes
+     *
+     * @param chain chaîne de requête vers le serveur
+     * @return response avec le jsessionID ajouté
+     * @throws IOException
+     * @author Matisse Gallouin
+     */
     @NonNull
     @Override
     public Response intercept(@NonNull Chain chain) throws IOException {
-        Request request=chain.request();
+        Request request = chain.request();
         if (MainActivity.sessionID != null) {
             request = request.newBuilder()
                     .addHeader("Cookie", "JSESSIONID=" + MainActivity.sessionID)
                     .build();
         }
-        Response response=chain.proceed(request);
+        Response response = chain.proceed(request);
         return response;
     }
 }

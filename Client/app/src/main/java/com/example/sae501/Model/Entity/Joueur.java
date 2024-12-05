@@ -114,20 +114,6 @@ public class Joueur {
     public void setParties(Set<Partie> parties) {
         this.parties = parties;
     }
-    @Override
-    public String toString() {
-        return "Joueur{" +
-                "id=" + id +
-                ", pseudo='" + pseudo + '\'' +
-                ", adresseMail='" + adresseMail + '\'' +
-                ", mdp='" + mdp + '\'' +
-                ", classe=" + classe +
-                ", competences=" + competences +
-                ", joueurs=" + joueurs +
-                ", amis=" + amis +
-                ", parties=" + parties +
-                '}';
-    }
 
     @Override
     public boolean equals(Object o) {
