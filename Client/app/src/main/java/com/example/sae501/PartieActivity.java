@@ -28,7 +28,6 @@ public class PartieActivity extends AppCompatActivity {
      * @author Matisse Gallouin
      */
     public void onClickLancerPartie(View view) {
-        System.out.println("boutonCliqué");
         Intent intent = new Intent(this, MapsActivity.class);
         startActivity(intent);
         MainActivity.webSocketPartie.send("{\"type\" : \"lancementPartie\"}");
