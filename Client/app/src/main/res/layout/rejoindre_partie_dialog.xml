@@ -28,6 +28,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:hint="id de la partie"
+            android:textColor="@color/white"
             android:inputType="number"
             android:layout_marginBottom="16dp"/>
 

@@ -4,8 +4,11 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class PartieActivity extends AppCompatActivity {
 
@@ -40,6 +43,17 @@ public class PartieActivity extends AppCompatActivity {
         String message = "{ \"type\" : \"deconnexion\" , \"joueur\" : " + MainActivity.joueur.getId() + "}";
         MainActivity.webSocketPartie.send(message);
         MainActivity.joueursPartie.clear();
+        MainActivity.currentActivity.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                ViewGroup listeJoueurView = MainActivity.currentActivity.findViewById(R.id.layoutPartie);
+                listeJoueurView.removeAllViews();
+
+                LayoutInflater.from(MainActivity.currentActivity).inflate(R.layout.activity_partie, listeJoueurView, true);
+                TextView textView = MainActivity.currentActivity.findViewById(R.id.textIdPartie);
+                textView.setText(textView.getText() + MainActivity.partie.getId().toString());
+            }
+        });
         Intent intent = new Intent(this, HomeActivity.class);
         startActivity(intent);
     }

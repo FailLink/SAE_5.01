@@ -46,7 +46,6 @@ public class RejoindrePartieFragment extends DialogFragment {
             Request request = new Request.Builder().url("ws://" + MainActivity.globalIP + "/connexionPartie").build();
             WebSocket webSocket = okHttpClient.newWebSocket(request, new ConnexionWebSocketListener());
             String jsonMessage = "{ \"type\": \"connexionPartie\", \"idPartie\" : \"" + editText.getText() + "\" }";
-            System.out.println("envoieMessage");
             webSocket.send(jsonMessage);
         });
         buttonExit.setOnClickListener(v -> {

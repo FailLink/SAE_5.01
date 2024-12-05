@@ -23,6 +23,12 @@ public class JoueurController {
     @Autowired
     JoueurService joueurService;
 
+    /**
+     * fonction permettant à l'aide du jsessionID de récupérer le joueur lié
+     *
+     * @return le joueur lié au session id
+     * @author Matisse Gallouin
+     */
     @GetMapping("/joueurSession")
     @ResponseBody
     public ResponseEntity<?> getJoueurBySessionId() {

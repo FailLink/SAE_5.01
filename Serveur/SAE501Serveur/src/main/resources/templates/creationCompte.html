@@ -24,11 +24,14 @@
                 <input type="password" id="password" name="password" class="form-input" required>
             </div>
             <button type="submit" id="login" class="form-button">Créer un compte</button>
+            <a href="login.html" class="create-account-link">Déjà un compte ?</a>
         </form>
-        <a href="login.html" class="create-account-link">Déjà un compte ?</a>
     </div>
     <script>
-        document.getElementById("login").onclick = ajoutJoueurBDD;
+        document.getElementById("login").onclick = function (event) {
+            event.preventDefault();
+            ajoutJoueurBDD();
+        };
         function ajoutJoueurBDD() {
             let username = document.getElementById("username").value;
             let email = document.getElementById("email").value;
@@ -41,7 +44,7 @@
                 success: function (response) {
                     console.log(response);
                     if (response.success) {
-                        window.location.href = "/login";
+                        window.location.href = window.location.origin + "/login";
                     } else {
                         erreurAjoutBDD(response);
                     }

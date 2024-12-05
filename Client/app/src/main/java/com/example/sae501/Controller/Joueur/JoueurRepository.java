@@ -123,7 +123,6 @@ public class JoueurRepository {
                 while (fragmentActivity.getClass() != PartieActivity.class) {
                     fragmentActivity = MainActivity.currentActivity;
                 }
-                System.out.println(fragmentActivity);
                 for (String s : idString) {
                     String idName = s + 1;
                     int resId = fragmentActivity.getResources().getIdentifier(idName, "id",
@@ -169,6 +168,7 @@ public class JoueurRepository {
             public void onResponse(Call<Joueur> call, Response<Joueur> response) {
                 if (response.isSuccessful()) {
                     MainActivity.joueur = response.body();
+                    MainActivity.joueur.setHpActuel(MainActivity.joueur.getClasse().getHp());
                     Intent intent = new Intent(fragmentActivity, HomeActivity.class);
                     fragmentActivity.startActivity(intent);
                 }

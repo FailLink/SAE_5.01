@@ -74,10 +74,15 @@ public class MainActivity extends AppCompatActivity {
             joueurRepository.getJoueurPartieById(listJoueurId.get(i),i+2);
         }
     }
-    public static void ajoutJoueur(Long joueurId){
-        JoueurRepository joueurRepository=new JoueurRepository();
-        System.out.println("entrée dans fonction 1");
-        joueurRepository.getJoueurPartieById(joueurId,joueursPartie.size()+1);
+    /**
+     * fonction servant à l'ajout des informations d'un' joueurs donné
+     *
+     * @param joueurId id du joueur a ajouté
+     * @author Matisse Gallouin
+     */
+    public static void ajoutJoueur(Long joueurId) {
+        JoueurRepository joueurRepository = new JoueurRepository();
+        joueurRepository.getJoueurPartieById(joueurId, joueursPartie.size() + 1);
     }
 
 }

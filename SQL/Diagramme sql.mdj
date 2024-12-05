@@ -7670,7 +7670,8 @@
 							"_parent": {
 								"$ref": "AAAAAAGSS/PRLIbmWlY="
 							},
-							"name": "animation"
+							"name": "animation",
+							"type": ""
 						},
 						{
 							"_type": "UMLAttribute",

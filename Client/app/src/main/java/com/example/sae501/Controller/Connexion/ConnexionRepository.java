@@ -103,7 +103,6 @@ public class ConnexionRepository {
             public void onResponse(Call<Joueur> call, Response<Joueur> response) {
                 //ajout dans les data du jeux
                 MainActivity.joueur = response.body();
-                MainActivity.joueur.setHpActuel(MainActivity.joueur.getClasse().getHp());
                 SharedPreferences sharedPreferences = fragmentActivity.getSharedPreferences("SlayMonstersData", MODE_PRIVATE);
                 SharedPreferences.Editor editor = sharedPreferences.edit();
                 editor.putString("joueur_id", MainActivity.joueur.getId().toString());
@@ -111,6 +110,7 @@ public class ConnexionRepository {
 
                 //lancement du choix du rôle dans le cas où celui-ci n'a pas encore été choisi
                 if (MainActivity.joueur.getClasse() != null) {
+                    MainActivity.joueur.setHpActuel(MainActivity.joueur.getClasse().getHp());
                     Intent intent = new Intent(fragmentActivity, HomeActivity.class);
                     fragmentActivity.startActivity(intent);
                 } else {
@@ -142,8 +142,8 @@ public class ConnexionRepository {
                     fragmentActivity.startActivity(intent);
                 } else {
                     MainActivity.joueur = response.body();
-                    MainActivity.joueur.setHpActuel(MainActivity.joueur.getClasse().getHp());
                     if (MainActivity.joueur.getClasse() != null) {
+                        MainActivity.joueur.setHpActuel(MainActivity.joueur.getClasse().getHp());
                         Intent intent = new Intent(fragmentActivity, HomeActivity.class);
                         fragmentActivity.startActivity(intent);
                     } else {
