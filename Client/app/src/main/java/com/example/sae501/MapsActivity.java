@@ -106,7 +106,7 @@ public class MapsActivity extends AppCompatActivity {
                 controller.animateTo(new GeoPoint(location.getLatitude(), location.getLongitude()));
 
                 // Applique un zoom fixe
-                double zoomLevel = 2.0;
+                double zoomLevel = 19.0;
                 controller.setZoom(zoomLevel);
             }
         }));
