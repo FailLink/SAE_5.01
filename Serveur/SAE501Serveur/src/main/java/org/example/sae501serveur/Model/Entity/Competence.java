@@ -35,7 +35,7 @@ public class Competence {
     @JsonManagedReference
     private Type typeCompetence;
 
-    @ManyToMany(mappedBy = "competences")
+    @ManyToMany(mappedBy = "competences",fetch = FetchType.EAGER)
     @JsonView(Views.CompetencesView.class)
     @JsonBackReference
     private Set<Joueur> joueurs;
@@ -108,5 +108,11 @@ public class Competence {
 
     public void setJoueurs(Set<Joueur> joueurs) {
         this.joueurs = joueurs;
+    }
+    public void addJoueurs(Joueur joueur){
+        this.joueurs.add(joueur);
+        if(!joueur.getCompetences().contains(this)){
+            joueur.addCompetence(this);
+        }
     }
 }

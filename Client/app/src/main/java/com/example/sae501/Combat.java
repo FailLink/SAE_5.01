@@ -10,6 +10,7 @@ import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.sae501.Model.Entity.Competence;
 import com.example.sae501.Model.Entity.Joueur;
 import com.example.sae501.Model.Entity.Monstre;
 import com.example.sae501.Model.Game.CombatManager;
@@ -194,6 +195,9 @@ public class Combat extends AppCompatActivity  {
                 getIntent().getStringExtra("monstreFaiblesse")
         );
 
+        //initialiser la progressBar
+        ProgressBar pvMonstre=findViewById(R.id.health_bar_cyclope);
+        pvMonstre.setMax(monstreCombat.getHp());
 
         monstreMort = false;
 
@@ -205,7 +209,13 @@ public class Combat extends AppCompatActivity  {
 
         //- l'image view des animation du monstre
         Monster_animate = findViewById(R.id.monster_animate_image);
+        List<Competence> competences = new ArrayList<>(MainActivity.joueur.getCompetences());
 
+        TextView competence1 = findViewById(R.id.button_class_skill_1);
+        competence1.setText(competences.get(0).getNom());
+
+        TextView competence2 = findViewById(R.id.button_class_skill_2);
+        competence2.setText(competences.get(1).getNom());
         JoueurMortSend();
 
 

@@ -1,8 +1,10 @@
 package org.example.sae501serveur.Model.Service;
 
 import org.example.sae501serveur.Model.Entity.Classe;
+import org.example.sae501serveur.Model.Entity.Competence;
 import org.example.sae501serveur.Model.Entity.Joueur;
 import org.example.sae501serveur.Model.Repository.ClasseRepository;
+import org.example.sae501serveur.Model.Repository.CompetenceRepository;
 import org.example.sae501serveur.Model.Repository.JoueurRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
@@ -24,6 +26,8 @@ public class JoueurService implements UserDetailsService {
     private JoueurRepository joueurRepository;
     @Autowired
     private ClasseRepository classeRepository;
+    @Autowired
+    private CompetenceRepository competenceRepository;
 
     /**
      * Charge un utilisateur par son pseudo.
@@ -73,11 +77,32 @@ public class JoueurService implements UserDetailsService {
         } else {
             int nbLignesModif = joueurRepository.setJoueurClasse(id, classe.get());
             if (nbLignesModif == 1) {
+                if(classe.get().getNom().equalsIgnoreCase("Musclow")){
+                    setCompetencesJoueur(id, 1L);
+                    setCompetencesJoueur(id,2L);
+                }else if(classe.get().getNom().equalsIgnoreCase("Guewier")){
+                    setCompetencesJoueur(id,2L);
+                    setCompetencesJoueur(id,3L);
+                }
+                else if(classe.get().getNom().equalsIgnoreCase("Healer")){
+                    setCompetencesJoueur(id,1L);
+                    setCompetencesJoueur(id,3L);
+                }
+                else if(classe.get().getNom().equalsIgnoreCase("mawabou")){
+                    setCompetencesJoueur(id,2L);
+                    setCompetencesJoueur(id,3L);
+                }
                 return getJoueurById(id);
             } else {
                 return null;
             }
         }
+    }
+    public Joueur setCompetencesJoueur(Long idJoueur,Long idCompetences){
+        Joueur joueur=joueurRepository.getReferenceById(idJoueur);
+        Competence competence=competenceRepository.getReferenceById(idCompetences);
+        joueur.addCompetence(competence);
+        return joueurRepository.save(joueur);
     }
 }
 

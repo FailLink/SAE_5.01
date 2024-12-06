@@ -34,7 +34,7 @@ public class MainActivity extends AppCompatActivity {
     public static String sessionID;
     public static Joueur chefDePartie;
     public static FragmentActivity currentActivity;
-    public static String globalIP="192.168.1.27:8080";
+    public static String globalIP="10.6.5.229:8080";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -65,6 +65,7 @@ public class MainActivity extends AppCompatActivity {
         Request request = new Request.Builder().url("ws://"+ MainActivity.globalIP +"/game/"+partie.getId()).build();
         MainActivity.webSocketPartie = okHttpClient.newWebSocket(request, new GameWebSocketListener());
     }
+
     public static void infoJoueur(List<Long> listJoueurId,Long chefId){
         JoueurRepository joueurRepository=new JoueurRepository();
         if(chefId!=null){
@@ -75,7 +76,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
     /**
-     * fonction servant à l'ajout des informations d'un' joueurs donné
+     * fonction servant à l'ajout des informations d'un joueurs donné
      *
      * @param joueurId id du joueur a ajouté
      * @author Matisse Gallouin

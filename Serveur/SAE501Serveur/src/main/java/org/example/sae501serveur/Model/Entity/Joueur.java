@@ -145,6 +145,13 @@ public class Joueur {
         this.competences = competences;
     }
 
+    public void addCompetence(Competence competence){
+        this.getCompetences().add(competence);
+        if(!competence.getJoueurs().contains(this)){
+            competence.getJoueurs().add(this);
+        }
+    }
+
     public Set<Partie> getParties() {
         return parties;
     }
