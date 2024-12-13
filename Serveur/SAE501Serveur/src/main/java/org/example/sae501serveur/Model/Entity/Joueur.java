@@ -9,6 +9,7 @@ import java.util.Set;
 
 @Entity
 @Table(name = "Joueur")
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Joueur {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -36,6 +37,7 @@ public class Joueur {
             inverseJoinColumns = @JoinColumn(name = "competence_id")
     )
     @JsonView(Views.JoueurView.class)
+    @JsonManagedReference
     private Set<Competence> competences;
 
     @ManyToMany

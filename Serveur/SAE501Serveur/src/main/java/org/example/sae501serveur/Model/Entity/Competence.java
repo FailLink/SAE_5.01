@@ -1,6 +1,7 @@
 package org.example.sae501serveur.Model.Entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonView;
 import jakarta.persistence.*;
@@ -10,6 +11,7 @@ import java.util.Set;
 
 @Entity
 @Table(name = "competence")
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Competence {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

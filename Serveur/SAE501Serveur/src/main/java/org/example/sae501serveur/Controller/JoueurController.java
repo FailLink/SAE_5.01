@@ -1,6 +1,8 @@
 package org.example.sae501serveur.Controller;
 
+import com.fasterxml.jackson.annotation.JsonView;
 import org.example.sae501serveur.Model.Entity.Joueur;
+import org.example.sae501serveur.Model.JsonViewEntity.Views;
 import org.example.sae501serveur.Model.Service.JoueurService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
