@@ -79,3 +79,10 @@ button.form-button {
 button.form-button:hover {
     background-color: #cc0000;
 }
+
+li.form-li {
+    margin-bottom: 5px;
+    font-weight: bold;
+    text-align: left;
+    color: #cc0000;
+}

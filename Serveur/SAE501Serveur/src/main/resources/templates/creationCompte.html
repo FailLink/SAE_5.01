@@ -9,37 +9,67 @@
     <link rel="stylesheet" th:href="@{/css/login.css}">
 </head>
 <body class="register-page">
-    <div class="register-container">
-        <form class="register-form">
-            <div class="form-group">
-                <label for="username" class="form-label">Username:</label>
-                <input type="text" id="username" name="username" class="form-input" required>
-            </div>
-            <div class="form-group">
-                <label for="email" class="form-label">Email:</label>
-                <input type="email" id="email" name="email" class="form-input" required>
-            </div>
-            <div class="form-group">
-                <label for="password" class="form-label">Password:</label>
-                <input type="password" id="password" name="password" class="form-input" required>
-            </div>
-            <button type="submit" id="login" class="form-button">Créer un compte</button>
-            <a href="login.html" class="create-account-link">Déjà un compte ?</a>
-        </form>
-    </div>
-    <script>
-        document.getElementById("login").onclick = function (event) {
-            event.preventDefault();
-            ajoutJoueurBDD();
-        };
-        function ajoutJoueurBDD() {
-            let username = document.getElementById("username").value;
-            let email = document.getElementById("email").value;
-            let password = document.getElementById("password").value;
+<div class="register-container" id="form">
+    <form class="register-form">
+        <div class="form-group">
+            <label for="username" class="form-label">Username:</label>
+            <input type="text" id="username" name="username" class="form-input" required>
+        </div>
+        <div class="form-group">
+            <label for="email" class="form-label">Email:</label>
+            <input type="email" id="email" name="email" class="form-input" required>
+        </div>
+        <div class="form-group">
+            <label for="password" class="form-label">Password:</label>
+            <input type="password" id="password" name="password" class="form-input" required>
+        </div>
+        <button type="submit" id="login" class="form-button">Créer un compte</button>
+        <p>Votre mot de passe doit contenir : </p>
+        <ul>
+            <li class="form-li" id="nbCaractere">14 caractères</li>
+            <li class="form-li" id="validLettreMin">une lettre minuscule</li>
+            <li class="form-li" id="validLettreMaj">une lettre majuscule</li>
+            <li class="form-li" id="validChiffre">un chiffre</li>
+            <li class="form-li" id="validCaractereSpe">un caractère spécial (! ? , ; / : . % < >)</li>
+        </ul>
+        <a href="login.html" class="create-account-link">Déjà un compte ?</a>
+    </form>
+</div>
+<script>
+    document.getElementById("login").onclick = function (event) {
+        event.preventDefault();
+        ajoutJoueurBDD();
+    };
+
+    document.getElementById("password").onkeyup = function (){
+        if(this.value.length>14){
+            document.getElementById("nbCaractere").style.color="#14CC00FF"
+        }else{
+            document.getElementById("nbCaractere").style.color="#CC0000"
+        }
+        verifRegex(/[a-z]/,document.getElementById("validLettreMin"));
+        verifRegex(/[A-Z]/,document.getElementById("validLettreMaj"));
+        verifRegex(/[0-9]/,document.getElementById("validChiffre"));
+        verifRegex(/[!?,;/:.%<>]/,document.getElementById("validCaractereSpe"));
+
+    }
+    function verifRegex(regex,element){
+        let password= document.getElementById("password").value;
+        if (password.match(regex)){
+            element.style.color="#14CC00FF"
+        }else{
+            element.style.color="#CC0000"
+        }
+    }
+    function ajoutJoueurBDD() {
+        let username = document.getElementById("username").value;
+        let email = document.getElementById("email").value;
+        let password = document.getElementById("password").value;
+        if(password.match(/(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!?,;/:.%<>])/) && password.length>14) {
             $.ajax({
                 url: "/ajoutUtilisateurBDD",
                 type: "POST",
-                data: { username: username, email: email, password: password },
+                data: {username: username, email: email, password: password},
                 async: false,
                 success: function (response) {
                     console.log(response);
@@ -54,11 +84,14 @@
                     erreurAjoutBDD(error);
                 }
             });
+        }else{
+            alert("mot de passe non conforme");
         }
-        function erreurAjoutBDD(messageErreur) {
-            messageErreur = JSON.parse(messageErreur.responseText);
-            alert(messageErreur.message);
-        }
-    </script>
+    }
+    function erreurAjoutBDD(messageErreur) {
+        messageErreur = JSON.parse(messageErreur.responseText);
+        alert(messageErreur.message);
+    }
+</script>
 </body>
 </html>
