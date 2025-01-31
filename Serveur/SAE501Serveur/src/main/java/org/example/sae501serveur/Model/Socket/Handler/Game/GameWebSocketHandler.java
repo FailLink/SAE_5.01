@@ -123,25 +123,15 @@ public class GameWebSocketHandler extends TextWebSocketHandler {
             case "attaqueDef":
                 AttaqueDefRequest attaqueRequest = gson.fromJson(message.getPayload(), AttaqueDefRequest.class);
                 // Vérifie si des réponses existent déjà pour ce joueur
-                synchronized (joueursAction) {
-                    if (!reponses.isEmpty() && reponses.containsKey(attaqueRequest.getJoueurId())) {
-                        List<CombatResult> resultList = new ArrayList<>(reponses.values());
-                        reponses.clear();
-                        // Ajouter le type "attaqueDef" à la réponse
-                        System.out.println("reponse");
-                        sendResponse(session, new CombatResponse("attaqueDefValide", resultList));
-                        return;
-                    }
-                }
+                verifReponse(attaqueRequest, session);
+
                 boolean joueurDejaPresent = joueursAction.stream()
                         .anyMatch(joueurP -> joueurP.getJoueurId().equals(attaqueRequest.getJoueurId()));
-
                 if (joueurDejaPresent ) {
                     sendResponse(session, new CombatResponse("attente",
                             Collections.singletonList(new CombatResult("Action déja envoyé...", 0, 0,0))));
                     return;
                 }
-
                 joueursAction.add(attaqueRequest);
                 if (joueursAction.size() == sessionJoueurs.size()) {
                     tourPartie ++;
@@ -153,70 +143,7 @@ public class GameWebSocketHandler extends TextWebSocketHandler {
                         }
                         System.out.println(joueurP.getJoueurId() + " : " + joueurP.getPdv());
                     }
-
-
-                    int degats = 0;
-
-                    for(AttaqueDefRequest joueurP : joueursAction){
-                        if ( attaqueRequest.getTour() % tourPartie == 0 ) {
-                            if (Objects.equals(attaqueRequest.getCompetenceNom(),
-                                    attaqueRequest.getMonstre().getTypeMonstre().getFaiblesse())) {
-                                // Dégâts doublés si la compétence est la faiblesse du monstre
-                                degats += joueurP.getDegats() * 2;
-
-                            } else if (Objects.equals(attaqueRequest.getCompetenceNom(),
-                                    attaqueRequest.getMonstre().getTypeMonstre().getResistance())) {
-                                // Dégâts normaux si aucun avantage/désavantage
-                                degats += joueurP.getDegats() / 2;
-
-                            } else {
-                                degats += joueurP.getDegats();
-                            }
-                        } else {
-                            if (Objects.equals(attaqueRequest.getCompetenceNom(),
-                                    attaqueRequest.getMonstre().getTypeMonstre().getFaiblesse())) {
-                                // Dégâts divisés par 2 même si c'est la faiblesse du monstre
-                                degats += joueurP.getDegats() / 2;
-
-                            } else if (Objects.equals(attaqueRequest.getCompetenceNom(),
-                                    attaqueRequest.getMonstre().getTypeMonstre().getResistance())) {
-                                // Dégâts divisés par 4 si c'est la résistance du monstre
-                                degats += joueurP.getDegats() / 4;
-
-                            } else if(!Objects.equals(attaqueRequest.getCompetenceNom(), "null")) {
-                                // Si la compétence n'est ni faiblesse ni résistance mais est présente, réduire de moitié
-                                degats += joueurP.getDegats() / 2;
-                            } else {
-                                // Dégâts normaux si l'attaque n'est pas une compétence
-                                degats += joueurP.getDegats();
-                            }
-                        }
-                    }
-
-                    List<CombatResult> results = new ArrayList<>();
-                    Random random = new Random();
-
-                    if (!joueursIds.isEmpty()) {
-                        String randomId = joueursIds.get(random.nextInt(joueursIds.size()));
-
-                        for (AttaqueDefRequest joueurP : joueursAction) {
-                            if (randomId.equals(joueurP.getJoueurId())) {
-                                results.add(new CombatResult(joueurP.getJoueurId(), joueurP.getDegats(), joueurP.getPdv() - (attaqueRequest.getMonstre().getAttack() - joueurP.getDef()), attaqueRequest.getMonstre().getHp() - degats));
-                                reponses.put(joueurP.getJoueurId(), new CombatResult(joueurP.getJoueurId(), joueurP.getDegats(), joueurP.getPdv() - (attaqueRequest.getMonstre().getAttack() - joueurP.getDef()), attaqueRequest.getMonstre().getHp() - degats));
-                            } else {results.add(new CombatResult(joueurP.getJoueurId(), joueurP.getDegats(), joueurP.getPdv(), attaqueRequest.getMonstre().getHp() - degats));
-                                reponses.put(joueurP.getJoueurId(), new CombatResult(joueurP.getJoueurId(), joueurP.getDegats(), joueurP.getPdv(), attaqueRequest.getMonstre().getHp() - degats));
-                            }
-                        }
-                        broadcastToAll("attaqueDefValide", results);
-
-                    } else {
-                        for (AttaqueDefRequest joueurP : joueursAction) {
-                            results.add(new CombatResult(joueurP.getJoueurId(), joueurP.getDegats(), joueurP.getPdv(), attaqueRequest.getMonstre().getHp() - degats));
-                            reponses.put(joueurP.getJoueurId(), new CombatResult(joueurP.getJoueurId(), joueurP.getDegats(), joueurP.getPdv(), attaqueRequest.getMonstre().getHp() - degats));
-                        }
-                        broadcastToAll("joueursMort", results);
-
-                    }
+                    degatSurJoeur(attaqueRequest, joueursIds);
                     joueursAction.clear();
                     // Broadcast la réponse à tous les joueurs avec le type "attaqueDef"
                     reponses.clear();
@@ -226,8 +153,6 @@ public class GameWebSocketHandler extends TextWebSocketHandler {
                     sendResponse(session, new CombatResponse("attente",
                             Collections.singletonList(new CombatResult("En attente d'un second joueur...", 0, 0,0))
                     ));
-
-
                 }
                 break;
             case "PartieFini" :
@@ -238,6 +163,86 @@ public class GameWebSocketHandler extends TextWebSocketHandler {
         }
     }
 
+    private void verifReponse(AttaqueDefRequest attaqueRequest, WebSocketSession session) throws IOException {
+        synchronized (joueursAction) {
+            if (!reponses.isEmpty() && reponses.containsKey(attaqueRequest.getJoueurId())) {
+                List<CombatResult> resultList = new ArrayList<>(reponses.values());
+                reponses.clear();
+                // Ajouter le type "attaqueDef" à la réponse
+                System.out.println("reponse");
+                sendResponse(session, new CombatResponse("attaqueDefValide", resultList));
+                return;
+            }
+        }
+    }
+    private void  degatSurMonstre(AttaqueDefRequest attaqueRequest, Integer degats) {
+        for(AttaqueDefRequest joueurP : joueursAction){
+            if ( attaqueRequest.getTour() % tourPartie == 0 ) {
+                if (Objects.equals(attaqueRequest.getCompetenceNom(),
+                        attaqueRequest.getMonstre().getTypeMonstre().getFaiblesse())) {
+                    // Dégâts doublés si la compétence est la faiblesse du monstre
+                    degats += joueurP.getDegats() * 2;
+
+                } else if (Objects.equals(attaqueRequest.getCompetenceNom(),
+                        attaqueRequest.getMonstre().getTypeMonstre().getResistance())) {
+                    // Dégâts normaux si aucun avantage/désavantage
+                    degats += joueurP.getDegats() / 2;
+
+                } else {
+                    degats += joueurP.getDegats();
+                }
+            } else {
+                if (Objects.equals(attaqueRequest.getCompetenceNom(),
+                        attaqueRequest.getMonstre().getTypeMonstre().getFaiblesse())) {
+                    // Dégâts divisés par 2 même si c'est la faiblesse du monstre
+                    degats += joueurP.getDegats() / 2;
+
+                } else if (Objects.equals(attaqueRequest.getCompetenceNom(),
+                        attaqueRequest.getMonstre().getTypeMonstre().getResistance())) {
+                    // Dégâts divisés par 4 si c'est la résistance du monstre
+                    degats += joueurP.getDegats() / 4;
+
+                } else if(!Objects.equals(attaqueRequest.getCompetenceNom(), "null")) {
+                    // Si la compétence n'est ni faiblesse ni résistance mais est présente, réduire de moitié
+                    degats += joueurP.getDegats() / 2;
+                } else {
+                    // Dégâts normaux si l'attaque n'est pas une compétence
+                    degats += joueurP.getDegats();
+                }
+            }
+        }
+    }
+
+    private void degatSurJoeur(AttaqueDefRequest attaqueRequest,  List<String> joueursIds ) throws IOException {
+        int degats = 0;
+
+        degatSurMonstre(attaqueRequest,degats);
+
+        List<CombatResult> results = new ArrayList<>();
+        Random random = new Random();
+
+        if (!joueursIds.isEmpty()) {
+            String randomId = joueursIds.get(random.nextInt(joueursIds.size()));
+
+            for (AttaqueDefRequest joueurP : joueursAction) {
+                if (randomId.equals(joueurP.getJoueurId())) {
+                    results.add(new CombatResult(joueurP.getJoueurId(), joueurP.getDegats(), joueurP.getPdv() - (attaqueRequest.getMonstre().getAttack() - joueurP.getDef()), attaqueRequest.getMonstre().getHp() - degats));
+                    reponses.put(joueurP.getJoueurId(), new CombatResult(joueurP.getJoueurId(), joueurP.getDegats(), joueurP.getPdv() - (attaqueRequest.getMonstre().getAttack() - joueurP.getDef()), attaqueRequest.getMonstre().getHp() - degats));
+                } else {results.add(new CombatResult(joueurP.getJoueurId(), joueurP.getDegats(), joueurP.getPdv(), attaqueRequest.getMonstre().getHp() - degats));
+                    reponses.put(joueurP.getJoueurId(), new CombatResult(joueurP.getJoueurId(), joueurP.getDegats(), joueurP.getPdv(), attaqueRequest.getMonstre().getHp() - degats));
+                }
+            }
+            broadcastToAll("attaqueDefValide", results);
+
+        } else {
+            for (AttaqueDefRequest joueurP : joueursAction) {
+                results.add(new CombatResult(joueurP.getJoueurId(), joueurP.getDegats(), joueurP.getPdv(), attaqueRequest.getMonstre().getHp() - degats));
+                reponses.put(joueurP.getJoueurId(), new CombatResult(joueurP.getJoueurId(), joueurP.getDegats(), joueurP.getPdv(), attaqueRequest.getMonstre().getHp() - degats));
+            }
+            broadcastToAll("joueursMort", results);
+
+        }
+    }
     // Méthode pour envoyer une réponse spécifique avec un type
     private void sendResponse(WebSocketSession session, CombatResponse response) throws IOException {
         String jsonResponse = gson.toJson(response);

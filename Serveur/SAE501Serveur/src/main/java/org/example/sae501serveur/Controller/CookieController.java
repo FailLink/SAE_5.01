@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class CookieController {
-
     @GetMapping("/public/supprimerTousLesCookies")
     public String supprimerTousLesCookies(HttpServletRequest request, HttpServletResponse response) {
         Cookie[] cookies = request.getCookies();
