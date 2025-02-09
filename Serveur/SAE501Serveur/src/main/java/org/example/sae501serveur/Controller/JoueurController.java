@@ -64,4 +64,33 @@ public class JoueurController {
             return ResponseEntity.ok(joueur.get());
         }
     }
+    @PostMapping("/addAmi")
+    @ResponseBody
+    public ResponseEntity<?> addAmi(@RequestParam("idAmi") Long idAmi) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication == null || !authentication.isAuthenticated()) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Utilisateur non connecté");
+        }
+        Optional<Joueur> joueur = joueurService.getJoueurByPseudo(authentication.getName());
+        Optional<Joueur> joueurAmi = joueurService.getJoueurById(idAmi);
+        if (joueur.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Le joueur demandé n'existe pas");
+        } else {
+            joueur.get().getAmis().add(joueurAmi.get());
+            joueurAmi.get().getJoueurs().add(joueur.get());
+            joueurService.saveJoueur(joueur.get());
+            joueurService.saveJoueur(joueurAmi.get());
+            return ResponseEntity.ok(joueur.get());
+        }
+    }
+    @GetMapping("/getAllAmi")
+    @ResponseBody
+    public ResponseEntity<?> getAllAmi(){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication == null || !authentication.isAuthenticated()) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Utilisateur non connecté");
+        }
+        Optional<Joueur> joueur = joueurService.getJoueurByPseudo(authentication.getName());
+        return ResponseEntity.ok(joueurService.getAllAmi(joueur.get().getId()));
+    }
 }

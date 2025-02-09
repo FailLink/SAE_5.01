@@ -4,8 +4,7 @@ import jakarta.persistence.*;
 import org.example.sae501serveur.Model.JsonViewEntity.Views;
 
 import java.net.http.WebSocket;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 
 @Entity
 @Table(name = "Joueur")
@@ -41,7 +40,7 @@ public class Joueur {
     private Set<Competence> competences;
 
     @ManyToMany
-    @JsonBackReference
+    @JsonIgnore
     @JoinTable(
             name = "Amis",
             joinColumns = @JoinColumn(name = "joueur_id"),
@@ -49,6 +48,11 @@ public class Joueur {
     )
     @JsonView(Views.JoueurView.class)
     private Set<Joueur> joueurs;
+
+    @ManyToMany(mappedBy = "joueurs")
+    @JsonView(Views.JoueurView.class)
+    @JsonIgnore
+    private Set<Joueur> amis;
 
     @ManyToOne
     @JoinColumn(name = "role_id")
@@ -59,13 +63,12 @@ public class Joueur {
 
     @ManyToMany(mappedBy = "joueurs")
     @JsonView(Views.JoueurView.class)
-    @JsonManagedReference
-    private Set<Joueur> amis;
-
-    @ManyToMany(mappedBy = "joueurs")
-    @JsonView(Views.JoueurView.class)
     @JsonBackReference
     private Set<Partie> parties;
+
+    @Transient
+    @JsonIgnore
+    private List<Joueur> amisFinaux=new ArrayList<>();
 
     public Joueur(Long id, String pseudo, String adresseMail, String mdp,
                   Classe classe, Set<Competence> competences, Set<Joueur> joueurs, Set<Joueur> amis, Set<Partie> parties) {
@@ -167,6 +170,15 @@ public class Joueur {
 
     public void setRole(Role role) {
         this.role = role;
+    }
+    @PostLoad
+    public void setAmisFinaux() {
+        amisFinaux.addAll(this.getAmis());
+        amisFinaux.addAll(this.getJoueurs());
+    }
+
+    public List<Joueur> getAmisFinaux(){
+        return amisFinaux;
     }
 
     @Override

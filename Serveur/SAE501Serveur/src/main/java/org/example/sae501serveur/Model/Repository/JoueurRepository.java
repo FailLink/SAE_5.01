@@ -9,6 +9,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.util.Optional;
+import java.util.Set;
 
 public interface JoueurRepository extends JpaRepository<Joueur, Long> {
     Optional<Joueur> findByPseudo(String pseudo);
@@ -19,5 +20,4 @@ public interface JoueurRepository extends JpaRepository<Joueur, Long> {
     @Transactional
     @Query("UPDATE Joueur j set j.classe=:classe where j.id=:id")
     int setJoueurClasse(@Param("id") Long id, @Param("classe") Classe classe);
-
 }

@@ -15,10 +15,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.*;
 
 import javax.swing.text.html.Option;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class JoueurService implements UserDetailsService {
@@ -103,6 +100,10 @@ public class JoueurService implements UserDetailsService {
         Competence competence=competenceRepository.getReferenceById(idCompetences);
         joueur.addCompetence(competence);
         return joueurRepository.save(joueur);
+    }
+    public List<Joueur> getAllAmi(Long idJoueur){
+        Joueur joueur=joueurRepository.getReferenceById(idJoueur);
+        return joueur.getAmisFinaux();
     }
 }
 

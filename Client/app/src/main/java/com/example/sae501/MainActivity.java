@@ -34,7 +34,7 @@ public class MainActivity extends AppCompatActivity {
     public static String sessionID;
     public static Joueur chefDePartie;
     public static FragmentActivity currentActivity;
-    public static String globalIP="192.168.105.27:8080";
+    public static String globalIP="10.6.5.229:8080";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

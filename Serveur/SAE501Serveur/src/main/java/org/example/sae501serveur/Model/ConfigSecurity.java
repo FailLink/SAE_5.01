@@ -52,8 +52,10 @@ public class ConfigSecurity  {
                         .requestMatchers("/css/**", "/js/**", "/images/**").permitAll()
                         .requestMatchers("/ajoutUtilisateurBDD").permitAll()
                         .requestMatchers("/attaqueDef/attaque").permitAll()
+                        .requestMatchers("/getAllInvitationReceipt","/getAllInvitationSend").permitAll()
                         .requestMatchers("/testConnexion","/joueurSession","/joueurId","/connexionPartie"
-                                ,"/game/{idPartie}","/setJoueurClasse").hasAnyRole("JOUEUR","ADMIN")
+                                ,"/game/{idPartie}","/setJoueurClasse","/getAllAmi"
+                                ,"/addAmi").hasAnyRole("JOUEUR","ADMIN")
                         .anyRequest().hasRole("ADMIN")  // Exige une authentification pour toutes les autres URL
                 )
                 .formLogin((form) -> form
