@@ -4,6 +4,9 @@ import com.example.sae501.MainActivity;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import java.sql.Date;
+import java.time.LocalDateTime;
+
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
@@ -25,6 +28,7 @@ public class RetroFitClient {
 
         if (retrofit == null) {
             Gson gson = new GsonBuilder()
+                    .registerTypeAdapter(LocalDateTime.class,new LocalDateTimeTypeAdapter())
                     .setLenient() // permet d'envoyer d'autre message que des jsons présent pour testConnexion et les websockets
                     .create();
             retrofit = new Retrofit.Builder()

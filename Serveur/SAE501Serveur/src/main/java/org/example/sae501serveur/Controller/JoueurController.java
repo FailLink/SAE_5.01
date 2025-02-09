@@ -83,7 +83,7 @@ public class JoueurController {
             return ResponseEntity.ok(joueur.get());
         }
     }
-    @GetMapping("/getAllAmi")
+    @PostMapping("/getAllAmi")
     @ResponseBody
     public ResponseEntity<?> getAllAmi(){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();

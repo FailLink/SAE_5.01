@@ -16,11 +16,14 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
+import com.example.sae501.Controller.Amis.AmisRepository;
+import com.example.sae501.Controller.Joueur.JoueurRepository;
 import com.example.sae501.MainActivity;
 import com.example.sae501.Model.Entity.Competence;
 import com.example.sae501.Model.Serveur.OkHttpClientSingleton;
 import com.example.sae501.Model.Socket.ConnexionWebSocketListener;
 import com.example.sae501.R;
+import com.example.sae501.View.Amis.AmisAdapter;
 import com.example.sae501.View.RejoindrePartie.RejoindrePartieFragment;
 import com.example.sae501.databinding.ActivityMapsBinding;
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -36,6 +39,7 @@ import okhttp3.Request;
 import okhttp3.WebSocket;
 
 public class HomeActivity extends AppCompatActivity {
+    AmisRepository amisRepository=new AmisRepository();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -92,5 +96,9 @@ public class HomeActivity extends AppCompatActivity {
                 webSocket.send(jsonMessage);
             }
         });
+    }
+
+    public void onClickAmis(View view){
+        amisRepository.getAllAmis();
     }
 }

@@ -141,7 +141,7 @@ public class JoueurRepository {
                         linearLayout.setVisibility(View.VISIBLE);
                     }
                 }
-                if (MainActivity.joueursPartie.size() == 1 && Objects.equals(MainActivity.joueur.getId(), MainActivity.chefDePartie.getId())) {
+                if (MainActivity.joueursPartie.size() == 4 && Objects.equals(MainActivity.joueur.getId(), MainActivity.chefDePartie.getId())) {
                     fragmentActivity.findViewById(R.id.boutonPartie).setEnabled(true);
                 }
             }

@@ -103,6 +103,7 @@ public class JoueurService implements UserDetailsService {
     }
     public List<Joueur> getAllAmi(Long idJoueur){
         Joueur joueur=joueurRepository.getReferenceById(idJoueur);
+        joueur.setAmisFinaux();
         return joueur.getAmisFinaux();
     }
 }

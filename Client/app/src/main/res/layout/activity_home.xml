@@ -39,5 +39,13 @@
         android:text="Rejoindre une partie"
         android:textColor="@color/white"
         android:onClick="onClickRejoindrePartie"
+        android:backgroundTint="@color/red"
+        android:layout_marginBottom="16dp"/>
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Amis"
+        android:textColor="@color/white"
+        android:onClick="onClickAmis"
         android:backgroundTint="@color/red"/>
 </LinearLayout>

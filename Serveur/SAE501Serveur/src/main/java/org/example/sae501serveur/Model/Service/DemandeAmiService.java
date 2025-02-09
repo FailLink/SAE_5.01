@@ -26,4 +26,7 @@ public class DemandeAmiService {
     public DemandeAmi saveDemandeAmi(DemandeAmi demandeAmi) {
         return demandeAmiRepository.save(demandeAmi);
     }
+    public void deleteDemandeAmi(Long joueurInviteur,Long joueurInvite){
+        demandeAmiRepository.deleteById(new DemandeAmiId(joueurInviteur,joueurInvite));
+    }
 }

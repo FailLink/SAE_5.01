@@ -55,7 +55,8 @@ public class ConfigSecurity  {
                         .requestMatchers("/getAllInvitationReceipt","/getAllInvitationSend").permitAll()
                         .requestMatchers("/testConnexion","/joueurSession","/joueurId","/connexionPartie"
                                 ,"/game/{idPartie}","/setJoueurClasse","/getAllAmi"
-                                ,"/addAmi").hasAnyRole("JOUEUR","ADMIN")
+                                ,"/addAmi","/sendInvitationAmi","/getAllInvitationReceipt"
+                                ,"/getAllInvitationSend","/deleteInvitation").hasAnyRole("JOUEUR","ADMIN")
                         .anyRequest().hasRole("ADMIN")  // Exige une authentification pour toutes les autres URL
                 )
                 .formLogin((form) -> form

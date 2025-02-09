@@ -1,6 +1,7 @@
 package org.example.sae501serveur.Controller;
 
 import org.example.sae501serveur.Model.Entity.DemandeAmi;
+import org.example.sae501serveur.Model.Entity.DemandeAmiId;
 import org.example.sae501serveur.Model.Entity.Joueur;
 import org.example.sae501serveur.Model.Service.DemandeAmiService;
 import org.example.sae501serveur.Model.Service.JoueurService;
@@ -28,10 +29,10 @@ public class DemandeAmiController {
         Joueur joueurInvite=joueurService.getJoueurById(idJoueurInvite).get();
         DemandeAmi demandeAmi=new DemandeAmi(joueurInviteur,joueurInvite, LocalDateTime.now());
         demandeAmiService.saveDemandeAmi(demandeAmi);
-        return ResponseEntity.ok("in");
+        return ResponseEntity.ok(demandeAmi);
     }
 
-    @GetMapping("/getAllInvitationReceipt")
+    @PostMapping("/getAllInvitationReceipt")
     @ResponseBody
     public ResponseEntity<?> getAllInvitationReceipt(){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -41,7 +42,7 @@ public class DemandeAmiController {
         Optional<Joueur> joueur = joueurService.getJoueurByPseudo(authentication.getName());
         return ResponseEntity.ok(demandeAmiService.getDemandeAmiByIdJoueurInvite(joueur.get()));
     }
-    @GetMapping("/getAllInvitationSend")
+    @PostMapping("/getAllInvitationSend")
     @ResponseBody
     public ResponseEntity<?> getAllInvitationSend(){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -50,5 +51,15 @@ public class DemandeAmiController {
         }
         Optional<Joueur> joueur = joueurService.getJoueurByPseudo(authentication.getName());
         return ResponseEntity.ok(demandeAmiService.getDemandeAmiByIdJoueurInviteur(joueur.get()));
+    }
+    @PostMapping("/deleteInvitation")
+    public ResponseEntity<?> deleteInvitation(@RequestParam("joueurInviteur") Long joueurInviteur){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication == null || !authentication.isAuthenticated()) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Utilisateur non connecté");
+        }
+        Optional<Joueur> joueur = joueurService.getJoueurByPseudo(authentication.getName());
+        demandeAmiService.deleteDemandeAmi(joueurInviteur,joueur.get().getId());
+        return ResponseEntity.ok("suppr");
     }
 }

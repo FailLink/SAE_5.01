@@ -173,6 +173,7 @@ public class Joueur {
     }
     @PostLoad
     public void setAmisFinaux() {
+        amisFinaux.clear();
         amisFinaux.addAll(this.getAmis());
         amisFinaux.addAll(this.getJoueurs());
     }
