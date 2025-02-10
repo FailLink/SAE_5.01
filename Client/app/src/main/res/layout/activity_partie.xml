@@ -85,7 +85,8 @@
                 android:weightSum="3"
                 android:gravity="center"
                 android:layout_marginBottom="16dp"
-                android:visibility="invisible">
+                android:visibility="invisible"
+                >
 
                 <ImageView
                     android:id="@+id/imageClasseJoueur1"
@@ -101,6 +102,12 @@
                     android:textColor="@color/white"
                     android:textAlignment="center"
                     />
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="+ami"
+                    android:id="@+id/ajouterAmiChefPartie"
+                    android:onClick="onClickAjouterAmi"/>
                 <ImageView
                     android:id="@+id/imageChefDePartie"
                     android:layout_height="match_parent"
@@ -134,6 +141,12 @@
                     android:layout_weight="1"
                     android:textColor="@color/white"
                     android:textAlignment="center"/>
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="+ami"
+                    android:id="@+id/ajouterAmi2"
+                    android:onClick="onClickAjouterAmi"/>
 
                 <ImageButton
                     android:id="@+id/boutonExclusion2"
@@ -172,6 +185,12 @@
                     android:layout_weight="1"
                     android:textColor="@color/white"
                     android:textAlignment="center"/>
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/ajouterAmi3"
+                    android:text="+ami"
+                    android:onClick="onClickAjouterAmi"/>
 
                 <ImageButton
                     android:id="@+id/boutonExclusion3"
@@ -210,6 +229,12 @@
                     android:layout_weight="1"
                     android:textColor="@color/white"
                     android:textAlignment="center"/>
+                <Button
+                    android:id="@+id/ajouterAmi4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="+ami"
+                    android:onClick="onClickAjouterAmi"/>
 
                 <ImageButton
                     android:id="@+id/boutonExclusion4"

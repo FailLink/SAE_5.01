@@ -10,8 +10,10 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class PartieActivity extends AppCompatActivity {
+import com.example.sae501.Controller.Amis.AmisRepository;
 
+public class PartieActivity extends AppCompatActivity {
+    private AmisRepository amisRepository=new AmisRepository();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,5 +58,20 @@ public class PartieActivity extends AppCompatActivity {
         });
         Intent intent = new Intent(this, HomeActivity.class);
         startActivity(intent);
+    }
+
+    public void onClickAjouterAmi(View view){
+        if (view.equals(MainActivity.currentActivity.findViewById(R.id.ajouterAmiChefPartie))){
+            amisRepository.sendInvitationAmi(MainActivity.chefDePartie.getId());
+        }
+        else if (view.equals(MainActivity.currentActivity.findViewById(R.id.ajouterAmi2))){
+            amisRepository.sendInvitationAmi(MainActivity.joueursPartie.get(0).getId());
+        }
+        else if (view.equals(MainActivity.currentActivity.findViewById(R.id.ajouterAmi3))){
+            amisRepository.sendInvitationAmi(MainActivity.joueursPartie.get(1).getId());
+        }
+        else if (view.equals(MainActivity.currentActivity.findViewById(R.id.ajouterAmi4))){
+            amisRepository.sendInvitationAmi(MainActivity.joueursPartie.get(2).getId());
+        }
     }
 }

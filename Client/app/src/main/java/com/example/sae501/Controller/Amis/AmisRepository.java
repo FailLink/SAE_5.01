@@ -1,6 +1,7 @@
 package com.example.sae501.Controller.Amis;
 
 import android.util.Log;
+import android.widget.Toast;
 
 import com.example.sae501.MainActivity;
 import com.example.sae501.Model.Entity.DemandeAmi;
@@ -78,6 +79,24 @@ public class AmisRepository {
             @Override
             public void onFailure(Call<String> call, Throwable t) {
 
+            }
+        });
+    }
+    public void sendInvitationAmi(Long idJoueurInvite){
+        Call<DemandeAmi> responseHttp=amisService.sendInvitationAmis(MainActivity.joueur.getId(),idJoueurInvite);
+        responseHttp.enqueue(new Callback<DemandeAmi>() {
+            @Override
+            public void onResponse(Call<DemandeAmi> call, Response<DemandeAmi> response) {
+                Toast toast=new Toast(MainActivity.currentActivity.getApplicationContext());
+                toast.setText("l'invitation a été envoyé");
+                toast.show();
+            }
+
+            @Override
+            public void onFailure(Call<DemandeAmi> call, Throwable t) {
+                Toast toast=new Toast(MainActivity.currentActivity.getApplicationContext());
+                toast.setText("l'invitation n'a pas été envoyé");
+                toast.show();
             }
         });
     }

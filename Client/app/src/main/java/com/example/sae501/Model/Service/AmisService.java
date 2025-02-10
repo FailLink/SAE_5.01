@@ -11,7 +11,7 @@ import retrofit2.http.Query;
 
 public interface AmisService {
     @POST("/sendInvitationAmi")
-    Call<String> sendInvitationAmis(@Query("idJoueurInviteur")Long idJoueurInviteur,@Query("idJoueurInvite")Long idJoueurInvite);
+    Call<DemandeAmi> sendInvitationAmis(@Query("idJoueurInviteur")Long idJoueurInviteur,@Query("idJoueurInvite")Long idJoueurInvite);
     @POST("/getAllInvitationReceipt")
     Call<List<DemandeAmi>> getAllInvitationReceipt();
     @POST("/getAllInvitationSend")
