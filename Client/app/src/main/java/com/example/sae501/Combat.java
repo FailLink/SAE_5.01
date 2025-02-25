@@ -358,6 +358,21 @@ public class Combat extends AppCompatActivity  {
         }, 2000); // Délai de 2 secondes
     }
 
+    public void AnimationExplosionMonstre() {
+        // Charge le GIF dans l'ImageView
+        DrawableImageViewTarget imageViewTarget = new DrawableImageViewTarget(Monster_animate);
+        Glide.with(this).load(R.drawable.fire_explosion).into(imageViewTarget);
+
+        // Planifie l'arrêt de l'animation après 1 seconde
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                // Supprime l'animation
+                Monster_animate.setImageDrawable(null);
+            }
+        }, 1000); // Délai de 1 seconde
+    }
+
     private void JoueurMortSend() {
         handler.postDelayed(new Runnable() {
             @Override
