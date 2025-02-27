@@ -72,8 +72,9 @@ public class Combat extends AppCompatActivity  {
     public static ImageView MonstreView;
     private TextView monstreText;
 
-    //image pour les animation sur le monstre
+    //image pour les animations du jeu
     private ImageView Monster_animate;
+    private ImageView Player_animate;
 
     public static boolean monstreMort;
 
@@ -207,8 +208,10 @@ public class Combat extends AppCompatActivity  {
         //- l'image du monstre
         MonstreView = findViewById(R.id.cyclope_image);
 
-        //- l'image view des animation du monstre
+        //- l'image view des animations
         Monster_animate = findViewById(R.id.monster_animate_image);
+        Player_animate = findViewById(R.id.player_animate_image);
+
         List<Competence> competences = new ArrayList<>(MainActivity.joueur.getCompetences());
 
         TextView competence1 = findViewById(R.id.button_class_skill_1);
@@ -362,6 +365,21 @@ public class Combat extends AppCompatActivity  {
         // Charge le GIF dans l'ImageView
         DrawableImageViewTarget imageViewTarget = new DrawableImageViewTarget(Monster_animate);
         Glide.with(this).load(R.drawable.fire_explosion).into(imageViewTarget);
+
+        // Planifie l'arrêt de l'animation après 1 seconde
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                // Supprime l'animation
+                Monster_animate.setImageDrawable(null);
+            }
+        }, 1000); // Délai de 1 seconde
+    }
+
+    public void AnimationMonstreAttack() {
+        // Charge le GIF dans l'ImageView
+        DrawableImageViewTarget imageViewTarget = new DrawableImageViewTarget(Player_animate);
+        Glide.with(this).load(R.drawable.monster_attack).into(imageViewTarget);
 
         // Planifie l'arrêt de l'animation après 1 seconde
         new Handler().postDelayed(new Runnable() {
